@@ -1,38 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
+  <title>MPL 2026 - Approved Players</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MPL 2026 – Approved Players</title>
   <style>
     body {
       margin: 0;
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #002244, #0057b7, #00bfff);
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #001f3f, #003366, #00509e);
       color: white;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
-      padding-top: 140px;
     }
 
-    /* 🔹 Navbar Styling */
     nav {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(8px);
-      padding: 14px 0;
+      background: rgba(0, 0, 0, 0.8);
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
-      z-index: 1000;
-      border-bottom: 2px solid rgba(255, 215, 0, 0.4);
+      padding: 10px 30px;
+      box-sizing: border-box;
     }
 
     .header {
@@ -42,77 +34,97 @@
     }
 
     .logo {
-      width: 55px;
-      height: 55px;
+      height: 50px;
     }
 
     .site-title {
+      font-size: 1.5em;
+      margin: 0;
       color: #ffd700;
-      font-size: 1.8em;
-      font-weight: 700;
-    }
-
-    .menu {
-      display: flex;
-      gap: 25px;
     }
 
     .menu a {
-      color: #ffd700;
+      color: white;
       text-decoration: none;
+      margin-left: 15px;
       font-weight: 600;
-      font-size: 1.1em;
-      transition: 0.3s;
     }
 
     .menu a:hover {
-      color: #fff;
-      text-shadow: 0 0 10px #ffd700;
+      color: #ffd700;
+    }
+
+    h1 {
+      margin-top: 20px;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    }
+
+    .table-container {
+      width: 95%;
+      max-width: 1100px;
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+      box-sizing: border-box;
+      overflow-x: auto;
     }
 
     table {
-      width: 80%;
-      margin-top: 20px;
+      width: 100%;
       border-collapse: collapse;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      overflow: hidden;
+      color: white;
+      font-size: 0.95em;
     }
 
-    th, td {
-      padding: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+    thead {
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: left;
+      white-space: nowrap;
     }
 
     th {
-      background: rgba(255, 215, 0, 0.2);
       color: #ffd700;
-      font-weight: 700;
     }
 
-    td {
-      color: white;
+    tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 20px;
+      font-style: italic;
+      color: #ffd700;
     }
 
     footer {
-      position: fixed;
-      bottom: 10px;
-      width: 100%;
-      text-align: center;
+      margin-top: auto;
+      padding: 15px 0;
       font-size: 0.9em;
       color: #ddd;
       opacity: 0.9;
     }
   </style>
 </head>
+
 <body>
 
-  <!-- 🔹 Navigation Bar -->
+  <!-- Navigation Bar -->
   <nav>
     <div class="header">
-      <img src="/images/logo.png" alt="MPL Logo" class="logo">
+      <img src="/images/logo.png" class="logo" />
       <h1 class="site-title">MPL 2026</h1>
     </div>
+
     <div class="menu">
       <a href="/index.html">Home</a>
       <a href="/register.html">Register</a>
@@ -123,23 +135,77 @@
     </div>
   </nav>
 
-  <h1>✅ Approved Players</h1>
-  <p>List of players approved for MPL 2026 Tournament</p>
+  <h1>✅ Approved Players List</h1>
 
-  <table>
-    <tr>
-      <th>Player Name</th>
-      <th>Category</th>
-      <th>Team</th>
-      <th>Jersey No</th>
-      <th>Phone</th>
-    </tr>
-    <!-- Example entries (will be dynamic later) -->
-    <tr><td>Virat Kohli</td><td>Batsman</td><td>Tumkur Titans</td><td>18</td><td>9998887770</td></tr>
-    <tr><td>MS Dhoni</td><td>Wicket Keeper</td><td>Bangalore Blasters</td><td>7</td><td>8889997770</td></tr>
-  </table>
+  <div class="table-container">
+    <table id="playersTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Jersey No</th>
+          <th>Jersey Size</th>
+          <th>Category</th>
+          <th>Phone</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody id="playersBody">
+        <tr>
+          <td colspan="8" class="no-data">Loading approved players...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <footer>© MPL 2026 Tournament | Powered by AWS</footer>
 
+  <script>
+    async function loadApprovedPlayers() {
+      const tbody = document.getElementById("playersBody");
+      try {
+        const response = await fetch("/api/approved-players");
+        const players = await response.json();
+
+        tbody.innerHTML = "";
+
+        if (!players || players.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="8" class="no-data">No players approved yet.</td>
+            </tr>
+          `;
+          return;
+        }
+
+        players.forEach((p, index) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${p.name}</td>
+            <td>${p.age}</td>
+            <td>${p.jersey_number}</td>
+            <td>${p.jersey_size}</td>
+            <td>${p.category}</td>
+            <td>${p.phone}</td>
+            <td>${p.address}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error("Error fetching approved players:", err);
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" class="no-data">Error loading players. Please try again later.</td>
+          </tr>
+        `;
+      }
+    }
+
+    // Load on page open
+    loadApprovedPlayers();
+  </script>
 </body>
+
 </html>

@@ -165,6 +165,27 @@ app.post(
   }
 );
 
+// ✅ Get approved players (for frontend table)
+app.get("/approved-players", (req, res) => {
+  const sql = `
+    SELECT id, name, age, jersey_size, category, phone, address, photo
+    FROM players
+    WHERE status = 'Approved'
+    ORDER BY id DESC
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("❌ Error fetching approved players:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    res.json(results);
+  });
+});
+
+
+
+
 
 // ✅ Start server
 app.listen(3001, () => {

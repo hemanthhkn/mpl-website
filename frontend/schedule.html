@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MPL 2026 - Match Schedule</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #001f3f, #0074D9, #00BFFF);
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* 🔹 Fixed Navbar */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      padding: 14px 0;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      z-index: 1000;
+      border-bottom: 2px solid rgba(255, 215, 0, 0.4);
+    }
+    nav a {
+      color: #ffd700;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1em;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      color: #fff;
+      text-shadow: 0 0 10px #ffd700;
+    }
+
+    header {
+      margin-top: 110px;
+      text-align: center;
+      font-size: 1.8em;
+      color: #FFD700;
+      font-weight: 700;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .schedule-container {
+      width: 90%;
+      max-width: 900px;
+      margin: 30px 0;
+      background-color: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    .match {
+      background-color: rgba(255,255,255,0.1);
+      margin: 15px 0;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+
+    .match:hover {
+      transform: translateY(-3px);
+      background-color: rgba(255,255,255,0.15);
+    }
+
+    .match h3 {
+      color: #FFD700;
+      margin-bottom: 8px;
+    }
+
+    .details {
+      font-size: 0.95em;
+      color: #e0e0e0;
+    }
+
+    footer {
+      margin: 20px;
+      font-size: 0.9em;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔹 Navigation Bar -->
+  <nav>
+    <a href="/">Home</a>
+    <a href="/register.html">Register</a>
+    <a href="/approved.html">Approved Players</a>
+    <a href="/news.html">News</a>
+    <a href="/schedule.html">Schedule</a>
+    <a href="/teams.html">Teams</a>
+  </nav>
+
+  <header>📅 MPL 2026 - Match Schedule 🏏</header>
+
+  <div class="schedule-container">
+
+    <div class="match">
+      <h3>Match 1: Tumkur Titans 🆚 Davangere Dragons</h3>
+      <p class="details">🏟️ Venue: Tumkur Stadium</p>
+      <p class="details">📅 Date: November 15, 2025</p>
+      <p class="details">🕒 Time: 10:00 AM</p>
+    </div>
+
+    <div class="match">
+      <h3>Match 2: Mysuru Mavericks 🆚 Shivamogga Strikers</h3>
+      <p class="details">🏟️ Venue: Mysuru Ground</p>
+      <p class="details">📅 Date: November 16, 2025</p>
+      <p class="details">🕒 Time: 2:00 PM</p>
+    </div>
+
+    <div class="match">
+      <h3>Match 3: Bengaluru Blasters 🆚 Chitradurga Challengers</h3>
+      <p class="details">🏟️ Venue: Kanteerava Stadium</p>
+      <p class="details">📅 Date: November 17, 2025</p>
+      <p class="details">🕒 Time: 10:00 AM</p>
+    </div>
+
+    <div class="match">
+      <h3>Match 4: Davangere Dragons 🆚 Mysuru Mavericks</h3>
+      <p class="details">🏟️ Venue: Davangere Arena</p>
+      <p class="details">📅 Date: November 18, 2025</p>
+      <p class="details">🕒 Time: 2:00 PM</p>
+    </div>
+
+    <div class="match">
+      <h3>Match 5: Semi Final 1</h3>
+      <p class="details">🏟️ Venue: Tumkur Stadium</p>
+      <p class="details">📅 Date: November 23, 2025</p>
+      <p class="details">🕒 Time: 10:00 AM</p>
+    </div>
+
+    <div class="match">
+      <h3>Match 6: Grand Final 🎉</h3>
+      <p class="details">🏟️ Venue: Bengaluru Kanteerava Stadium</p>
+      <p class="details">📅 Date: November 25, 2025</p>
+      <p class="details">🕒 Time: 5:00 PM</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>© MPL 2026 Tournament | Powered by AWS</p>
+  </footer>
+</body>
+</html>

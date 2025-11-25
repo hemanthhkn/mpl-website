@@ -1,0 +1,9 @@
+# Node modules
+backend/node_modules/
+
+# Environment files
+.env
+backend/.env
+
+# Uploaded files
+uploads/

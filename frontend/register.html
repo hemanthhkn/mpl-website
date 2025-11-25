@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MPL 2026 – Player Registration</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #002244, #0057b7, #00bfff);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-top: 140px;
+    }
+
+    /* Navbar Styling (same as approved page) */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      padding: 14px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      border-bottom: 2px solid rgba(255, 215, 0, 0.4);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo {
+      width: 55px;
+      height: 55px;
+    }
+    .site-title {
+      color: #ffd700;
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+    .menu {
+      display: flex;
+      gap: 25px;
+    }
+    .menu a {
+      color: #ffd700;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1em;
+      transition: 0.3s;
+    }
+    .menu a:hover {
+      color: #fff;
+      text-shadow: 0 0 10px #ffd700;
+    }
+
+    /* Form Styling */
+    h1 {
+      font-size: 2.5em;
+      font-weight: 700;
+      color: #ffd700;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-container {
+      width: 80%;
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 25px;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .form-container label {
+      font-weight: 600;
+      color: #ffd700;
+      margin-top: 10px;
+      display: block;
+    }
+
+    .form-container input,
+    .form-container select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.7);
+      font-size: 1em;
+    }
+
+    .form-container input[type="file"] {
+      background: none;
+      padding: 5px 0;
+      color: white;
+    }
+
+    .submit-btn {
+      background: #ffd700;
+      color: #002244;
+      padding: 12px 20px;
+      font-size: 1.2em;
+      font-weight: 700;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      margin-top: 15px;
+      transition: 0.3s;
+    }
+
+    .submit-btn:hover {
+      background: #ffcc00;
+      box-shadow: 0 0 10px #ffd700;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 15px 0;
+      font-size: 0.9em;
+      color: #ddd;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="header">
+      <img src="/images/logo.png" class="logo" />
+      <h1 class="site-title">MPL 2026</h1>
+    </div>
+
+    <div class="menu">
+      <a href="/index.html">Home</a>
+      <a href="/register.html">Register</a>
+      <a href="/approved.html">Approved Players</a>
+      <a href="/news.html">News</a>
+      <a href="/schedule.html">Schedule</a>
+      <a href="/teams.html">Teams</a>
+    </div>
+  </nav>
+
+  <!-- Form Title -->
+  <h1>📝 Player Registration</h1>
+
+  <!-- Registration Form -->
+  <form id="regForm" class="form-container" enctype="multipart/form-data">
+    <label>Full Name</label>
+    <input type="text" id="name" name="name" required />
+
+    <label>Age</label>
+    <input type="number" id="age" name="age" required />
+
+    <label>Voter ID (YNT Number)</label>
+    <input type="text" id="voterid" name="voterid" required />
+
+    <label>Upload Voter ID Image</label>
+    <input type="file" id="voterid_image" name="voterid_image" accept="image/*" required />
+
+    <label>Aadhaar Card Number</label>
+    <input type="text" id="aadhaar_number" name="aadhaar_number" minlength="12" maxlength="12" required />
+
+    <label>Upload Aadhaar Card Image</label>
+    <input type="file" id="aadhaar_image" name="aadhaar_image" accept="image/*" required />
+
+    <label>Upload Player Photo</label>
+    <input type="file" id="photo" name="photo" accept="image/*" required />
+
+    <label>Jersey Number</label>
+    <input type="number" id="jersey_number" name="jersey_number" min="1" max="999" required />
+
+    <label>Jersey Size</label>
+    <select id="jersey_size" name="jersey_size" required>
+      <option value="">Select Size</option>
+      <option>S</option>
+      <option>M</option>
+      <option>L</option>
+      <option>XL</option>
+      <option>XXL</option>
+    </select>
+
+    <label>Player Category</label>
+    <select id="category" name="category" required>
+      <option value="">Choose</option>
+      <option>Batsman</option>
+      <option>Bowler</option>
+      <option>All Rounder</option>
+      <option>Wicket Keeper Batsman</option>
+    </select>
+
+    <label>Address</label>
+    <input type="text" id="address" name="address" required />
+
+    <label>Phone Number</label>
+    <input type="tel" id="phone" name="phone" required />
+
+    <label>Upload Payment Screenshot</label>
+    <input type="file" id="payment_ss" name="payment_ss" accept="image/*" required />
+
+    <label>Transaction Reference Number</label>
+    <input type="text" id="txn_id" name="txn_id" required />
+
+    <button type="submit" class="submit-btn">Submit Registration</button>
+  </form>
+
+  <footer>© MPL 2026 Tournament | Powered by AWS</footer>
+
+  <!-- Form Submit Script -->
+  <script>
+    document.getElementById("regForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this); // includes all inputs + files automatically
+
+      try {
+        const response = await fetch("/api/register", {
+          method: "POST",
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || result.error) {
+          alert(result.error || "Registration failed. Please try again.");
+          return;
+        }
+
+        alert(result.message || "Registration submitted successfully!");
+        this.reset();
+      } catch (error) {
+        alert("Error submitting registration");
+        console.error(error);
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MPL 2026 – Approved Players</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #002244, #0057b7, #00bfff);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-top: 140px;
+    }
+
+    /* 🔹 Navbar Styling */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      padding: 14px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      border-bottom: 2px solid rgba(255, 215, 0, 0.4);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 55px;
+      height: 55px;
+    }
+
+    .site-title {
+      color: #ffd700;
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+
+    .menu {
+      display: flex;
+      gap: 25px;
+    }
+
+    .menu a {
+      color: #ffd700;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1em;
+      transition: 0.3s;
+    }
+
+    .menu a:hover {
+      color: #fff;
+      text-shadow: 0 0 10px #ffd700;
+    }
+
+    table {
+      width: 80%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    th {
+      background: rgba(255, 215, 0, 0.2);
+      color: #ffd700;
+      font-weight: 700;
+    }
+
+    td {
+      color: white;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9em;
+      color: #ddd;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔹 Navigation Bar -->
+  <nav>
+    <div class="header">
+      <img src="/images/logo.png" alt="MPL Logo" class="logo">
+      <h1 class="site-title">MPL 2026</h1>
+    </div>
+    <div class="menu">
+      <a href="/index.html">Home</a>
+      <a href="/register.html">Register</a>
+      <a href="/approved.html">Approved Players</a>
+      <a href="/news.html">News</a>
+      <a href="/schedule.html">Schedule</a>
+      <a href="/teams.html">Teams</a>
+    </div>
+  </nav>
+
+  <h1>✅ Approved Players</h1>
+  <p>List of players approved for MPL 2026 Tournament</p>
+
+  <table>
+    <tr>
+      <th>Player Name</th>
+      <th>Category</th>
+      <th>Team</th>
+      <th>Jersey No</th>
+      <th>Phone</th>
+    </tr>
+    <!-- Example entries (will be dynamic later) -->
+    <tr><td>Virat Kohli</td><td>Batsman</td><td>Tumkur Titans</td><td>18</td><td>9998887770</td></tr>
+    <tr><td>MS Dhoni</td><td>Wicket Keeper</td><td>Bangalore Blasters</td><td>7</td><td>8889997770</td></tr>
+  </table>
+
+  <footer>© MPL 2026 Tournament | Powered by AWS</footer>
+
+</body>
+</html>

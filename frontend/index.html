@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MPL 2026 – Official Tournament</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #002244, #0057b7, #00bfff);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    /* --- Header & Menu Styling --- */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      padding: 12px 0 6px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-bottom: 2px solid rgba(255, 215, 0, 0.4);
+      z-index: 1000;
+    }
+
+    nav .header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    nav .logo {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      border: 2px solid #ffd700;
+    }
+
+    nav .site-title {
+      font-size: 2em;
+      color: #ffd700;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    nav .menu {
+      display: flex;
+      gap: 35px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    nav .menu a {
+      color: #ffd700;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05em;
+      transition: 0.3s;
+    }
+
+    nav .menu a:hover {
+      color: #fff;
+      text-shadow: 0 0 10px #ffd700;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-top: 150px;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+      color: #ffd700;
+      font-weight: 500;
+      margin-top: 10px;
+      margin-bottom: 40px;
+    }
+
+    .btn-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .btn {
+      background-color: #ffd700;
+      color: #002244;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: 0.3s;
+      min-width: 180px;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background-color: #ffcc00;
+      transform: translateY(-3px);
+      box-shadow: 0 0 10px #ffd700;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9em;
+      color: #ddd;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔹 Navigation Bar -->
+  <nav>
+    <div class="header">
+      <img src="/images/logo.png" alt="MPL Logo" class="logo">
+      <h1 class="site-title">MPL 2026</h1>
+    </div>
+    <div class="menu">
+      <a href="/">Home</a>
+      <a href="/register.html">Register</a>
+      <a href="/approved.html">Approved Players</a>
+      <a href="/news.html">News</a>
+      <a href="/schedule.html">Schedule</a>
+      <a href="/teams.html">Teams</a>
+    </div>
+  </nav>
+
+  <h1>🏏 Welcome to MPL 2026 🏆</h1>
+  <h2>Stay tuned for tournament updates!</h2>
+
+  <!-- 🔹 Homepage Buttons -->
+  <div class="btn-container">
+    <a href="/register.html" class="btn">📝 Register</a>
+    <a href="/approved.html" class="btn">✅ Approved Players</a>
+    <a href="/news.html" class="btn">🗞️ News</a>
+    <a href="/schedule.html" class="btn">📅 Schedule</a>
+    <a href="/teams.html" class="btn">🧢 Teams</a>
+  </div>
+
+  <footer>© MPL 2026 Tournament | Powered by AWS</footer>
+
+</body>
+</html>

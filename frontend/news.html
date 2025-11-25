@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MPL 2026 – News & Announcements</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #002244, #0057b7, #00bfff);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-top: 140px;
+    }
+
+    /* 🔹 Navbar Styling */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      padding: 14px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      border-bottom: 2px solid rgba(255, 215, 0, 0.4);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 55px;
+      height: 55px;
+    }
+
+    .site-title {
+      color: #ffd700;
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+
+    .menu {
+      display: flex;
+      gap: 25px;
+    }
+
+    .menu a {
+      color: #ffd700;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1em;
+      transition: 0.3s;
+    }
+
+    .menu a:hover {
+      color: #fff;
+      text-shadow: 0 0 10px #ffd700;
+    }
+
+    /* 🔹 News Section */
+    .news-container {
+      width: 80%;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .news-item {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 15px 0;
+    }
+
+    .news-item:last-child {
+      border-bottom: none;
+    }
+
+    .news-title {
+      color: #ffd700;
+      font-weight: 700;
+      font-size: 1.3em;
+      margin-bottom: 5px;
+    }
+
+    .news-date {
+      font-size: 0.9em;
+      color: #ccc;
+      margin-bottom: 8px;
+    }
+
+    .news-body {
+      color: #fff;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9em;
+      color: #ddd;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔹 Navigation Bar -->
+  <nav>
+    <div class="header">
+      <img src="/images/logo.png" alt="MPL Logo" class="logo">
+      <h1 class="site-title">MPL 2026</h1>
+    </div>
+    <div class="menu">
+      <a href="/index.html">Home</a>
+      <a href="/register.html">Register</a>
+      <a href="/approved.html">Approved Players</a>
+      <a href="/news.html">News</a>
+      <a href="/schedule.html">Schedule</a>
+      <a href="/teams.html">Teams</a>
+    </div>
+  </nav>
+
+  <!-- 🔹 News Section -->
+  <h1>🗞️ MPL 2026 – Latest News</h1>
+
+  <div class="news-container">
+    <div class="news-item">
+      <div class="news-title">🏏 Player Registration Now Open!</div>
+      <div class="news-date">November 5, 2025</div>
+      <div class="news-body">Players can now register for MPL 2026. Submit your form before the deadline to be part of the tournament!</div>
+    </div>
+
+    <div class="news-item">
+      <div class="news-title">📅 Tournament Schedule to be Announced Soon</div>
+      <div class="news-date">November 10, 2025</div>
+      <div class="news-body">Stay tuned for the official release of fixtures and match venues.</div>
+    </div>
+  </div>
+
+  <footer>© MPL 2026 Tournament | Powered by AWS</footer>
+</body>
+</html>

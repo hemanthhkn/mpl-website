@@ -1,6 +1,6 @@
+import express from "express";
 import multer from "multer";
 import path from "path";
-import express from "express";
 import mysql from "mysql2";
 import cors from "cors";
 import helmet from "helmet";
@@ -8,8 +8,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// ===================== MULTER (FILE UPLOADS) =====================
-
+// ---------------------- Multer: File Uploads ----------------------
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     let folder = "photos";
@@ -41,24 +40,20 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const upload = multer({
-  storage,
-  fileFilter,
-});
+const upload = multer({ storage, fileFilter });
 
-// ===================== EXPRESS APP & DB =====================
-
+// ---------------------- Express & Middleware ----------------------
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
-// Read DB config from .env with safe defaults
+// ---------------------- MySQL Connection ----------------------
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || "localhost",
-  user: process.env.DB_USER || "hemanth",
-  password: process.env.DB_PASSWORD || "Virat@1845",
-  database: process.env.DB_NAME || "mpl_tournament",
+  host: "localhost",
+  user: "hemanth",
+  password: "Virat@1845",
+  database: "mpl_tournament",
 });
 
 db.connect((err) => {
@@ -69,17 +64,13 @@ db.connect((err) => {
   }
 });
 
-// ===================== BASIC ROUTES =====================
-
-// Health check
+// ---------------------- Health Check ----------------------
 app.get("/health", (req, res) => {
   res.json({ status: "Server running fine 💪" });
 });
 
-// ===================== PLAYER REGISTRATION =====================
-
-// Common handler for registration (used by both /register and /api/register)
-const registrationHandler = (req, res) => {
+// ---------------------- Registration Handler ----------------------
+const handleRegistration = (req, res) => {
   try {
     const {
       name,
@@ -102,15 +93,15 @@ const registrationHandler = (req, res) => {
     const payment_ss = files.payment_ss?.[0]?.filename || null;
 
     const sql = `
-        INSERT INTO players
-        (name, age, category, phone, address,
-         jersey_number, jersey_size,
-         voterid, voterid_image,
-         aadhaar_number, aadhaar_image,
-         photo, payment_ss,
-         txn_id, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'PENDING')
-      `;
+      INSERT INTO players
+      (name, age, category, phone, address,
+       jersey_number, jersey_size,
+       voterid, voterid_image,
+       aadhaar_number, aadhaar_image,
+       photo, payment_ss,
+       txn_id, status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+    `;
 
     db.query(
       sql,
@@ -160,60 +151,66 @@ const registrationHandler = (req, res) => {
   }
 };
 
-// multer fields (shared)
-const uploadFields = upload.fields([
-  { name: "photo", maxCount: 1 },
-  { name: "voterid_image", maxCount: 1 },
-  { name: "aadhaar_image", maxCount: 1 },
-  { name: "payment_ss", maxCount: 1 },
-]);
+// Support BOTH /register (old) and /api/register (through nginx)
+app.post(
+  "/register",
+  upload.fields([
+    { name: "photo", maxCount: 1 },
+    { name: "voterid_image", maxCount: 1 },
+    { name: "aadhaar_image", maxCount: 1 },
+    { name: "payment_ss", maxCount: 1 },
+  ]),
+  handleRegistration
+);
 
-// Original route (still works if anything uses /register)
-app.post("/register", uploadFields, registrationHandler);
+app.post(
+  "/api/register",
+  upload.fields([
+    { name: "photo", maxCount: 1 },
+    { name: "voterid_image", maxCount: 1 },
+    { name: "aadhaar_image", maxCount: 1 },
+    { name: "payment_ss", maxCount: 1 },
+  ]),
+  handleRegistration
+);
 
-// API route used by frontend (register.html)
-app.post("/api/register", uploadFields, registrationHandler);
-
-// ===================== PUBLIC: APPROVED PLAYERS =====================
-
-// Used by approved.html
-app.get("/api/approved-players", (req, res) => {
+// ---------------------- Approved Players (Public) ----------------------
+const approvedPlayersHandler = (req, res) => {
   const sql = `
     SELECT id, name, age, jersey_size, category, phone, address, photo
     FROM players
-    WHERE status = 'Approved'
+    WHERE status IN ('Approved', 'APPROVED')
     ORDER BY id DESC
   `;
 
   db.query(sql, (err, results) => {
     if (err) {
-      console.error("❌ Error fetching approved players (API):", err);
+      console.error("❌ Error fetching approved players:", err);
       return res.status(500).json({ error: "Database error" });
     }
     res.json(results);
   });
-});
+};
 
-// ===================== ADMIN LOGIN =====================
+// For direct Node access
+app.get("/approved-players", approvedPlayersHandler);
+// For frontend via nginx (/api/…)
+app.get("/api/approved-players", approvedPlayersHandler);
 
-// Read admin creds from .env (with defaults)
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Virat@1845";
-
+// ---------------------- Admin: Login ----------------------
 app.post("/api/admin/login", (req, res) => {
   const { username, password } = req.body;
 
-  if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+  // Hard-coded admin credentials
+  if (username === "admin" && password === "Virat@1845") {
     return res.json({ success: true });
   }
 
-  return res.status(401).json({ error: "Invalid username or password" });
+  return res.status(401).json({ success: false, message: "Invalid credentials" });
 });
 
-// ===================== ADMIN: PENDING REGISTRATIONS =====================
-
-// List pending players for admin dashboard
-app.get("/api/admin/pending-registrations", (req, res) => {
+// ---------------------- Admin: Pending Registrations ----------------------
+const pendingHandler = (req, res) => {
   const sql = `
     SELECT
       id,
@@ -226,9 +223,10 @@ app.get("/api/admin/pending-registrations", (req, res) => {
       photo,
       voterid_image,
       aadhaar_image,
-      payment_ss
+      payment_ss,
+      status
     FROM players
-    WHERE status = 'PENDING'
+    WHERE status IN ('pending', 'PENDING')
     ORDER BY id DESC
   `;
 
@@ -239,51 +237,91 @@ app.get("/api/admin/pending-registrations", (req, res) => {
     }
     res.json(rows);
   });
-});
+};
 
-// Approve: change status to 'Approved'
-app.post("/api/admin/approve/:id", (req, res) => {
+app.get("/admin/pending-registrations", pendingHandler);
+app.get("/api/admin/pending-registrations", pendingHandler);
+
+// ---------------------- Admin: Approve / Reject ----------------------
+const approveHandler = (req, res) => {
   const id = req.params.id;
 
-  const sql = `UPDATE players SET status = 'Approved' WHERE id = ?`;
+  db.query(
+    "UPDATE players SET status = 'Approved' WHERE id = ?",
+    [id],
+    (err, result) => {
+      if (err) {
+        console.error("Error approving registration:", err);
+        return res.status(500).json({ error: "Database error" });
+      }
 
-  db.query(sql, [id], (err, result) => {
-    if (err) {
-      console.error("Error approving player:", err);
-      return res.status(500).json({ error: "Database error" });
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: "Player not found" });
+      }
+
+      res.json({ success: true });
     }
+  );
+};
 
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: "Player not found" });
-    }
-
-    res.json({ success: true });
-  });
-});
-
-// Reject: delete the row (status = PENDING)
-app.post("/api/admin/reject/:id", (req, res) => {
+const rejectHandler = (req, res) => {
   const id = req.params.id;
 
-  const sql = `DELETE FROM players WHERE id = ? AND status = 'PENDING'`;
+  db.query(
+    "UPDATE players SET status = 'Rejected' WHERE id = ?",
+    [id],
+    (err, result) => {
+      if (err) {
+        console.error("Error rejecting registration:", err);
+        return res.status(500).json({ error: "Database error" });
+      }
 
-  db.query(sql, [id], (err, result) => {
-    if (err) {
-      console.error("Error rejecting player:", err);
-      return res.status(500).json({ error: "Database error" });
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: "Player not found" });
+      }
+
+      res.json({ success: true });
     }
+  );
+};
 
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: "Pending player not found" });
+app.post("/admin/approve/:id", approveHandler);
+app.post("/api/admin/approve/:id", approveHandler);
+
+app.post("/admin/reject/:id", rejectHandler);
+app.post("/api/admin/reject/:id", rejectHandler);
+
+// ---------------------- Admin: Delete Approved Player ----------------------
+const deleteApprovedHandler = (req, res) => {
+  const id = req.params.id;
+
+  // Only delete if currently approved
+  db.query(
+    "DELETE FROM players WHERE id = ? AND status IN ('Approved', 'APPROVED')",
+    [id],
+    (err, result) => {
+      if (err) {
+        console.error("Error deleting approved player:", err);
+        return res.status(500).json({ error: "Database error" });
+      }
+
+      if (result.affectedRows === 0) {
+        return res
+          .status(404)
+          .json({ error: "Approved player not found or already deleted" });
+      }
+
+      res.json({ success: true });
     }
+  );
+};
 
-    res.json({ success: true });
-  });
-});
+app.post("/admin/delete-player/:id", deleteApprovedHandler);
+app.post("/api/admin/delete-player/:id", deleteApprovedHandler);
 
-// ===================== ADMIN: APPROVED PLAYERS (VIEW + DELETE) =====================
+// ===================== ADMIN – APPROVED PLAYERS =======================
 
-// Admin view of approved players
+// Admin: get all approved players (for delete view)
 app.get("/api/admin/approved-players", (req, res) => {
   const sql = `
     SELECT id, name, age, jersey_size, category, phone, address, photo
@@ -301,7 +339,7 @@ app.get("/api/admin/approved-players", (req, res) => {
   });
 });
 
-// Admin delete an approved player
+// Admin: delete an approved player
 app.delete("/api/admin/approved-players/:id", (req, res) => {
   const id = req.params.id;
 
@@ -314,6 +352,7 @@ app.delete("/api/admin/approved-players/:id", (req, res) => {
     }
 
     if (result.affectedRows === 0) {
+      // Either player not found or not in Approved state
       return res.status(404).json({ error: "Approved player not found" });
     }
 
@@ -321,8 +360,7 @@ app.delete("/api/admin/approved-players/:id", (req, res) => {
   });
 });
 
-// ===================== START SERVER =====================
-
+// ---------------------- Start Server ----------------------
 app.listen(3001, () => {
   console.log("🚀 MPL Backend running on port 3001");
 });

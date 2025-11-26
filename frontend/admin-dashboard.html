@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>MPL 2026 - Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #001f3f, #003366, #00509e);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    nav {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 30px;
+      box-sizing: border-box;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      height: 50px;
+    }
+
+    .site-title {
+      font-size: 1.5em;
+      margin: 0;
+      color: #ffd700;
+    }
+
+    .menu a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      font-weight: 600;
+    }
+
+    .menu a:hover {
+      color: #ffd700;
+    }
+
+    h1 {
+      margin-top: 20px;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    }
+
+    .section-title {
+      margin: 20px 0 10px;
+      font-size: 1.2em;
+    }
+
+    .table-container {
+      width: 95%;
+      max-width: 1200px;
+      margin-top: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+      box-sizing: border-box;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: white;
+      font-size: 0.9em;
+    }
+
+    thead {
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    th,
+    td {
+      padding: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: left;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+
+    th {
+      color: #ffd700;
+    }
+
+    tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 12px;
+      font-style: italic;
+      color: #ffd700;
+    }
+
+    .photo-thumb {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #ffd700;
+    }
+
+    .btn {
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 0.8em;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+
+    .btn-approve {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .btn-reject {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .btn-refresh {
+      background-color: #2196f3;
+      color: white;
+      margin-left: 10px;
+    }
+
+    .btn-delete {
+      background-color: #c0392b;
+      color: white;
+    }
+
+    .btn-delete:hover {
+      background-color: #e74c3c;
+    }
+
+    .top-bar {
+      width: 95%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 15px 0;
+      font-size: 0.9em;
+      color: #ddd;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="header">
+      <img src="/images/logo.png" class="logo" />
+      <h1 class="site-title">MPL 2026</h1>
+    </div>
+
+    <div class="menu">
+      <a href="/index.html">Home</a>
+      <a href="/register.html">Register</a>
+      <a href="/approved.html">Approved Players</a>
+      <a href="/news.html">News</a>
+      <a href="/schedule.html">Schedule</a>
+      <a href="/teams.html">Teams</a>
+      <a href="/admin.html">Admin</a>
+    </div>
+  </nav>
+
+  <h1>🧾 Admin Dashboard – Pending & Approved Players</h1>
+
+  <div class="top-bar">
+    <div>
+      <span>Welcome, Admin</span>
+    </div>
+    <div>
+      <button class="btn btn-refresh" onclick="refreshAll()">Refresh Data</button>
+    </div>
+  </div>
+
+  <!-- Pending Registrations -->
+  <h2 class="section-title">Pending Registrations</h2>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Jersey Size</th>
+          <th>Category</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="pendingBody">
+        <tr>
+          <td colspan="9" class="no-data">Loading pending registrations...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Approved Players -->
+  <h2 class="section-title">Approved Players</h2>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Jersey Size</th>
+          <th>Category</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Actions</th> <!-- ✅ new column -->
+        </tr>
+      </thead>
+      <tbody id="approvedBody">
+        <tr>
+          <td colspan="9" class="no-data">Loading approved players...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>© MPL 2026 Tournament | Admin Portal</footer>
+
+  <script>
+    const pendingBody = document.getElementById("pendingBody");
+    const approvedBody = document.getElementById("approvedBody");
+
+    async function loadPending() {
+      pendingBody.innerHTML =
+        '<tr><td colspan="9" class="no-data">Loading pending registrations...</td></tr>';
+
+      try {
+        const res = await fetch("/api/admin/pending-registrations");
+        const data = await res.json();
+        console.log("Pending registrations:", data);
+
+        pendingBody.innerHTML = "";
+
+        if (!data || data.length === 0) {
+          pendingBody.innerHTML =
+            '<tr><td colspan="9" class="no-data">No pending registrations.</td></tr>';
+          return;
+        }
+
+        data.forEach((p, idx) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${idx + 1}</td>
+            <td>
+              ${p.photo
+                ? `<img src="/uploads/photos/${p.photo}" class="photo-thumb" />`
+                : "-"
+              }
+            </td>
+            <td>${p.name}</td>
+            <td>${p.age}</td>
+            <td>${p.jersey_size}</td>
+            <td>${p.category}</td>
+            <td>${p.phone}</td>
+            <td>${p.address}</td>
+            <td>
+              <button class="btn btn-approve" onclick="approvePlayer(${p.id})">Approve</button>
+              <button class="btn btn-reject" onclick="rejectPlayer(${p.id})">Reject</button>
+            </td>
+          `;
+          pendingBody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error("Error loading pending registrations:", err);
+        pendingBody.innerHTML =
+          '<tr><td colspan="9" class="no-data">Failed to load pending registrations.</td></tr>';
+      }
+    }
+
+    async function loadApproved() {
+      approvedBody.innerHTML =
+        '<tr><td colspan="9" class="no-data">Loading approved players...</td></tr>';
+
+      try {
+        const res = await fetch("/api/approved-players");
+        const data = await res.json();
+        console.log("Approved players:", data);
+
+        approvedBody.innerHTML = "";
+
+        if (!data || data.length === 0) {
+          approvedBody.innerHTML =
+            '<tr><td colspan="9" class="no-data">No approved players yet.</td></tr>';
+          return;
+        }
+
+        data.forEach((p, idx) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${idx + 1}</td>
+            <td>
+              ${p.photo
+                ? `<img src="/uploads/photos/${p.photo}" class="photo-thumb" />`
+                : "-"
+              }
+            </td>
+            <td>${p.name}</td>
+            <td>${p.age}</td>
+            <td>${p.jersey_size}</td>
+            <td>${p.category}</td>
+            <td>${p.phone}</td>
+            <td>${p.address}</td>
+            <td>
+              <button class="btn btn-delete" onclick="deleteApprovedPlayer(${p.id})">
+                Delete
+              </button>
+            </td>
+          `;
+          approvedBody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error("Error loading approved players (admin view):", err);
+        approvedBody.innerHTML =
+          '<tr><td colspan="9" class="no-data">Failed to load approved players.</td></tr>';
+      }
+    }
+
+    async function approvePlayer(id) {
+      if (!confirm("Approve this player?")) return;
+
+      try {
+        const res = await fetch(`/api/admin/approve/${id}`, {
+          method: "POST",
+        });
+        const data = await res.json();
+        console.log("Approve response:", data);
+
+        if (data && data.success) {
+          alert("Player approved.");
+          refreshAll();
+        } else {
+          alert("Failed to approve player.");
+        }
+      } catch (err) {
+        console.error("Error approving player:", err);
+        alert("Error approving player.");
+      }
+    }
+
+    async function rejectPlayer(id) {
+      if (!confirm("Reject this player?")) return;
+
+      try {
+        const res = await fetch(`/api/admin/reject/${id}`, {
+          method: "POST",
+        });
+        const data = await res.json();
+        console.log("Reject response:", data);
+
+        if (data && data.success) {
+          alert("Player rejected.");
+          refreshAll();
+        } else {
+          alert("Failed to reject player.");
+        }
+      } catch (err) {
+        console.error("Error rejecting player:", err);
+        alert("Error rejecting player.");
+      }
+    }
+
+    // ✅ NEW: delete approved player
+    async function deleteApprovedPlayer(id) {
+      if (!confirm("Delete this approved player? This cannot be undone.")) return;
+
+      try {
+        const res = await fetch(`/api/admin/approved-players/${id}`, {
+          method: "DELETE",
+        });
+        const data = await res.json();
+        console.log("Delete approved player response:", data);
+
+        if (data && data.success) {
+          alert("Approved player deleted.");
+          refreshAll();
+        } else {
+          alert(data.error || "Failed to delete approved player.");
+        }
+      } catch (err) {
+        console.error("Error deleting approved player:", err);
+        alert("Error deleting approved player.");
+      }
+    }
+
+    function refreshAll() {
+      loadPending();
+      loadApproved();
+    }
+
+    // Load data on page open
+    refreshAll();
+  </script>
+</body>
+
+</html>

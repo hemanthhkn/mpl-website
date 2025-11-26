@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MPL 2026 - Admin Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #001f3f, #003366, #00509e);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    nav {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 30px;
+      box-sizing: border-box;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      height: 50px;
+    }
+
+    .site-title {
+      font-size: 1.5em;
+      margin: 0;
+      color: #ffd700;
+    }
+
+    .menu a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      font-weight: 600;
+    }
+
+    .menu a:hover {
+      color: #ffd700;
+    }
+
+    h1 {
+      margin-top: 30px;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    }
+
+    .login-container {
+      margin-top: 30px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 20px 25px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+      box-sizing: border-box;
+    }
+
+    .login-container label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: none;
+      box-sizing: border-box;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      background-color: #ffd700;
+      color: #001f3f;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    .login-container button:hover {
+      background-color: #ffcc33;
+    }
+
+    .error {
+      color: #ff6b6b;
+      margin-bottom: 10px;
+      font-size: 0.9em;
+    }
+
+    .success {
+      color: #00ff99;
+      margin-bottom: 10px;
+      font-size: 0.9em;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 15px 0;
+      font-size: 0.9em;
+      color: #ddd;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="header">
+      <img src="/images/logo.png" class="logo" />
+      <h1 class="site-title">MPL 2026</h1>
+    </div>
+
+    <div class="menu">
+      <a href="/index.html">Home</a>
+      <a href="/register.html">Register</a>
+      <a href="/approved.html">Approved Players</a>
+      <a href="/news.html">News</a>
+      <a href="/schedule.html">Schedule</a>
+      <a href="/teams.html">Teams</a>
+    </div>
+  </nav>
+
+  <h1>Admin Login</h1>
+
+  <div class="login-container">
+    <div id="message"></div>
+
+    <label for="username">Username</label>
+    <input type="text" id="username" placeholder="Enter admin username" />
+
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="Enter admin password" />
+
+    <button onclick="adminLogin()">Login</button>
+  </div>
+
+  <footer>© MPL 2026 Tournament | Admin Panel</footer>
+
+  <script>
+    async function adminLogin() {
+      const msgDiv = document.getElementById("message");
+      msgDiv.innerHTML = "";
+
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!username || !password) {
+        msgDiv.innerHTML = '<div class="error">Please enter username and password.</div>';
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/admin/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          msgDiv.innerHTML =
+            '<div class="error">' +
+            (data.message || "Invalid credentials") +
+            "</div>";
+          return;
+        }
+
+        // Save token and redirect to dashboard (we'll create this next)
+        localStorage.setItem("mplAdminToken", data.token);
+        msgDiv.innerHTML = '<div class="success">Login successful! Redirecting...</div>';
+
+        setTimeout(() => {
+          window.location.href = "/admin-dashboard.html";
+        }, 800);
+      } catch (err) {
+        console.error("Login error:", err);
+        msgDiv.innerHTML =
+          '<div class="error">Error during login. Please try again.</div>';
+      }
+    }
+  </script>
+</body>
+</html>

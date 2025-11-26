@@ -110,6 +110,54 @@
       color: white;
     }
 
+    /* Rules box */
+    .rules-box {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      max-height: 220px;
+      overflow-y: auto;
+      font-size: 0.9em;
+    }
+
+    .rules-title {
+      font-weight: 700;
+      color: #ffd700;
+      margin-bottom: 8px;
+    }
+
+    .rules-box ol {
+      padding-left: 20px;
+      margin: 0;
+      color: #fff;
+    }
+
+    .rules-box li {
+      margin-bottom: 6px;
+    }
+
+    .rules-agree {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95em;
+      color: #fff;
+    }
+
+    .rules-agree input[type="checkbox"] {
+      width: auto;
+      transform: scale(1.1);
+    }
+
+    .rules-warning {
+      margin-top: 6px;
+      font-size: 0.85em;
+      color: #ffb3b3;
+      display: none;
+    }
+
     .submit-btn {
       background: #ffd700;
       color: #002244;
@@ -218,6 +266,63 @@
     <label>Transaction Reference Number</label>
     <input type="text" id="txn_id" name="txn_id" required />
 
+    <!-- Rules & Conditions -->
+    <div class="rules-box">
+      <div class="rules-title">MPL 2026 - ಆಟಗಾರರ ನಿಯಮಗಳು</div>
+      <ol>
+        <li>
+          ಆಟಗಾರನು ಹರಾಜು/ಡ್ರಾಫ್ಟ್‌ನಲ್ಲಿ ಯಾವ ತಂಡವು ಅವನನ್ನು ಆಯ್ಕೆಮಾಡುತ್ತದೆಯೋ ಆ ಪರವಾಗಿ ಆಡಬೇಕು        </li>
+        <li>
+          ಆಟಗಾರನು ನಿರಾಕರಿಸಿದರೆ, ಅವರನ್ನು 1 ವರ್ಷದವರೆಗೆ MPL ನಿಂದ ನಿಷೇಧಿಸಲಾಗುವುದು
+        </li>
+        <li>
+         ಆಟಗಾರನು ಪಂದ್ಯಾವಳಿಯ ಎಲ್ಲಾ ನಿಯಮಗಳು ಮತ್ತು ನಿಬಂಧನೆಗಳನ್ನು ಅನುಸರಿಸಬೇಕ .
+        </li>
+        <li>
+          MPL ನಿರ್ವಾಹಕರು ನಿಗದಿಪಡಿಸಿದ ಎಲ್ಲಾ ನಿಯಮಗಳು ಮತ್ತು ಷರತ್ತುಗಳಿಗೆ ಆಟಗಾರನು ಬದ್ಧವಾಗಿರಬೇಕು.
+        </li>
+        <li>
+          ಆಟಗಾರನು ಆಟದ ಮೈದಾನದ ಒಳಗೆ ಅಥವಾ ಹೊರಗೆ ಯಾವುದೇ ರೀತಿಯ ಕಿಡಿಗೇಡಿತನ ಅಥವಾ ದುಷ್ಕೃತ್ಯದಲ್ಲಿ ತೊಡಗಬಾರದು.
+        </li>
+        <li>
+          ಆಟದ ಮೈದಾನದಲ್ಲಿ ಧೂಮಪಾನ, ಮದ್ಯಪಾನ, ಅಥವಾ ಯಾವುದೇ ನಿಷೇಧಿತ ಪದಾರ್ಥಗಳನ್ನು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ನಿಷೇಧಿಸಲಾಗಿದೆ.
+        </li>
+        <li>
+          ಪಂದ್ಯದ ಸಮಯದಲ್ಲಿ ಸಂಭವಿಸುವ ಯಾವುದೇ ಗಾಯ ಅಥವಾ ಅಪಘಾತಕ್ಕೆ ಪಂದ್ಯಾವಳಿಯ ಸಂಘಟಕರು ಜವಾಬ್ದಾರರಾಗಿರುವುದಿಲ್ಲ
+        </li>
+        <li>
+          ಆಟಗಾರರು MPL ನಿರ್ವಾಹಕರ ತಂಡವು ಸೂಚಿಸಿದ ಡ್ರೆಸ್ ಕೋಡ್ ಅನ್ನು ಅನುಸರಿಸಬೇಕು,ಆಟದ ಮೈದಾನದಲ್ಲಿ ಶೂಗಳು ಕಡ್ಡಾಯವಾಗಿದೆ.
+        </li>
+        <li>
+          ನಿಯಮಗಳ ಯಾವುದೇ ಉಲ್ಲಂಘನೆಯು ಎಚ್ಚರಿಕೆಯಿಲ್ಲದೆ ತಕ್ಷಣದ ನಿಷೇಧಕ್ಕೆ ಕಾರಣವಾಗಬಹುದು.
+        </li>
+        <li>
+          ಆಟಗಾರರು ಶಿಸ್ತುಬದ್ಧವಾಗಿ ಉಳಿಯಬೇಕು ಮತ್ತು ಜಗಳ, ವಾದ ಅಥವಾ ಮಾನವ-ಹ್ಯಾಂಡ್ಲಿಂಗ್ ಅನ್ನು ತಪ್ಪಿಸಬೇಕು
+        </li>
+        <li>
+          ಆಟಗಾರರು ಎಲ್ಲಾ ಸಮಯದಲ್ಲೂ ಅಂಪೈರ್‌ಗಳು, ಅಧಿಕಾರಿಗಳು, ಎದುರಾಳಿಗಳು ಮತ್ತು ಆಟದ ಮನೋಭಾವವನ್ನು ಗೌರವಿಸಬೇಕು. (ಸೇರಿಸಲಾಗಿದೆ)
+        </li>
+        <li>
+          ಯಾವುದೇ ರೀತಿಯ ಮೋಸ, ಫಿಕ್ಸಿಂಗ್ ಅಥವಾ ಅನ್ಯಾಯದ ಆಟವು ಶಾಶ್ವತ ಅನರ್ಹತೆಗೆ ಕಾರಣವಾಗುತ್ತದೆ
+        </li>
+        <li>
+        <b>ಉರ್ಡಿಗೆರೆ ಹೋಬಳಿ</b>ಗೆ ಸೇರಿದ ಆಟಗಾರರಿಗೆ ಮಾತ್ರ ಈ ಪಂದ್ಯಾವಳಿಯನ್ನು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ಆಯೋಜಿಸಲಾಗಿದೆ.  
+          ಈ ಪ್ರದೇಶದ ಹೊರಗಿನ ಯಾವುದೇ ಅರ್ಜಿಗಳನ್ನು ತಿರಸ್ಕರಿಸಲಾಗುತ್ತದೆ.  
+          ಎಲ್ಲಾ ಪಾವತಿಗಳು ನೈಜವಾಗಿರಬೇಕು. ಯಾವುದೇ ನಕಲಿ, ಅಮಾನ್ಯ ಅಥವಾ ನಕಲಿ ವಹಿವಾಟು ಪತ್ತೆಯಾದರೆ,  
+          ಮರುಪಾವತಿಯಿಲ್ಲದೆ ಅರ್ಜಿಯನ್ನು ತಿರಸ್ಕರಿಸಲು MPL ನಿರ್ವಾಹಕರು ಸಂಪೂರ್ಣ ಹಕ್ಕುಗಳನ್ನು ಹೊಂದಿದ್ದಾರೆ.  
+          ನಿಮ್ಮ ವಿವರಗಳನ್ನು ಸಲ್ಲಿಸುವಾಗ ದಯವಿಟ್ಟು ಪ್ರಾಮಾಣಿಕವಾಗಿರಿ.
+        </li>
+      </ol>
+    </div>
+
+    <label class="rules-agree">
+      <input type="checkbox" id="agree_rules" />
+      I have read and agree to all the above MPL 2026 rules and regulations.
+    </label>
+    <div id="rulesWarning" class="rules-warning">
+      You must read and agree to the rules and regulations before submitting the form.
+    </div>
+
     <button type="submit" class="submit-btn">Submit Registration</button>
   </form>
 
@@ -225,8 +330,21 @@
 
   <!-- Form Submit Script -->
   <script>
-    document.getElementById("regForm").addEventListener("submit", async function (e) {
+    const form = document.getElementById("regForm");
+    const agreeCheckbox = document.getElementById("agree_rules");
+    const rulesWarning = document.getElementById("rulesWarning");
+
+    form.addEventListener("submit", async function (e) {
       e.preventDefault();
+
+      // Check if rules are agreed
+      if (!agreeCheckbox.checked) {
+        rulesWarning.style.display = "block";
+        alert("You must read and agree to the MPL rules and regulations before submitting.");
+        return;
+      } else {
+        rulesWarning.style.display = "none";
+      }
 
       const formData = new FormData(this); // includes all inputs + files automatically
 

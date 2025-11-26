@@ -52,61 +52,28 @@
       text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
     }
 
-    /* ✅ Responsive Flex Layout for Teams */
     .teams-container {
       width: 95%;
       max-width: 1200px;
       margin: 30px auto;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 25px;
-    }
-
-    .team-card {
       background-color: rgba(255,255,255,0.1);
       border-radius: 12px;
-      padding: 20px;
-      text-align: center;
+      padding: 25px;
       box-shadow: 0 0 15px rgba(0,0,0,0.3);
-      transition: 0.3s;
-      width: 270px;
+      text-align: center;
     }
 
-    .team-card:hover {
-      transform: translateY(-5px);
-      background-color: rgba(255,255,255,0.15);
+    .empty-message {
+      font-size: 1.1em;
+      color: #ffffff;
+      margin: 10px 0;
     }
 
-    .team-logo {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #FFD700;
-      margin-bottom: 10px;
-    }
-
-    h3 {
-      color: #FFD700;
-      margin-bottom: 5px;
-    }
-
-    p {
+    .hint-message {
       font-size: 0.95em;
-      margin: 5px 0;
-      color: #e0e0e0;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin-top: 10px;
-      font-size: 0.9em;
-    }
-
-    li {
-      margin: 3px 0;
+      color: #ffd700;
+      margin-top: 5px;
+      opacity: 0.9;
     }
 
     footer {
@@ -131,59 +98,12 @@
   <header>🏏 MPL 2026 - Participating Teams 🏆</header>
 
   <div class="teams-container">
-
-    <div class="team-card">
-      <img src="https://via.placeholder.com/120" alt="Tumkur Titans" class="team-logo">
-      <h3>Tumkur Titans</h3>
-      <p><b>Captain:</b> Rahul Dravid</p>
-      <p><b>Coach:</b> Venkatesh Prasad</p>
-      <ul>
-        <li>Player 1: Kiran</li>
-        <li>Player 2: Manju</li>
-        <li>Player 3: Vinay</li>
-        <li>Player 4: Ravi</li>
-      </ul>
-    </div>
-
-    <div class="team-card">
-      <img src="https://via.placeholder.com/120" alt="Davangere Dragons" class="team-logo">
-      <h3>Davangere Dragons</h3>
-      <p><b>Captain:</b> Anil Kumble</p>
-      <p><b>Coach:</b> Sunil Joshi</p>
-      <ul>
-        <li>Player 1: Harsha</li>
-        <li>Player 2: Madhu</li>
-        <li>Player 3: Sandeep</li>
-        <li>Player 4: Yash</li>
-      </ul>
-    </div>
-
-    <div class="team-card">
-      <img src="https://via.placeholder.com/120" alt="Mysuru Mavericks" class="team-logo">
-      <h3>Mysuru Mavericks</h3>
-      <p><b>Captain:</b> Robin Uthappa</p>
-      <p><b>Coach:</b> Abhimanyu Mithun</p>
-      <ul>
-        <li>Player 1: Dinesh</li>
-        <li>Player 2: Karthik</li>
-        <li>Player 3: Sharath</li>
-        <li>Player 4: Gopi</li>
-      </ul>
-    </div>
-
-    <div class="team-card">
-      <img src="https://via.placeholder.com/120" alt="Shivamogga Strikers" class="team-logo">
-      <h3>Shivamogga Strikers</h3>
-      <p><b>Captain:</b> Mayank Agarwal</p>
-      <p><b>Coach:</b> R Vinay Kumar</p>
-      <ul>
-        <li>Player 1: Sanjay</li>
-        <li>Player 2: Lokesh</li>
-        <li>Player 3: Nithin</li>
-        <li>Player 4: Rajesh</li>
-      </ul>
-    </div>
-
+    <p class="empty-message">
+      Teams list will be updated soon.
+    </p>
+    <p class="hint-message">
+      Finalized teams will appear here once registration and selection are completed.
+    </p>
   </div>
 
   <footer>

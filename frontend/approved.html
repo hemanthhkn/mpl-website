@@ -106,6 +106,14 @@
       color: #ffd700;
     }
 
+    .player-photo {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #ffd700;
+    }
+
     footer {
       margin-top: auto;
       padding: 15px 0;
@@ -142,9 +150,9 @@
       <thead>
         <tr>
           <th>#</th>
+          <th>Photo</th>
           <th>Name</th>
           <th>Age</th>
-          <th>Jersey No</th>
           <th>Jersey Size</th>
           <th>Category</th>
           <th>Phone</th>
@@ -160,52 +168,65 @@
   </div>
 
   <footer>© MPL 2026 Tournament | Powered by AWS</footer>
+<script>
+  async function loadApprovedPlayers() {
+    const tbody = document.getElementById("playersBody");
 
-  <script>
-    async function loadApprovedPlayers() {
-      const tbody = document.getElementById("playersBody");
-      try {
-        const response = await fetch("/api/approved-players");
-        const players = await response.json();
+    try {
+      // 🔥 Call Node backend directly on port 3001
+            const response = await fetch("/api/approved-players");
 
-        tbody.innerHTML = "";
+      if (!response.ok) {
+        throw new Error("HTTP " + response.status);
+      }
 
-        if (!players || players.length === 0) {
-          tbody.innerHTML = `
-            <tr>
-              <td colspan="8" class="no-data">No players approved yet.</td>
-            </tr>
-          `;
-          return;
-        }
+      const players = await response.json();
+      console.log("Approved players:", players);
+      tbody.innerHTML = "";
 
-        players.forEach((p, index) => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${p.name}</td>
-            <td>${p.age}</td>
-            <td>${p.jersey_number}</td>
-            <td>${p.jersey_size}</td>
-            <td>${p.category}</td>
-            <td>${p.phone}</td>
-            <td>${p.address}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-      } catch (err) {
-        console.error("Error fetching approved players:", err);
+      if (!players || players.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="8" class="no-data">Error loading players. Please try again later.</td>
+            <td colspan="8" class="no-data">No players approved yet.</td>
           </tr>
         `;
+        return;
       }
-    }
 
-    // Load on page open
-    loadApprovedPlayers();
-  </script>
+      players.forEach((p, index) => {
+        const tr = document.createElement("tr");
+
+     const photoCellHtml = p.photo
+     ? `<img src="/uploads/photos/${p.photo}" alt="${p.name}" class="player-photo">`
+     : `No Photo`;
+
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${photoCellHtml}</td>
+          <td>${p.name}</td>
+          <td>${p.age}</td>
+          <td>${p.jersey_size}</td>
+          <td>${p.category}</td>
+          <td>${p.phone}</td>
+          <td>${p.address}</td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    } catch (err) {
+      console.error("Error fetching approved players:", err);
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="8" class="no-data">Error loading players. Please try again later.</td>
+        </tr>
+      `;
+    }
+  }
+
+  // Load on page open
+  loadApprovedPlayers();
+</script>
+
 </body>
 
 </html>

@@ -60,10 +60,42 @@
       text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
     }
 
+    .top-bar {
+      width: 95%;
+      max-width: 1100px;
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .filter-group input,
+    .filter-group select {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 0.9em;
+    }
+
+    .filter-label {
+      font-size: 0.9em;
+      opacity: 0.9;
+    }
+
     .table-container {
       width: 95%;
       max-width: 1100px;
-      margin-top: 20px;
+      margin-top: 10px;
       background: rgba(0, 0, 0, 0.5);
       padding: 15px;
       border-radius: 12px;
@@ -145,6 +177,28 @@
 
   <h1>✅ Approved Players List</h1>
 
+  <!-- 🔍 Search & Filter Bar -->
+  <div class="top-bar">
+    <div class="filter-group">
+      <span class="filter-label">Search:</span>
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Name / Phone / Address / Jersey size / Category" />
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Category:</span>
+      <select id="categoryFilter">
+        <option value="">All</option>
+        <option value="Batsman">Batsman</option>
+        <option value="Bowler">Bowler</option>
+        <option value="All Rounder">All Rounder</option>
+        <option value="Wicket Keeper Batsman">Wicket Keeper Batsman</option>
+      </select>
+    </div>
+  </div>
+
   <div class="table-container">
     <table id="playersTable">
       <thead>
@@ -168,37 +222,32 @@
   </div>
 
   <footer>© MPL 2026 Tournament | Powered by AWS</footer>
-<script>
-  async function loadApprovedPlayers() {
+
+  <script>
     const tbody = document.getElementById("playersBody");
+    const searchInput = document.getElementById("searchInput");
+    const categoryFilter = document.getElementById("categoryFilter");
 
-    try {
-      // 🔥 Call Node backend directly on port 3001
-            const response = await fetch("/api/approved-players");
+    let allPlayers = [];
 
-      if (!response.ok) {
-        throw new Error("HTTP " + response.status);
-      }
-
-      const players = await response.json();
-      console.log("Approved players:", players);
+    function renderPlayers(list) {
       tbody.innerHTML = "";
 
-      if (!players || players.length === 0) {
+      if (!list || list.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="8" class="no-data">No players approved yet.</td>
+            <td colspan="8" class="no-data">No players found.</td>
           </tr>
         `;
         return;
       }
 
-      players.forEach((p, index) => {
+      list.forEach((p, index) => {
         const tr = document.createElement("tr");
 
-     const photoCellHtml = p.photo
-     ? `<img src="/uploads/photos/${p.photo}" alt="${p.name}" class="player-photo">`
-     : `No Photo`;
+        const photoCellHtml = p.photo
+          ? `<img src="/uploads/photos/${p.photo}" alt="${p.name}" class="player-photo">`
+          : `No Photo`;
 
         tr.innerHTML = `
           <td>${index + 1}</td>
@@ -213,19 +262,73 @@
 
         tbody.appendChild(tr);
       });
-    } catch (err) {
-      console.error("Error fetching approved players:", err);
+    }
+
+    function applyFilters() {
+      const term = (searchInput.value || "").toLowerCase().trim();
+      const selectedCategory = categoryFilter.value;
+
+      let filtered = allPlayers.slice();
+
+      if (term) {
+        filtered = filtered.filter((p) => {
+          const combo =
+            (p.name || "") +
+            " " +
+            (p.phone || "") +
+            " " +
+            (p.address || "") +
+            " " +
+            (p.jersey_size || "") +
+            " " +
+            (p.category || "");
+          return combo.toLowerCase().includes(term);
+        });
+      }
+
+      if (selectedCategory) {
+        filtered = filtered.filter((p) => p.category === selectedCategory);
+      }
+
+      renderPlayers(filtered);
+    }
+
+    async function loadApprovedPlayers() {
       tbody.innerHTML = `
         <tr>
-          <td colspan="8" class="no-data">Error loading players. Please try again later.</td>
+          <td colspan="8" class="no-data">Loading approved players...</td>
         </tr>
       `;
-    }
-  }
 
-  // Load on page open
-  loadApprovedPlayers();
-</script>
+      try {
+        const response = await fetch("/api/approved-players");
+
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+
+        const players = await response.json();
+        console.log("Approved players:", players);
+
+        allPlayers = players || [];
+        applyFilters();
+      } catch (err) {
+        console.error("Error fetching approved players:", err);
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" class="no-data">Error loading players. Please try again later.</td>
+          </tr>
+        `;
+      }
+    }
+
+    // Event listeners for live filtering
+    searchInput.addEventListener("input", applyFilters);
+    categoryFilter.addEventListener("change", applyFilters);
+
+    // Load on page open
+    loadApprovedPlayers();
+  </script>
 
 </body>
 

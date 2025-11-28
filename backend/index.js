@@ -53,19 +53,24 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
-// Read DB config from .env with safe defaults
-const db = mysql.createConnection({
-  host: process.env.DB_HOST || "localhost",
-  user: process.env.DB_USER || "hemanth",
-  password: process.env.DB_PASSWORD || "Virat@1845",
-  database: process.env.DB_NAME || "mpl_tournament",
+// ✅ USE POOL INSTEAD OF SINGLE CONNECTION
+const pool = mysql.createPool({
+  host: "localhost",
+  user: "hemanth",
+  password: "Virat@1845",
+  database: "mpl_tournament",
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 
-db.connect((err) => {
+// Just to log once at startup
+pool.getConnection((err, connection) => {
   if (err) {
-    console.error("❌ Database connection failed:", err);
+    console.error("❌ Database connection pool failed:", err);
   } else {
-    console.log("✅ Connected to MySQL database");
+    console.log("✅ Connected to MySQL database (pool)");
+    connection.release();
   }
 });
 
@@ -112,7 +117,7 @@ const registrationHandler = (req, res) => {
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'PENDING')
       `;
 
-    db.query(
+    pool.query(
       sql,
       [
         name,
@@ -185,7 +190,7 @@ app.get("/api/approved-players", (req, res) => {
     ORDER BY id DESC
   `;
 
-  db.query(sql, (err, results) => {
+  pool.query(sql, (err, results) => {
     if (err) {
       console.error("❌ Error fetching approved players (API):", err);
       return res.status(500).json({ error: "Database error" });
@@ -196,14 +201,11 @@ app.get("/api/approved-players", (req, res) => {
 
 // ===================== ADMIN LOGIN =====================
 
-// Read admin creds from .env (with defaults)
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Virat@1845";
-
+// Hard-coded admin: username = admin, password = Virat@1845
 app.post("/api/admin/login", (req, res) => {
   const { username, password } = req.body;
 
-  if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+  if (username === "admin" && password === "Virat@1845") {
     return res.json({ success: true });
   }
 
@@ -232,7 +234,7 @@ app.get("/api/admin/pending-registrations", (req, res) => {
     ORDER BY id DESC
   `;
 
-  db.query(sql, (err, rows) => {
+  pool.query(sql, (err, rows) => {
     if (err) {
       console.error("Error fetching pending registrations:", err);
       return res.status(500).json({ error: "Database error" });
@@ -247,7 +249,7 @@ app.post("/api/admin/approve/:id", (req, res) => {
 
   const sql = `UPDATE players SET status = 'Approved' WHERE id = ?`;
 
-  db.query(sql, [id], (err, result) => {
+  pool.query(sql, [id], (err, result) => {
     if (err) {
       console.error("Error approving player:", err);
       return res.status(500).json({ error: "Database error" });
@@ -267,7 +269,7 @@ app.post("/api/admin/reject/:id", (req, res) => {
 
   const sql = `DELETE FROM players WHERE id = ? AND status = 'PENDING'`;
 
-  db.query(sql, [id], (err, result) => {
+  pool.query(sql, [id], (err, result) => {
     if (err) {
       console.error("Error rejecting player:", err);
       return res.status(500).json({ error: "Database error" });
@@ -292,7 +294,7 @@ app.get("/api/admin/approved-players", (req, res) => {
     ORDER BY id DESC
   `;
 
-  db.query(sql, (err, results) => {
+  pool.query(sql, (err, results) => {
     if (err) {
       console.error("❌ Error fetching admin approved players:", err);
       return res.status(500).json({ error: "Database error" });
@@ -307,7 +309,7 @@ app.delete("/api/admin/approved-players/:id", (req, res) => {
 
   const sql = `DELETE FROM players WHERE id = ? AND status = 'Approved'`;
 
-  db.query(sql, [id], (err, result) => {
+  pool.query(sql, [id], (err, result) => {
     if (err) {
       console.error("❌ Error deleting approved player:", err);
       return res.status(500).json({ error: "Database error" });

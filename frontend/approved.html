@@ -92,6 +92,13 @@
       opacity: 0.9;
     }
 
+    .count-label {
+      font-size: 0.9em;
+      opacity: 0.95;
+      font-weight: 600;
+      color: #ffd700;
+    }
+
     .table-container {
       width: 95%;
       max-width: 1100px;
@@ -177,7 +184,7 @@
 
   <h1>✅ Approved Players List</h1>
 
-  <!-- 🔍 Search & Filter Bar -->
+  <!-- 🔍 Search & Filter Bar + Count -->
   <div class="top-bar">
     <div class="filter-group">
       <span class="filter-label">Search:</span>
@@ -185,6 +192,10 @@
         type="text"
         id="searchInput"
         placeholder="Name / Phone / Address / Jersey size / Category" />
+    </div>
+
+    <div class="filter-group">
+      <span id="playerCount" class="count-label">Loading players...</span>
     </div>
 
     <div class="filter-group">
@@ -227,6 +238,7 @@
     const tbody = document.getElementById("playersBody");
     const searchInput = document.getElementById("searchInput");
     const categoryFilter = document.getElementById("categoryFilter");
+    const playerCountLabel = document.getElementById("playerCount");
 
     let allPlayers = [];
 
@@ -264,6 +276,21 @@
       });
     }
 
+    function updateCount(filteredLength) {
+      const total = allPlayers.length;
+
+      if (!total) {
+        playerCountLabel.textContent = "No approved players.";
+        return;
+      }
+
+      if (filteredLength === total) {
+        playerCountLabel.textContent = `Total approved players: ${total}`;
+      } else {
+        playerCountLabel.textContent = `Showing ${filteredLength} of ${total} approved players`;
+      }
+    }
+
     function applyFilters() {
       const term = (searchInput.value || "").toLowerCase().trim();
       const selectedCategory = categoryFilter.value;
@@ -290,6 +317,7 @@
         filtered = filtered.filter((p) => p.category === selectedCategory);
       }
 
+      updateCount(filtered.length);
       renderPlayers(filtered);
     }
 
@@ -299,6 +327,7 @@
           <td colspan="8" class="no-data">Loading approved players...</td>
         </tr>
       `;
+      playerCountLabel.textContent = "Loading players...";
 
       try {
         const response = await fetch("/api/approved-players");
@@ -319,6 +348,7 @@
             <td colspan="8" class="no-data">Error loading players. Please try again later.</td>
           </tr>
         `;
+        playerCountLabel.textContent = "Error loading players.";
       }
     }
 

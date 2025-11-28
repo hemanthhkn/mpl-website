@@ -85,6 +85,33 @@
       text-align: left;
     }
 
+    .payment-box {
+      margin-top: 15px;
+      margin-bottom: 10px;
+      padding: 12px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 215, 0, 0.6);
+      text-align: center;
+    }
+
+    .payment-box img {
+      max-width: 220px;
+      width: 80%;
+      border-radius: 8px;
+      border: 2px solid #ffd700;
+      margin-bottom: 8px;
+    }
+
+    .payment-box p {
+      margin: 4px 0;
+      font-size: 0.9em;
+      color: #f5f5f5;
+    }
+
+
+
+
     .form-container label {
       font-weight: 600;
       color: #ffd700;
@@ -259,6 +286,17 @@
 
     <label>Phone Number</label>
     <input type="tel" id="phone" name="phone" required />
+
+        <h3 style="color:#ffd700; margin-top:15px; margin-bottom:8px;">💳 Scan & Pay</h3>
+    <div class="payment-box">
+      <!-- Replace the image file with your actual QR image -->
+      <img src="/images/mpl-upi-qr.png" alt="Scan to pay - MPL UPI QR" />
+
+      <p>Scan this QR code using any UPI app (PhonePe / GPay / Paytm etc.).</p>
+      <p>After payment, take a screenshot and upload it below as payment proof.</p>
+    </div>
+   
+
 
     <label>Upload Payment Screenshot</label>
     <input type="file" id="payment_ss" name="payment_ss" accept="image/*" required />

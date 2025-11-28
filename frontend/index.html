@@ -1,165 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4047924770149941"
+          crossorigin="anonymous"></script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MPL 2026 – Official Tournament</title>
+  <title>MPL Season 3 – Official Tournament</title>
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #002244, #0057b7, #00bfff);
-      color: white;
+      background: radial-gradient(circle at center, #004e92 0%, #000428 60%, #000000 100%);
+      color: #ffffff;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+    }
+
+    /* ---------- TOP NAV BAR ---------- */
+    nav {
+      width: 100%;
+      background: #000000;
+      border-bottom: 2px solid #fdd835;
+    }
+
+    .nav-inner {
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 8px 16px;
+      display: flex;
       align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .brand-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #fdd835;
+      object-fit: cover;
+    }
+
+    .brand-lines {
+      line-height: 1.2;
+    }
+
+    .brand-line-1 {
+      font-size: 11px;
+      font-weight: 700;
+      color: #6fffe9;        /* teal */
+      letter-spacing: 1px;
+    }
+
+    .brand-line-2 {
+      font-size: 20px;
+      font-weight: 900;
+      color: #ffd700;        /* gold */
+    }
+
+    .brand-line-3 {
+      font-size: 11px;
+      font-weight: 600;
+      color: #ff66cc;        /* pink */
+    }
+
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .menu a {
+      color: #ffd700;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      transition: 0.2s;
+    }
+
+    .menu a:hover {
+      color: #000;
+      background: #ffd700;
+    }
+
+    .menu a.active {
+      background: #ffd700;
+      color: #000000;
+    }
+
+    /* ---------- HERO CARD SECTION ---------- */
+    .hero-wrapper {
+      flex: 1;
+      display: flex;
       justify-content: center;
+      align-items: flex-start;
+      padding: 40px 16px 30px;
+    }
+
+    .hero-card {
+      width: 100%;
+      max-width: 900px;
+      background: radial-gradient(circle at top, #063a75 0%, #021425 55%, #000814 100%);
+      border-radius: 32px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+      padding: 26px 18px 28px;
       text-align: center;
     }
 
-    /* --- Header & Menu Styling --- */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(8px);
-      padding: 12px 0 6px 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border-bottom: 2px solid rgba(255, 215, 0, 0.4);
-      z-index: 1000;
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 20px;
+      border-radius: 999px;
+      border: 1px solid #00e5ff;
+      font-size: 12px;
+      font-weight: 600;
+      color: #00e5ff;
+      margin-bottom: 12px;
+      background: rgba(0, 0, 0, 0.35);
     }
 
-    nav .header {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      justify-content: center;
-      margin-bottom: 8px;
-    }
-
-    nav .logo {
-      width: 65px;
-      height: 65px;
-      border-radius: 50%;
-      border: 2px solid #ffd700;
-    }
-
-    nav .site-title {
-      font-size: 2em;
-      color: #ffd700;
-      font-weight: 800;
-      margin: 0;
-    }
-
-    nav .menu {
-      display: flex;
-      gap: 35px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    nav .menu a {
-      color: #ffd700;
-      text-decoration: none;
+    .hero-title {
+      font-size: 32px;
       font-weight: 700;
-      font-size: 1.05em;
-      transition: 0.3s;
+      margin: 8px 0 6px;
     }
 
-    nav .menu a:hover {
-      color: #fff;
-      text-shadow: 0 0 10px #ffd700;
-    }
-
-    h1 {
-      font-size: 3em;
-      margin-top: 150px;
-      font-weight: 700;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    h2 {
+    .hero-title span {
       color: #ffd700;
-      font-weight: 500;
+    }
+
+    .hero-subtitle {
+      font-size: 13px;
+      color: #e0e0e0;
+      max-width: 700px;
+      margin: 0 auto 18px;
+    }
+
+    .hero-subtitle strong {
+      color: #ffd700;
+      font-weight: 700;
+    }
+
+    .btn-row {
       margin-top: 10px;
-      margin-bottom: 40px;
-    }
-
-    .btn-container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
-      margin-bottom: 40px;
+      gap: 14px;
     }
 
     .btn {
       background-color: #ffd700;
-      color: #002244;
-      font-weight: 700;
-      padding: 12px 24px;
-      border-radius: 8px;
+      color: #001024;
+      padding: 10px 22px;
+      border-radius: 999px;
       text-decoration: none;
-      transition: 0.3s;
-      min-width: 180px;
-      display: inline-block;
+      font-size: 14px;
+      font-weight: 700;
+      min-width: 170px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 14px rgba(255, 215, 0, 0.5);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
     }
 
     .btn:hover {
-      background-color: #ffcc00;
-      transform: translateY(-3px);
-      box-shadow: 0 0 10px #ffd700;
+      background-color: #ffdf40;
+      transform: translateY(-2px);
+      box-shadow: 0 0 18px rgba(255, 215, 0, 0.7);
+    }
+
+    .hero-tip {
+      margin-top: 18px;
+      font-size: 11px;
+      color: #cfd8dc;
+    }
+
+    .hero-tip span {
+      color: #ffd700;
+      font-weight: 600;
     }
 
     footer {
-      position: fixed;
-      bottom: 10px;
-      width: 100%;
       text-align: center;
-      font-size: 0.9em;
-      color: #ddd;
-      opacity: 0.9;
+      font-size: 11px;
+      color: #cfd8dc;
+      padding: 10px 0 14px;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 680px) {
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .menu {
+        justify-content: flex-start;
+      }
+
+      .hero-card {
+        padding: 22px 16px 24px;
+      }
+
+      .hero-title {
+        font-size: 26px;
+      }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- 🔹 Navigation Bar -->
+  <!-- TOP NAV BAR -->
   <nav>
-    <div class="header">
-      <img src="/images/logo.png" alt="MPL Logo" class="logo">
-      <h1 class="site-title">MPL 2026</h1>
-    </div>
-    <div class="menu">
-      <a href="/">Home</a>
-      <a href="/register.html">Register</a>
-      <a href="/approved.html">Approved Players</a>
-      <a href="/news.html">News</a>
-      <a href="/schedule.html">Schedule</a>
-     <a href="/teams.html">Teams</a>
-     <a href="/admin.html">Admin</a>
+    <div class="nav-inner">
+      <div class="brand">
+        <img src="/images/logo.png" alt="MPL Logo" class="brand-logo" />
+        <div class="brand-lines">
+          <div class="brand-line-1">MFIGHTERS PRESENTS</div>
+          <div class="brand-line-2">MPL SEASON – 3</div>
+          <div class="brand-line-3">CRICKET TOURNAMENT 2026</div>
+        </div>
+      </div>
 
+      <div class="menu">
+        <a href="/" class="active">Home</a>
+        <a href="/register.html">Register</a>
+        <a href="/approved.html">Approved</a>
+        <a href="/news.html">News</a>
+        <a href="/schedule.html">Schedule</a>
+        <a href="/teams.html">Teams</a>
+        <a href="/admin.html">Admin</a>
+      </div>
     </div>
   </nav>
 
-  <h1>🏏 Welcome to MPL 2026 🏆</h1>
-  <h2>Stay tuned for tournament updates!</h2>
+  <!-- CENTER HERO CARD -->
+  <div class="hero-wrapper">
+    <div class="hero-card">
 
-  <!-- 🔹 Homepage Buttons -->
-  <div class="btn-container">
-    <a href="/register.html" class="btn">📝 Register</a>
-    <a href="/approved.html" class="btn">✅ Approved Players</a>
-    <a href="/news.html" class="btn">🗞️ News</a>
-    <a href="/schedule.html" class="btn">📅 Schedule</a>
-    <a href="/teams.html" class="btn">🧢 Teams</a>
+      <div class="hero-badge">🏏 MPL Season 3 • Urdigere Hobli</div>
+
+      <div class="hero-title">
+        Welcome to <span>MPL 2026</span> 🏆
+      </div>
+
+      <p class="hero-subtitle">
+        Stay tuned for <strong>fixtures, teams, auctions</strong>, and live tournament updates.
+        Register now and showcase your talent on the MPL stage!
+      </p>
+
+      <div class="btn-row">
+        <a href="/register.html" class="btn">📝 Register</a>
+        <a href="/approved.html" class="btn">✅ Approved Players</a>
+        <a href="/news.html" class="btn">🗞 News</a>
+        <a href="/schedule.html" class="btn">📅 Schedule</a>
+        <a href="/teams.html" class="btn">🧢 Teams</a>
+      </div>
+
+      <div class="hero-tip">
+        🔔 Tip: Bookmark <span>mfighters.com</span> to check approvals and updates anytime.
+      </div>
+    </div>
   </div>
 
-  <footer>© MPL 2026 Tournament | Powered by AWS</footer>
+  <!-- FOOTER -->
+  <footer>
+    © MPL Season 3 – Cricket Tournament 2026 | SUPPORTED BY MANCHAKALKUPPE CRICKETERS
+  </footer>
 
 </body>
 </html>

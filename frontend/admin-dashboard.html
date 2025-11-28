@@ -243,7 +243,7 @@
           <th>Category</th>
           <th>Phone</th>
           <th>Address</th>
-          <th>Actions</th> <!-- ✅ new column -->
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody id="approvedBody">
@@ -259,6 +259,36 @@
   <script>
     const pendingBody = document.getElementById("pendingBody");
     const approvedBody = document.getElementById("approvedBody");
+
+    // 🔹 Helper: normalize phone to WhatsApp format and open wa.me
+    function normalizePhone(phone) {
+      if (!phone) return null;
+      let digits = phone.toString().replace(/\D/g, "");
+      if (digits.startsWith("0")) {
+        digits = digits.slice(1);
+      }
+      if (digits.length === 10) {
+        digits = "91" + digits;
+      } else if (digits.length === 13 && digits.startsWith("+91")) {
+        digits = digits.slice(1);
+      }
+      // if already 12 digits starting with 91, keep as is
+      if (!digits.startsWith("91")) {
+        // fallback: still allow, but may fail for non-Indian numbers
+        console.warn("Phone does not look like Indian number:", digits);
+      }
+      return digits;
+    }
+
+    function sendWhatsApp(phoneRaw, message) {
+      const phone = normalizePhone(phoneRaw);
+      if (!phone) {
+        alert("Cannot open WhatsApp: invalid phone number for this player.");
+        return;
+      }
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank");
+    }
 
     async function loadPending() {
       pendingBody.innerHTML =
@@ -279,13 +309,19 @@
 
         data.forEach((p, idx) => {
           const tr = document.createElement("tr");
+
+          // 🔹 store name & phone on the row so we can use for WhatsApp later
+          tr.dataset.playerId = p.id;
+          tr.dataset.playerPhone = p.phone || "";
+          tr.dataset.playerName = p.name || "Player";
+
           tr.innerHTML = `
             <td>${idx + 1}</td>
             <td>
               ${p.photo
-                ? `<img src="/uploads/photos/${p.photo}" class="photo-thumb" />`
-                : "-"
-              }
+              ? `<img src="/uploads/photos/${p.photo}" class="photo-thumb" />`
+              : "-"
+            }
             </td>
             <td>${p.name}</td>
             <td>${p.age}</td>
@@ -326,13 +362,17 @@
 
         data.forEach((p, idx) => {
           const tr = document.createElement("tr");
+          tr.dataset.playerId = p.id;
+          tr.dataset.playerPhone = p.phone || "";
+          tr.dataset.playerName = p.name || "Player";
+
           tr.innerHTML = `
             <td>${idx + 1}</td>
             <td>
               ${p.photo
-                ? `<img src="/uploads/photos/${p.photo}" class="photo-thumb" />`
-                : "-"
-              }
+              ? `<img src="/uploads/photos/${p.photo}" class="photo-thumb" />`
+              : "-"
+            }
             </td>
             <td>${p.name}</td>
             <td>${p.age}</td>
@@ -367,6 +407,22 @@
 
         if (data && data.success) {
           alert("Player approved.");
+
+          // 🔹 find row for this player to get name & phone
+          const row = document.querySelector(`tr[data-player-id="${id}"]`);
+          const name = row?.dataset.playerName || "Player";
+          const phone = row?.dataset.playerPhone || "";
+
+          if (phone && confirm("WhatsApp ಮೂಲಕ ಅನುಮೋದನಾ ಸಂದೇಶ ಕಳುಹಿಸಬೇಕೇ?")) {
+            const msg =
+              `ಪ್ರಿಯ ${name},\n\n` +
+              `🎉 ಅಭಿನಂದನೆಗಳು!\n` +
+              `ನಿಮ್ಮ MPL 2026 ನೋಂದಣಿಯನ್ನು ನಾವು ಅನುಮೋದಿಸಿದ್ದೇವೆ.\n\n` +
+              `ತಂಡ ಆಯ್ಕೆ ಮತ್ತು ಪಂದ್ಯ ವೇಳಾಪಟ್ಟಿ ಕುರಿತು ವಿವರಗಳನ್ನು ಶೀಘ್ರದಲ್ಲೇ MPL ಆಯೋಜಕರು ತಿಳಿಸುತ್ತಾರೆ.\n\n` +
+              `– MPL 2026 ಆಯೋಜನಾ ಸಮಿತಿ`;
+            sendWhatsApp(phone, msg);
+          }
+
           refreshAll();
         } else {
           alert("Failed to approve player.");
@@ -376,6 +432,7 @@
         alert("Error approving player.");
       }
     }
+
 
     async function rejectPlayer(id) {
       if (!confirm("Reject this player?")) return;
@@ -389,6 +446,30 @@
 
         if (data && data.success) {
           alert("Player rejected.");
+
+          const row = document.querySelector(`tr[data-player-id="${id}"]`);
+          const name = row?.dataset.playerName || "Player";
+          const phone = row?.dataset.playerPhone || "";
+
+          let reason = prompt("ನಿರಾಕರಣೆಗೆ ಕಾರಣ (ಇಚ್ಛೆಯಂತೆ ಬರೆಯಿರಿ):");
+          if (reason === null) {
+            reason = "";
+          }
+          reason = reason.trim();
+
+          if (phone && confirm("WhatsApp ಮೂಲಕ ನಿರಾಕರಣಾ ಸಂದೇಶ ಕಳುಹಿಸಬೇಕೇ?")) {
+            let msg =
+              `ಪ್ರಿಯ ${name},\n\n` +
+              `ಕ್ಷಮಿಸಿ, ನಿಮ್ಮ MPL 2026 ನೋಂದಣಿಯನ್ನು ಈ ಬಾರಿ ಅನುಮೋದಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.\n`;
+            if (reason) {
+              msg += `\nಕಾರಣ: ${reason}\n`;
+            }
+            msg +=
+              `\nಯಾವುದೇ ಸ್ಪಷ್ಟೀಕರಣಕ್ಕಾಗಿ MPL ಆಯೋಜಕರನ್ನು ಸಂಪರ್ಕಿಸಬಹುದು.\n\n` +
+              `– MPL 2026 ಆಯೋಜನಾ ಸಮಿತಿ`;
+            sendWhatsApp(phone, msg);
+          }
+
           refreshAll();
         } else {
           alert("Failed to reject player.");
@@ -399,7 +480,7 @@
       }
     }
 
-    // ✅ NEW: delete approved player
+    // delete approved player
     async function deleteApprovedPlayer(id) {
       if (!confirm("Delete this approved player? This cannot be undone.")) return;
 

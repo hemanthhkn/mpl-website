@@ -3,182 +3,262 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MPL 2026 – News & Announcements</title>
+  <title>MPL Season 3 – News & Announcements</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #002244, #0057b7, #00bfff);
+      background: radial-gradient(circle at center, #004e92 0%, #000428 60%, #000000 100%);
       color: white;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding-top: 140px;
     }
 
-    /* 🔹 Navbar */
+    /* ---------- NAVBAR (same as other pages) ---------- */
     nav {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(8px);
-      padding: 14px 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      z-index: 1000;
-      border-bottom: 2px solid rgba(255, 215, 0, 0.4);
+      background: #000000;
+      border-bottom: 2px solid #fdd835;
     }
 
-    .header {
+    .nav-inner {
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 8px 16px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: space-between;
+      gap: 16px;
     }
 
-    .logo {
-      width: 55px;
-      height: 55px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
     }
 
-    .site-title {
-      color: #ffd700;
-      font-size: 1.8em;
+    .brand-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #fdd835;
+      object-fit: cover;
+    }
+
+    .brand-lines {
+      line-height: 1.2;
+    }
+
+    .brand-line-1 {
+      font-size: 11px;
       font-weight: 700;
+      color: #6fffe9;
+      letter-spacing: 1px;
+    }
+
+    .brand-line-2 {
+      font-size: 20px;
+      font-weight: 900;
+      color: #ffd700;
+    }
+
+    .brand-line-3 {
+      font-size: 11px;
+      font-weight: 600;
+      color: #ff66cc;
     }
 
     .menu {
       display: flex;
-      gap: 25px;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
     }
 
     .menu a {
       color: #ffd700;
       text-decoration: none;
       font-weight: 600;
-      font-size: 1.1em;
-      transition: 0.3s;
+      font-size: 14px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      transition: 0.2s;
     }
 
     .menu a:hover {
-      color: #fff;
-      text-shadow: 0 0 10px #ffd700;
+      color: #000;
+      background: #ffd700;
     }
 
-    /* 🔹 News Section */
-    .news-container {
-      width: 80%;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      padding: 20px;
-      margin-top: 20px;
-      text-align: left;
+    .menu a.active {
+      background: #ffd700;
+      color: #000;
+    }
+
+    /* ---------- HERO CARD ---------- */
+    .hero-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 30px 16px 30px;
+    }
+
+    .hero-card {
+      width: 100%;
+      max-width: 900px;
+      background: radial-gradient(circle at top, #063a75 0%, #021425 55%, #000814 100%);
+      border-radius: 32px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+      padding: 24px 20px 26px;
+    }
+
+    .hero-title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: 700;
+      margin: 4px 0 6px;
+    }
+
+    .hero-title span {
+      color: #ffd700;
+    }
+
+    .hero-subtitle {
+      text-align: center;
+      font-size: 13px;
+      color: #e0e0e0;
+      max-width: 650px;
+      margin: 0 auto 18px;
     }
 
     .news-item {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 15px 0;
-    }
-
-    .news-item:last-child {
-      border-bottom: none;
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 215, 0, 0.3);
     }
 
     .news-title {
-      color: #ffd700;
       font-weight: 700;
-      font-size: 1.3em;
-      margin-bottom: 5px;
+      color: #ffd700;
+      font-size: 15px;
+      margin-bottom: 4px;
     }
 
     .news-date {
-      font-size: 0.9em;
-      color: #ccc;
-      margin-bottom: 8px;
+      font-size: 11px;
+      color: #b0bec5;
+      margin-bottom: 6px;
     }
 
     .news-body {
-      color: #fff;
-      line-height: 1.6em;
+      font-size: 13px;
+      color: #ffffff;
     }
 
     footer {
-      margin-top: 40px;
-      font-size: 0.9em;
-      color: #ddd;
-      opacity: 0.9;
+      text-align: center;
+      font-size: 11px;
+      color: #cfd8dc;
+      padding: 8px 0 12px;
+    }
+
+    @media (max-width: 680px) {
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .menu {
+        justify-content: flex-start;
+      }
+      .hero-card {
+        padding: 20px 14px 22px;
+      }
+      .hero-title {
+        font-size: 21px;
+      }
     }
   </style>
 </head>
-
 <body>
 
-  <!-- Navbar -->
+  <!-- NAVBAR -->
   <nav>
-    <div class="header">
-      <img src="/images/logo.png" alt="MPL Logo" class="logo">
-      <h1 class="site-title">MPL 2026</h1>
-    </div>
-    <div class="menu">
-      <a href="/index.html">Home</a>
-      <a href="/register.html">Register</a>
-      <a href="/approved.html">Approved Players</a>
-      <a href="/news.html">News</a>
-      <a href="/schedule.html">Schedule</a>
-      <a href="/teams.html">Teams</a>
+    <div class="nav-inner">
+      <div class="brand">
+        <img src="/images/logo.png" class="brand-logo" alt="MPL Logo" />
+        <div class="brand-lines">
+          <div class="brand-line-1">MFIGHTERS PRESENTS</div>
+          <div class="brand-line-2">MPL SEASON – 3</div>
+          <div class="brand-line-3">CRICKET TOURNAMENT 2026</div>
+        </div>
+      </div>
+
+      <div class="menu">
+        <a href="/index.html">Home</a>
+        <a href="/register.html">Register</a>
+        <a href="/approved.html">Approved</a>
+        <a href="/news.html" class="active">News</a>
+        <a href="/schedule.html">Schedule</a>
+        <a href="/teams.html">Teams</a>
+        <a href="/admin.html">Admin</a>
+      </div>
     </div>
   </nav>
 
-  <h1>🗞️ MPL 2026 – Latest News</h1>
+  <!-- HERO CARD -->
+  <div class="hero-wrapper">
+    <div class="hero-card">
+      <div class="hero-title">🗞️ <span>MPL 2026 – Tournament News</span></div>
+      <p class="hero-subtitle">
+        Latest announcements, registration updates and important information for all MPL Season 3 players and team owners.
+      </p>
 
-  <div class="news-container">
-
-    <!-- 🔥 NEW KANNADA NEWS ADDED HERE (TOP) -->
-    <div class="news-item">
-      <div class="news-title">🏏 MPL 2026 – ರೋಮಾಂಚಕಾರಿ ಘೋಷಣೆ!</div>
-      <div class="news-date">November 26, 2025</div>
-      <div class="news-body">
-        🏏 <b>ರೋಮಾಂಚಕಾರಿ ಘೋಷಣೆ - MPL 2026 ಇದೀಗ ದೊಡ್ಡದಾಗಿದೆ ಮತ್ತು ಉತ್ತಮವಾಗಿದೆ!</b><br><br>
-        MPL 2026 ಹಿಂದೆಂದಿಗಿಂತಲೂ ದೊಡ್ಡ, ಉತ್ತಮ ಮತ್ತು ಹೆಚ್ಚು ರೋಮಾಂಚಕ ಅನುಭವದೊಂದಿಗೆ ಬರುತ್ತಿದೆ!<br><br>
-
-        ಈ ಋತುವಿನಲ್ಲಿ, ನಾವು ಅತ್ಯುತ್ತಮ ಪ್ರದರ್ಶನ ನೀಡುವವರನ್ನು ಗುರುತಿಸಲು ಅತ್ಯಾಕರ್ಷಕ ಬಹುಮಾನಗಳನ್ನು ಪರಿಚಯಿಸುತ್ತಿದ್ದೇವೆ:<br><br>
-
-        🏆 ಪ್ರತಿ ಪಂದ್ಯಕ್ಕೂ <b>ಪಂದ್ಯ ಪುರುಷೋತ್ತಮ ಪ್ರಶಸ್ತಿ</b><br>
-        🎁 <b>ಅತ್ಯುತ್ತಮ ಬ್ಯಾಟ್ಸ್‌ಮನ್</b> ಮತ್ತು <b>ಅತ್ಯುತ್ತಮ ಬೌಲರ್</b> ಗೆ ವಿಶೇಷ ಉಡುಗೊರೆ ವೌಚರ್‌ಗಳು<br>
-        🥇 <b>ಸರಣಿ ಪುರುಷೋತ್ತಮ ಪ್ರಶಸ್ತಿ</b><br><br>
-
-        ನಿಮ್ಮ ಪ್ರತಿಭೆಯನ್ನು ಪ್ರದರ್ಶಿಸಲು ಮತ್ತು MPL ವೇದಿಕೆಯಲ್ಲಿ ಮಿಂಚಲು ಇದು ಒಂದು ಸುವರ್ಣಾವಕಾಶ!<br><br>
-
-        ✨ <b>ನೋಂದಣಿಗಳು ಈಗ ತೆರೆದಿವೆ!</b><br>
-        ಇಂದೇ ನೋಂದಾಯಿಸಿ  ಮತ್ತು ದೊಡ್ಡ ಗೆಲುವಿನ ಅವಕಾಶವನ್ನು ಪಡೆಯಿರಿ!
+      <!-- Kannada announcement you gave -->
+      <div class="news-item">
+        <div class="news-title">🏏 MPL 2026 ಇನ್ನಷ್ಟು ದೊಡ್ಡದು & ಉತ್ತಮ!</div>
+        <div class="news-date">Updated: November 27, 2025</div>
+        <div class="news-body">
+          🏏 ರೋಮಾಂಚಕಾರಿ ಘೋಷಣೆ - MPL 2026 ಇದೀಗ ದೊಡ್ಡದಾಗಿದೆ ಮತ್ತು ಉತ್ತಮವಾಗಿದೆ!<br/><br/>
+          MPL 2026 ಹಿಂದೆಂದಿಗಿಂತಲೂ ದೊಡ್ಡ, ಉತ್ತಮ ಮತ್ತು ಹೆಚ್ಚು ರೋಮಾಂಚಕ ಅನುಭವದೊಂದಿಗೆ ಬರುತ್ತಿದೆ! ಈ ಋತುವಿನಲ್ಲಿ ನಾವು ಅತ್ಯುತ್ತಮ ಪ್ರದರ್ಶನ ನೀಡುವವರಿಗಾಗಿ ಆಕರ್ಷಕ ಬಹುಮಾನಗಳನ್ನು ನೀಡುತ್ತಿದ್ದೇವೆ:<br/><br/>
+          • 🏆 ಪ್ರತಿ ಪಂದ್ಯಕ್ಕೂ ಪಂದ್ಯ ಪುರುಷೋತ್ತಮ ಪ್ರಶಸ್ತಿ<br/>
+          • 🎁 ಅತ್ಯುತ್ತಮ ಬ್ಯಾಟ್ಸ್‌ಮನ್ ಮತ್ತು ಅತ್ಯುತ್ತಮ ಬೌಲರ್‌ಗೆ ವಿಶೇಷ ಉಡುಗೊರೆ ವೋಚರ್‌ಗಳು<br/>
+          • 🥇 ಸರಣಿ ಶ್ರೇಷ್ಠ ಪ್ರಶಸ್ತಿ<br/><br/>
+          ✨ ನಿಮ್ಮ ಪ್ರತಿಭೆಯನ್ನು ಪ್ರದರ್ಶಿಸಲು ಇದು ಸುವರ್ಣಾವಕಾಶ. ನೋಂದಣಿಗಳು ಈಗ ತೆರೆದಿವೆ – ತಪ್ಪಿಸಿಕೊಳ್ಳಬೇಡಿ!
+        </div>
       </div>
-    </div>
 
-    <!-- Existing News -->
-    <div class="news-item">
-      <div class="news-title">🏏 Player Registration Now Open!</div>
-      <div class="news-date">November 5, 2025</div>
-      <div class="news-body">
-        Players can now register for MPL 2026. Submit your form before the deadline to be part of the tournament!
+      <!-- Example English news (same as before, you can change text anytime) -->
+      <div class="news-item">
+        <div class="news-title">📢 Player Registration Now Open</div>
+        <div class="news-date">November 25, 2025</div>
+        <div class="news-body">
+          Players can now register for MPL Season 3 – Cricket Tournament 2026.
+          Submit your form before the deadline to secure your place in the player auction.
+        </div>
       </div>
-    </div>
 
-    <div class="news-item">
-      <div class="news-title">📅 Tournament Schedule to be Announced Soon</div>
-      <div class="news-date">November 10, 2025</div>
-      <div class="news-body">
-        Stay tuned for the official release of fixtures and match venues.
+      <div class="news-item">
+        <div class="news-title">📅 Tournament Schedule – Coming Soon</div>
+        <div class="news-date">November 30, 2025</div>
+        <div class="news-body">
+          Match fixtures and full schedule will be published in the
+          <strong>Schedule</strong> page once all teams are confirmed.
+          Keep checking this page for updates.
+        </div>
       </div>
-    </div>
 
+    </div>
   </div>
 
-  <footer>© MPL 2026 Tournament | Powered by AWS</footer>
-
+  <footer>© MPL Season 3 – Cricket Tournament 2026 | SUPPORTED BY MANCHAKALKUPPE CRICKETERS</footer>
 </body>
 </html>

@@ -3,95 +3,184 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MPL 2026 – Player Registration</title>
+  <title>MPL Season 3 – Player Registration</title>
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #002244, #0057b7, #00bfff);
+      background: radial-gradient(circle at center, #004e92 0%, #000428 60%, #000000 100%);
       color: white;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding-top: 140px;
     }
 
-    /* Navbar Styling (same as approved page) */
+    /* ---------- NAVBAR (same style as home) ---------- */
     nav {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(8px);
-      padding: 14px 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      z-index: 1000;
-      border-bottom: 2px solid rgba(255, 215, 0, 0.4);
+      background: #000000;
+      border-bottom: 2px solid #fdd835;
     }
 
-    .header {
+    .nav-inner {
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 8px 16px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: space-between;
+      gap: 16px;
     }
-    .logo {
-      width: 55px;
-      height: 55px;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
     }
-    .site-title {
-      color: #ffd700;
-      font-size: 1.8em;
+
+    .brand-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #fdd835;
+      object-fit: cover;
+    }
+
+    .brand-lines {
+      line-height: 1.2;
+    }
+
+    .brand-line-1 {
+      font-size: 11px;
       font-weight: 700;
+      color: #6fffe9;
+      letter-spacing: 1px;
     }
+
+    .brand-line-2 {
+      font-size: 20px;
+      font-weight: 900;
+      color: #ffd700;
+    }
+
+    .brand-line-3 {
+      font-size: 11px;
+      font-weight: 600;
+      color: #ff66cc;
+    }
+
     .menu {
       display: flex;
-      gap: 25px;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
     }
+
     .menu a {
       color: #ffd700;
       text-decoration: none;
       font-weight: 600;
-      font-size: 1.1em;
-      transition: 0.3s;
+      font-size: 14px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      transition: 0.2s;
     }
+
     .menu a:hover {
-      color: #fff;
-      text-shadow: 0 0 10px #ffd700;
+      color: #000;
+      background: #ffd700;
     }
 
-    /* Form Styling */
-    h1 {
-      font-size: 2.5em;
+    .menu a.active {
+      background: #ffd700;
+      color: #000;
+    }
+
+    /* ---------- CENTER CARD ---------- */
+    .hero-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 30px 16px 30px;
+    }
+
+    .hero-card {
+      width: 100%;
+      max-width: 900px;
+      background: radial-gradient(circle at top, #063a75 0%, #021425 55%, #000814 100%);
+      border-radius: 32px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+      padding: 24px 18px 26px;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 26px;
       font-weight: 700;
-      color: #ffd700;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      margin: 4px 0 4px;
     }
 
+    .hero-title span {
+      color: #ffd700;
+    }
+
+    .hero-subtitle {
+      font-size: 13px;
+      color: #e0e0e0;
+      max-width: 650px;
+      margin: 0 auto 16px;
+    }
+
+    /* ---------- FORM ---------- */
     .form-container {
-      width: 80%;
-      max-width: 600px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 25px;
-      border-radius: 12px;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
-      margin-top: 20px;
+      width: 100%;
+      max-width: 650px;
+      margin: 0 auto;
       text-align: left;
     }
 
+    .form-container label {
+      font-weight: 600;
+      color: #ffd700;
+      margin-top: 10px;
+      display: block;
+      font-size: 13px;
+    }
+
+    .form-container input,
+    .form-container select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.85);
+      font-size: 14px;
+    }
+
+    .form-container input[type="file"] {
+      background: none;
+      padding: 5px 0;
+      color: white;
+      font-size: 13px;
+    }
+
+    /* QR / payment box */
     .payment-box {
       margin-top: 15px;
       margin-bottom: 10px;
       padding: 12px;
-      border-radius: 10px;
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(255, 215, 0, 0.6);
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 215, 0, 0.7);
       text-align: center;
     }
 
@@ -109,39 +198,11 @@
       color: #f5f5f5;
     }
 
-
-
-
-    .form-container label {
-      font-weight: 600;
-      color: #ffd700;
-      margin-top: 10px;
-      display: block;
-    }
-
-    .form-container input,
-    .form-container select {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      margin-top: 5px;
-      margin-bottom: 10px;
-      background: rgba(255, 255, 255, 0.7);
-      font-size: 1em;
-    }
-
-    .form-container input[type="file"] {
-      background: none;
-      padding: 5px 0;
-      color: white;
-    }
-
     /* Rules box */
     .rules-box {
       margin-top: 15px;
       padding: 12px;
-      border-radius: 8px;
+      border-radius: 10px;
       background: rgba(0, 0, 0, 0.4);
       max-height: 220px;
       overflow-y: auto;
@@ -188,185 +249,190 @@
     .submit-btn {
       background: #ffd700;
       color: #002244;
-      padding: 12px 20px;
-      font-size: 1.2em;
+      padding: 11px 20px;
+      font-size: 15px;
       font-weight: 700;
       width: 100%;
-      border-radius: 8px;
+      border-radius: 999px;
       cursor: pointer;
       border: none;
-      margin-top: 15px;
-      transition: 0.3s;
+      margin-top: 14px;
+      transition: 0.2s;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
     }
 
     .submit-btn:hover {
-      background: #ffcc00;
-      box-shadow: 0 0 10px #ffd700;
+      background: #ffdf40;
+      box-shadow: 0 0 18px rgba(255, 215, 0, 0.7);
+      transform: translateY(-1px);
     }
 
     footer {
-      margin-top: auto;
-      padding: 15px 0;
-      font-size: 0.9em;
-      color: #ddd;
-      opacity: 0.9;
+      text-align: center;
+      font-size: 11px;
+      color: #cfd8dc;
+      padding: 8px 0 12px;
+    }
+
+    @media (max-width: 680px) {
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .menu {
+        justify-content: flex-start;
+      }
+      .hero-card {
+        padding: 20px 14px 22px;
+      }
+      .hero-title {
+        font-size: 22px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Navigation Bar -->
+  <!-- NAVBAR -->
   <nav>
-    <div class="header">
-      <img src="/images/logo.png" class="logo" />
-      <h1 class="site-title">MPL 2026</h1>
-    </div>
+    <div class="nav-inner">
+      <div class="brand">
+        <img src="/images/logo.png" class="brand-logo" alt="MPL Logo" />
+        <div class="brand-lines">
+          <div class="brand-line-1">MFIGHTERS PRESENTS</div>
+          <div class="brand-line-2">MPL SEASON – 3</div>
+          <div class="brand-line-3">CRICKET TOURNAMENT 2026</div>
+        </div>
+      </div>
 
-    <div class="menu">
-      <a href="/index.html">Home</a>
-      <a href="/register.html">Register</a>
-      <a href="/approved.html">Approved Players</a>
-      <a href="/news.html">News</a>
-      <a href="/schedule.html">Schedule</a>
-      <a href="/teams.html">Teams</a>
+      <div class="menu">
+        <a href="/index.html">Home</a>
+        <a href="/register.html" class="active">Register</a>
+        <a href="/approved.html">Approved</a>
+        <a href="/news.html">News</a>
+        <a href="/schedule.html">Schedule</a>
+        <a href="/teams.html">Teams</a>
+        <a href="/admin.html">Admin</a>
+      </div>
     </div>
   </nav>
 
-  <!-- Form Title -->
-  <h1>📝 Player Registration</h1>
+  <!-- CENTER CARD WITH REGISTRATION FORM -->
+  <div class="hero-wrapper">
+    <div class="hero-card">
+      <div class="hero-title">📝 <span>Player Registration</span></div>
+      <p class="hero-subtitle">
+        Fill in your details and upload the required documents to register for
+        <strong>MPL Season 3 – Cricket Tournament 2026</strong>.
+      </p>
 
-  <!-- Registration Form -->
-  <form id="regForm" class="form-container" enctype="multipart/form-data">
-    <label>Full Name</label>
-    <input type="text" id="name" name="name" required />
+      <form id="regForm" class="form-container" enctype="multipart/form-data">
+        <label>Full Name</label>
+        <input type="text" id="name" name="name" required />
 
-    <label>Age</label>
-    <input type="number" id="age" name="age" required />
+        <label>Age</label>
+        <input type="number" id="age" name="age" required />
 
-    <label>Voter ID (YNT Number)</label>
-    <input type="text" id="voterid" name="voterid" required />
+        <label>Voter ID (YNT Number)</label>
+        <input type="text" id="voterid" name="voterid" required />
 
-    <label>Upload Voter ID Image</label>
-    <input type="file" id="voterid_image" name="voterid_image" accept="image/*" required />
+        <label>Upload Voter ID Image</label>
+        <input type="file" id="voterid_image" name="voterid_image" accept="image/*" required />
 
-    <label>Aadhaar Card Number</label>
-    <input type="text" id="aadhaar_number" name="aadhaar_number" minlength="12" maxlength="12" required />
+        <label>Aadhaar Card Number</label>
+        <input type="text" id="aadhaar_number" name="aadhaar_number" minlength="12" maxlength="12" required />
 
-    <label>Upload Aadhaar Card Image</label>
-    <input type="file" id="aadhaar_image" name="aadhaar_image" accept="image/*" required />
+        <label>Upload Aadhaar Card Image</label>
+        <input type="file" id="aadhaar_image" name="aadhaar_image" accept="image/*" required />
 
-    <label>Upload Player Photo</label>
-    <input type="file" id="photo" name="photo" accept="image/*" required />
+        <label>Upload Player Photo</label>
+        <input type="file" id="photo" name="photo" accept="image/*" required />
 
-    <label>Jersey Number</label>
-    <input type="number" id="jersey_number" name="jersey_number" min="1" max="999" required />
+        <label>Jersey Number</label>
+        <input type="number" id="jersey_number" name="jersey_number" min="1" max="999" required />
 
-    <label>Jersey Size</label>
-    <select id="jersey_size" name="jersey_size" required>
-      <option value="">Select Size</option>
-      <option>S</option>
-      <option>M</option>
-      <option>L</option>
-      <option>XL</option>
-      <option>XXL</option>
-    </select>
+        <label>Jersey Size</label>
+        <select id="jersey_size" name="jersey_size" required>
+          <option value="">Select Size</option>
+          <option>S</option>
+          <option>M</option>
+          <option>L</option>
+          <option>XL</option>
+          <option>XXL</option>
+        </select>
 
-    <label>Player Category</label>
-    <select id="category" name="category" required>
-      <option value="">Choose</option>
-      <option>Batsman</option>
-      <option>Bowler</option>
-      <option>All Rounder</option>
-      <option>Wicket Keeper Batsman</option>
-    </select>
+        <label>Player Category</label>
+        <select id="category" name="category" required>
+          <option value="">Choose</option>
+          <option>Batsman</option>
+          <option>Bowler</option>
+          <option>All Rounder</option>
+          <option>Wicket Keeper Batsman</option>
+        </select>
 
-    <label>Address</label>
-    <input type="text" id="address" name="address" required />
+        <label>Address</label>
+        <input type="text" id="address" name="address" required />
 
-    <label>Phone Number</label>
-    <input type="tel" id="phone" name="phone" required />
+        <label>Phone Number</label>
+        <input type="tel" id="phone" name="phone" required />
 
         <h3 style="color:#ffd700; margin-top:15px; margin-bottom:8px;">💳 Scan & Pay</h3>
-    <div class="payment-box">
-      <!-- Replace the image file with your actual QR image -->
-      <img src="/images/mpl-upi-qr.png" alt="Scan to pay - MPL UPI QR" />
+        <div class="payment-box">
+          <!-- Use your existing QR image file -->
+          <img src="/images/mpl-upi-qr.png" alt="Scan to pay - MPL UPI QR" />
+          <p>Scan this QR code using any UPI app (PhonePe / GPay / Paytm etc.).</p>
+          <p>After payment, take a screenshot and upload it below as payment proof.</p>
+        </div>
 
-      <p>Scan this QR code using any UPI app (PhonePe / GPay / Paytm etc.).</p>
-      <p>After payment, take a screenshot and upload it below as payment proof.</p>
+        <label>Upload Payment Screenshot</label>
+        <input type="file" id="payment_ss" name="payment_ss" accept="image/*" required />
+
+        <label>Transaction Reference Number</label>
+        <input type="text" id="txn_id" name="txn_id" required />
+
+        <!-- RULES (Kannada) – unchanged, just inside the card -->
+        <div class="rules-box">
+          <div class="rules-title">MPL 2026 - ಆಟಗಾರರ ನಿಯಮಗಳು</div>
+          <ol>
+            <li>ಆಟಗಾರನು ಹರಾಜು/ಡ್ರಾಫ್ಟ್‌ನಲ್ಲಿ ಯಾವ ತಂಡವು ಅವನನ್ನು ಆಯ್ಕೆಮಾಡುತ್ತದೆಯೋ ಆ ಪರವಾಗಿ ಆಡಬೇಕು</li>
+            <li>ಆಟಗಾರನು ನಿರಾಕರಿಸಿದರೆ, ಅವರನ್ನು 1 ವರ್ಷದವರೆಗೆ MPL ನಿಂದ ನಿಷೇಧಿಸಲಾಗುವುದು</li>
+            <li>ಆಟಗಾರನು ಪಂದ್ಯಾವಳಿಯ ಎಲ್ಲಾ ನಿಯಮಗಳು ಮತ್ತು ನಿಬಂಧನೆಗಳನ್ನು ಅನುಸರಿಸಬೇಕ .</li>
+            <li>MPL ನಿರ್ವಾಹಕರು ನಿಗದಿಪಡಿಸಿದ ಎಲ್ಲಾ ನಿಯಮಗಳು ಮತ್ತು ಷರತ್ತುಗಳಿಗೆ ಆಟಗಾರನು ಬದ್ಧವಾಗಿರಬೇಕು.</li>
+            <li>ಆಟಗಾರನು ಆಟದ ಮೈದಾನದ ಒಳಗೆ ಅಥವಾ ಹೊರಗೆ ಯಾವುದೇ ರೀತಿಯ ಕಿಡಿಗೇಡಿತನ ಅಥವಾ ದುಷ್ಕೃತ್ಯದಲ್ಲಿ ತೊಡಗಬಾರದು.</li>
+            <li>ಆಟದ ಮೈದಾನದಲ್ಲಿ ಧೂಮಪಾನ, ಮದ್ಯಪಾನ, ಅಥವಾ ಯಾವುದೇ ನಿಷೇಧಿತ ಪದಾರ್ಥಗಳನ್ನು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ನಿಷೇಧಿಸಲಾಗಿದೆ.</li>
+            <li>ಪಂದ್ಯದ ಸಮಯದಲ್ಲಿ ಸಂಭವಿಸುವ ಯಾವುದೇ ಗಾಯ ಅಥವಾ ಅಪಘಾತಕ್ಕೆ ಪಂದ್ಯಾವಳಿಯ ಸಂಘಟಕರು ಜವಾಬ್ದಾರರಾಗಿರುವುದಿಲ್ಲ</li>
+            <li>ಆಟಗಾರರು MPL ನಿರ್ವಾಹಕರ ತಂಡವು ಸೂಚಿಸಿದ ಡ್ರೆಸ್ ಕೋಡ್ ಅನ್ನು ಅನುಸರಿಸಬೇಕು, ಆಟದ ಮೈದಾನದಲ್ಲಿ ಶೂಗಳು ಕಡ್ಡಾಯವಾಗಿದೆ.</li>
+            <li>ನಿಯಮಗಳ ಯಾವುದೇ ಉಲ್ಲಂಘನೆಯು ಎಚ್ಚರಿಕೆಯಿಲ್ಲದೆ ತಕ್ಷಣದ ನಿಷೇಧಕ್ಕೆ ಕಾರಣವಾಗಬಹುದು.</li>
+            <li>ಆಟಗಾರರು ಶಿಸ್ತುಬದ್ಧವಾಗಿ ಉಳಿಯಬೇಕು ಮತ್ತು ಜಗಳ, ವಾದ ಅಥವಾ ಮಾನವ-ಹ್ಯಾಂಡ್ಲಿಂಗ್ ಅನ್ನು ತಪ್ಪಿಸಬೇಕು</li>
+            <li>ಆಟಗಾರರು ಎಲ್ಲಾ ಸಮಯದಲ್ಲೂ ಅಂಪೈರ್‌ಗಳು, ಅಧಿಕಾರಿಗಳು, ಎದುರಾಳಿಗಳು ಮತ್ತು ಆಟದ ಮನೋಭಾವವನ್ನು ಗೌರವಿಸಬೇಕು.</li>
+            <li>ಯಾವುದೇ ರೀತಿಯ ಮೋಸ, ಫಿಕ್ಸಿಂಗ್ ಅಥವಾ ಅನ್ಯಾಯದ ಆಟವು ಶಾಶ್ವತ ಅನರ್ಹತೆಗೆ ಕಾರಣವಾಗುತ್ತದೆ</li>
+            <li>
+              <b>ಉರ್ಡಿಗೆರೆ ಹೋಬಳಿ</b>ಗೆ ಸೇರಿದ ಆಟಗಾರರಿಗೆ ಮಾತ್ರ ಈ ಪಂದ್ಯಾವಳಿಯನ್ನು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ಆಯೋಜಿಸಲಾಗಿದೆ.
+              ಈ ಪ್ರದೇಶದ ಹೊರಗಿನ ಯಾವುದೇ ಅರ್ಜಿಗಳನ್ನು ತಿರಸ್ಕರಿಸಲಾಗುತ್ತದೆ.
+              ಎಲ್ಲಾ ಪಾವತಿಗಳು ನೈಜವಾಗಿರಬೇಕು. ಯಾವುದೇ ನಕಲಿ, ಅಮಾನ್ಯ ಅಥವಾ ನಕಲಿ ವಹಿವಾಟು ಪತ್ತೆಯಾದರೆ,
+              ಮರುಪಾವತಿಯಿಲ್ಲದೆ ಅರ್ಜಿಯನ್ನು ತಿರಸ್ಕರಿಸಲು MPL ನಿರ್ವಾಹಕರು ಸಂಪೂರ್ಣ ಹಕ್ಕುಗಳನ್ನು ಹೊಂದಿದ್ದಾರೆ.
+              ನಿಮ್ಮ ವಿವರಗಳನ್ನು ಸಲ್ಲಿಸುವಾಗ ದಯವಿಟ್ಟು ಪ್ರಾಮಾಣಿಕವಾಗಿರಿ.
+            </li>
+          </ol>
+        </div>
+
+        <label class="rules-agree">
+          <input type="checkbox" id="agree_rules" />
+          I have read and agree to all the above MPL 2026 rules and regulations.
+        </label>
+        <div id="rulesWarning" class="rules-warning">
+          You must read and agree to the rules and regulations before submitting the form.
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Registration</button>
+      </form>
     </div>
-   
+  </div>
 
+  <footer>© MPL Season 3 – Cricket Tournament 2026 | SUPPORTED BY MANCHAKALKUPPE CRICKETERS</footer>
 
-    <label>Upload Payment Screenshot</label>
-    <input type="file" id="payment_ss" name="payment_ss" accept="image/*" required />
-
-    <label>Transaction Reference Number</label>
-    <input type="text" id="txn_id" name="txn_id" required />
-
-    <!-- Rules & Conditions -->
-    <div class="rules-box">
-      <div class="rules-title">MPL 2026 - ಆಟಗಾರರ ನಿಯಮಗಳು</div>
-      <ol>
-        <li>
-          ಆಟಗಾರನು ಹರಾಜು/ಡ್ರಾಫ್ಟ್‌ನಲ್ಲಿ ಯಾವ ತಂಡವು ಅವನನ್ನು ಆಯ್ಕೆಮಾಡುತ್ತದೆಯೋ ಆ ಪರವಾಗಿ ಆಡಬೇಕು        </li>
-        <li>
-          ಆಟಗಾರನು ನಿರಾಕರಿಸಿದರೆ, ಅವರನ್ನು 1 ವರ್ಷದವರೆಗೆ MPL ನಿಂದ ನಿಷೇಧಿಸಲಾಗುವುದು
-        </li>
-        <li>
-         ಆಟಗಾರನು ಪಂದ್ಯಾವಳಿಯ ಎಲ್ಲಾ ನಿಯಮಗಳು ಮತ್ತು ನಿಬಂಧನೆಗಳನ್ನು ಅನುಸರಿಸಬೇಕ .
-        </li>
-        <li>
-          MPL ನಿರ್ವಾಹಕರು ನಿಗದಿಪಡಿಸಿದ ಎಲ್ಲಾ ನಿಯಮಗಳು ಮತ್ತು ಷರತ್ತುಗಳಿಗೆ ಆಟಗಾರನು ಬದ್ಧವಾಗಿರಬೇಕು.
-        </li>
-        <li>
-          ಆಟಗಾರನು ಆಟದ ಮೈದಾನದ ಒಳಗೆ ಅಥವಾ ಹೊರಗೆ ಯಾವುದೇ ರೀತಿಯ ಕಿಡಿಗೇಡಿತನ ಅಥವಾ ದುಷ್ಕೃತ್ಯದಲ್ಲಿ ತೊಡಗಬಾರದು.
-        </li>
-        <li>
-          ಆಟದ ಮೈದಾನದಲ್ಲಿ ಧೂಮಪಾನ, ಮದ್ಯಪಾನ, ಅಥವಾ ಯಾವುದೇ ನಿಷೇಧಿತ ಪದಾರ್ಥಗಳನ್ನು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ನಿಷೇಧಿಸಲಾಗಿದೆ.
-        </li>
-        <li>
-          ಪಂದ್ಯದ ಸಮಯದಲ್ಲಿ ಸಂಭವಿಸುವ ಯಾವುದೇ ಗಾಯ ಅಥವಾ ಅಪಘಾತಕ್ಕೆ ಪಂದ್ಯಾವಳಿಯ ಸಂಘಟಕರು ಜವಾಬ್ದಾರರಾಗಿರುವುದಿಲ್ಲ
-        </li>
-        <li>
-          ಆಟಗಾರರು MPL ನಿರ್ವಾಹಕರ ತಂಡವು ಸೂಚಿಸಿದ ಡ್ರೆಸ್ ಕೋಡ್ ಅನ್ನು ಅನುಸರಿಸಬೇಕು,ಆಟದ ಮೈದಾನದಲ್ಲಿ ಶೂಗಳು ಕಡ್ಡಾಯವಾಗಿದೆ.
-        </li>
-        <li>
-          ನಿಯಮಗಳ ಯಾವುದೇ ಉಲ್ಲಂಘನೆಯು ಎಚ್ಚರಿಕೆಯಿಲ್ಲದೆ ತಕ್ಷಣದ ನಿಷೇಧಕ್ಕೆ ಕಾರಣವಾಗಬಹುದು.
-        </li>
-        <li>
-          ಆಟಗಾರರು ಶಿಸ್ತುಬದ್ಧವಾಗಿ ಉಳಿಯಬೇಕು ಮತ್ತು ಜಗಳ, ವಾದ ಅಥವಾ ಮಾನವ-ಹ್ಯಾಂಡ್ಲಿಂಗ್ ಅನ್ನು ತಪ್ಪಿಸಬೇಕು
-        </li>
-        <li>
-          ಆಟಗಾರರು ಎಲ್ಲಾ ಸಮಯದಲ್ಲೂ ಅಂಪೈರ್‌ಗಳು, ಅಧಿಕಾರಿಗಳು, ಎದುರಾಳಿಗಳು ಮತ್ತು ಆಟದ ಮನೋಭಾವವನ್ನು ಗೌರವಿಸಬೇಕು. (ಸೇರಿಸಲಾಗಿದೆ)
-        </li>
-        <li>
-          ಯಾವುದೇ ರೀತಿಯ ಮೋಸ, ಫಿಕ್ಸಿಂಗ್ ಅಥವಾ ಅನ್ಯಾಯದ ಆಟವು ಶಾಶ್ವತ ಅನರ್ಹತೆಗೆ ಕಾರಣವಾಗುತ್ತದೆ
-        </li>
-        <li>
-        <b>ಉರ್ಡಿಗೆರೆ ಹೋಬಳಿ</b>ಗೆ ಸೇರಿದ ಆಟಗಾರರಿಗೆ ಮಾತ್ರ ಈ ಪಂದ್ಯಾವಳಿಯನ್ನು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ಆಯೋಜಿಸಲಾಗಿದೆ.  
-          ಈ ಪ್ರದೇಶದ ಹೊರಗಿನ ಯಾವುದೇ ಅರ್ಜಿಗಳನ್ನು ತಿರಸ್ಕರಿಸಲಾಗುತ್ತದೆ.  
-          ಎಲ್ಲಾ ಪಾವತಿಗಳು ನೈಜವಾಗಿರಬೇಕು. ಯಾವುದೇ ನಕಲಿ, ಅಮಾನ್ಯ ಅಥವಾ ನಕಲಿ ವಹಿವಾಟು ಪತ್ತೆಯಾದರೆ,  
-          ಮರುಪಾವತಿಯಿಲ್ಲದೆ ಅರ್ಜಿಯನ್ನು ತಿರಸ್ಕರಿಸಲು MPL ನಿರ್ವಾಹಕರು ಸಂಪೂರ್ಣ ಹಕ್ಕುಗಳನ್ನು ಹೊಂದಿದ್ದಾರೆ.  
-          ನಿಮ್ಮ ವಿವರಗಳನ್ನು ಸಲ್ಲಿಸುವಾಗ ದಯವಿಟ್ಟು ಪ್ರಾಮಾಣಿಕವಾಗಿರಿ.
-        </li>
-      </ol>
-    </div>
-
-    <label class="rules-agree">
-      <input type="checkbox" id="agree_rules" />
-      I have read and agree to all the above MPL 2026 rules and regulations.
-    </label>
-    <div id="rulesWarning" class="rules-warning">
-      You must read and agree to the rules and regulations before submitting the form.
-    </div>
-
-    <button type="submit" class="submit-btn">Submit Registration</button>
-  </form>
-
-  <footer>© MPL 2026 Tournament | Powered by AWS</footer>
-
-  <!-- Form Submit Script -->
+  <!-- JS: same logic as before -->
   <script>
     const form = document.getElementById("regForm");
     const agreeCheckbox = document.getElementById("agree_rules");
@@ -375,7 +441,6 @@
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      // Check if rules are agreed
       if (!agreeCheckbox.checked) {
         rulesWarning.style.display = "block";
         alert("You must read and agree to the MPL rules and regulations before submitting.");
@@ -384,7 +449,7 @@
         rulesWarning.style.display = "none";
       }
 
-      const formData = new FormData(this); // includes all inputs + files automatically
+      const formData = new FormData(this);
 
       try {
         const response = await fetch("/api/register", {
@@ -407,6 +472,5 @@
       }
     });
   </script>
-
 </body>
 </html>

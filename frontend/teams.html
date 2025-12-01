@@ -1,114 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MPL 2026 - Teams</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MPL Season 3 – Teams</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #001f3f, #0074D9, #00BFFF);
-      color: white;
       margin: 0;
-      padding: 0;
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at center, #004e92 0%, #000428 60%, #000000 100%);
+      color: white;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
     }
 
-    /* 🔹 Fixed Navbar */
+    /* NAVBAR */
     nav {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(8px);
-      padding: 14px 0;
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      z-index: 1000;
-      border-bottom: 2px solid rgba(255, 215, 0, 0.4);
+      background: #000000;
+      border-bottom: 2px solid #fdd835;
     }
-    nav a {
+
+    .nav-inner {
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .brand-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #fdd835;
+      object-fit: cover;
+    }
+
+    .brand-lines {
+      line-height: 1.2;
+    }
+
+    .brand-line-1 {
+      font-size: 11px;
+      font-weight: 700;
+      color: #6fffe9;
+      letter-spacing: 1px;
+    }
+
+    .brand-line-2 {
+      font-size: 20px;
+      font-weight: 900;
+      color: #ffd700;
+    }
+
+    .brand-line-3 {
+      font-size: 11px;
+      font-weight: 600;
+      color: #ff66cc;
+    }
+
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .menu a {
       color: #ffd700;
       text-decoration: none;
-      font-weight: 700;
-      font-size: 1.1em;
-      transition: 0.3s;
-    }
-    nav a:hover {
-      color: #fff;
-      text-shadow: 0 0 10px #ffd700;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      transition: 0.2s;
     }
 
-    header {
-      margin-top: 110px;
+    .menu a:hover {
+      color: #000;
+      background: #ffd700;
+    }
+
+    .menu a.active {
+      background: #ffd700;
+      color: #000;
+    }
+
+    /* HERO CARD */
+    .hero-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 30px 16px 30px;
+    }
+
+    .hero-card {
+      width: 100%;
+      max-width: 950px;
+      background: radial-gradient(circle at top, #063a75 0%, #021425 55%, #000814 100%);
+      border-radius: 32px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+      padding: 24px 20px 26px;
+    }
+
+    .hero-title {
       text-align: center;
-      font-size: 1.8em;
-      color: #FFD700;
+      font-size: 24px;
       font-weight: 700;
-      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+      margin: 4px 0 6px;
     }
 
-    .teams-container {
-      width: 95%;
-      max-width: 1200px;
-      margin: 30px auto;
-      background-color: rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-      text-align: center;
-    }
-
-    .empty-message {
-      font-size: 1.1em;
-      color: #ffffff;
-      margin: 10px 0;
-    }
-
-    .hint-message {
-      font-size: 0.95em;
+    .hero-title span {
       color: #ffd700;
-      margin-top: 5px;
-      opacity: 0.9;
+    }
+
+    .hero-subtitle {
+      text-align: center;
+      font-size: 13px;
+      color: #e0e0e0;
+      max-width: 650px;
+      margin: 0 auto 18px;
+    }
+
+    .info-box {
+      margin-top: 10px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 16px 16px 14px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .info-box ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+
+    .info-box li {
+      margin-bottom: 4px;
     }
 
     footer {
-      margin: 20px;
-      font-size: 0.9em;
-      opacity: 0.8;
+      text-align: center;
+      font-size: 11px;
+      color: #cfd8dc;
+      padding: 8px 0 12px;
+    }
+
+    @media (max-width: 680px) {
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .menu {
+        justify-content: flex-start;
+      }
+      .hero-card {
+        padding: 20px 14px 22px;
+      }
+      .hero-title {
+        font-size: 21px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- 🔹 Navigation Bar -->
+  <!-- NAVBAR -->
   <nav>
-    <a href="/">Home</a>
-    <a href="/register.html">Register</a>
-    <a href="/approved.html">Approved Players</a>
-    <a href="/news.html">News</a>
-    <a href="/schedule.html">Schedule</a>
-    <a href="/teams.html">Teams</a>
+    <div class="nav-inner">
+      <div class="brand">
+        <img src="/images/logo.png" class="brand-logo" alt="MPL Logo" />
+        <div class="brand-lines">
+          <div class="brand-line-1">MFIGHTERS PRESENTS</div>
+          <div class="brand-line-2">MPL SEASON – 3</div>
+          <div class="brand-line-3">CRICKET TOURNAMENT 2026</div>
+        </div>
+      </div>
+
+      <div class="menu">
+        <a href="/index.html">Home</a>
+        <a href="/register.html">Register</a>
+        <a href="/approved.html">Approved</a>
+        <a href="/news.html">News</a>
+        <a href="/schedule.html">Schedule</a>
+        <a href="/teams.html" class="active">Teams</a>
+        <a href="/admin.html">Admin</a>
+      </div>
+    </div>
   </nav>
 
-  <header>🏏 MPL 2026 - Participating Teams 🏆</header>
+  <!-- HERO CARD -->
+  <div class="hero-wrapper">
+    <div class="hero-card">
+      <div class="hero-title">🧢 <span>MPL 2026 – Participating Teams</span></div>
+      <p class="hero-subtitle">
+        Final franchise list and team names will be announced after registration and player approval is completed.
+      </p>
 
-  <div class="teams-container">
-    <p class="empty-message">
-      Teams list will be updated soon.
-    </p>
-    <p class="hint-message">
-      Finalized teams will appear here once registration and selection are completed.
-    </p>
+      <div class="info-box">
+        <strong>📢 Teams – Announcement Plan</strong>
+        <ul>
+          <li>Teams will be created based on the number of registered and approved players from Urdigere Hobli.</li>
+          <li>Each team will have a fixed squad size, with a mix of batsmen, bowlers, all-rounders and wicket keepers.</li>
+          <li>Once confirmed, this page will show: <b>Team Name, Captain, Owner, and Home Ground.</b></li>
+          <li>Team logos and jersey colours may also be displayed here later.</li>
+        </ul>
+        <p style="margin-top:10px;">
+          ⏳ <b>Current status:</b> Teams are not finalized yet. Keep visiting this page and the
+          <a href="/news.html" style="color:#ffd700; text-decoration:underline;">News</a> section for updates.
+        </p>
+      </div>
+    </div>
   </div>
 
-  <footer>
-    <p>© MPL 2026 Tournament | Powered by AWS</p>
-  </footer>
-
+  <footer>© MPL Season 3 – Cricket Tournament 2026 | SUPPORTED BY MANCHAKALKUPPE CRICKETERS</footer>
 </body>
 </html>

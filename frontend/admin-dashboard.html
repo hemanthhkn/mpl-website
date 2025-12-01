@@ -1,516 +1,274 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <title>MPL 2026 - Admin Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard – MPL 2026</title>
+
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #001f3f, #003366, #00509e);
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #002244, #0057b7, #00bfff);
       color: white;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      padding-top: 140px;
+      text-align: center;
     }
 
     nav {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 30px;
-      box-sizing: border-box;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 14px 0;
+      backdrop-filter: blur(6px);
+      border-bottom: 2px solid rgba(255, 215, 0, 0.4);
     }
 
     .header {
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      gap: 12px;
     }
 
     .logo {
-      height: 50px;
+      width: 55px;
     }
 
     .site-title {
-      font-size: 1.5em;
-      margin: 0;
-      color: #ffd700;
-    }
-
-    .menu a {
-      color: white;
-      text-decoration: none;
-      margin-left: 15px;
-      font-weight: 600;
-    }
-
-    .menu a:hover {
+      font-size: 1.9em;
+      font-weight: 700;
       color: #ffd700;
     }
 
     h1 {
-      margin-top: 20px;
-      text-align: center;
-      text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-    }
-
-    .section-title {
-      margin: 20px 0 10px;
-      font-size: 1.2em;
-    }
-
-    .table-container {
-      width: 95%;
-      max-width: 1200px;
-      margin-top: 10px;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
-      box-sizing: border-box;
-      overflow-x: auto;
+      margin-top: 30px;
+      font-size: 2.4em;
+      font-weight: 700;
+      color: #ffd700;
+      text-shadow: 0 0 10px black;
     }
 
     table {
-      width: 100%;
+      width: 95%;
+      margin: auto;
+      margin-top: 20px;
       border-collapse: collapse;
-      color: white;
-      font-size: 0.9em;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(6px);
+      border-radius: 10px;
+      overflow: hidden;
     }
 
-    thead {
-      background: rgba(0, 0, 0, 0.7);
-    }
-
-    th,
-    td {
-      padding: 8px;
+    th, td {
+      padding: 12px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-      text-align: left;
-      white-space: nowrap;
-      vertical-align: middle;
     }
 
     th {
       color: #ffd700;
+      font-size: 1.1em;
     }
 
-    tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .no-data {
-      text-align: center;
-      padding: 12px;
-      font-style: italic;
-      color: #ffd700;
-    }
-
-    .photo-thumb {
+    img.player-img {
       width: 60px;
       height: 60px;
-      object-fit: cover;
-      border-radius: 6px;
-      border: 1px solid #ffd700;
+      border-radius: 8px;
+      border: 2px solid #ffd700;
     }
 
-    .btn {
-      padding: 5px 10px;
+    button {
+      padding: 6px 10px;
+      margin: 4px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .approve-btn {
+      background: #00ff88;
+    }
+
+    .reject-btn {
+      background: #ff4d4d;
+      color: black;
+    }
+
+    .filter-box {
+      margin-top: 20px;
+    }
+
+    input, select {
+      padding: 8px;
       border-radius: 6px;
       border: none;
-      font-size: 0.8em;
-      cursor: pointer;
-      margin-right: 5px;
-    }
-
-    .btn-approve {
-      background-color: #4caf50;
-      color: white;
-    }
-
-    .btn-reject {
-      background-color: #f44336;
-      color: white;
-    }
-
-    .btn-refresh {
-      background-color: #2196f3;
-      color: white;
-      margin-left: 10px;
-    }
-
-    .btn-delete {
-      background-color: #c0392b;
-      color: white;
-    }
-
-    .btn-delete:hover {
-      background-color: #e74c3c;
-    }
-
-    .top-bar {
-      width: 95%;
-      max-width: 1200px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 15px;
-    }
-
-    footer {
-      margin-top: auto;
-      padding: 15px 0;
-      font-size: 0.9em;
-      color: #ddd;
-      opacity: 0.9;
     }
   </style>
 </head>
-
 <body>
 
-  <!-- Navigation Bar -->
   <nav>
     <div class="header">
-      <img src="/images/logo.png" class="logo" />
-      <h1 class="site-title">MPL 2026</h1>
-    </div>
-
-    <div class="menu">
-      <a href="/index.html">Home</a>
-      <a href="/register.html">Register</a>
-      <a href="/approved.html">Approved Players</a>
-      <a href="/news.html">News</a>
-      <a href="/schedule.html">Schedule</a>
-      <a href="/teams.html">Teams</a>
-      <a href="/admin.html">Admin</a>
+      <img src="/images/logo.png" class="logo">
+      <span class="site-title">MPL 2026 – Admin Dashboard</span>
     </div>
   </nav>
 
-  <h1>🧾 Admin Dashboard – Pending & Approved Players</h1>
+  <h1>Approved / Pending Players</h1>
 
-  <div class="top-bar">
-    <div>
-      <span>Welcome, Admin</span>
-    </div>
-    <div>
-      <button class="btn btn-refresh" onclick="refreshAll()">Refresh Data</button>
-    </div>
+  <!-- Search & Filter -->
+  <div class="filter-box">
+    <input id="searchInput" type="text" placeholder="Search name / phone / address" onkeyup="applyFilters()">
+    <select id="categoryFilter" onchange="applyFilters()">
+      <option value="">All Categories</option>
+      <option>Batsman</option>
+      <option>Bowler</option>
+      <option>All Rounder</option>
+      <option>Wicket Keeper Batsman</option>
+    </select>
   </div>
 
-  <!-- Pending Registrations -->
-  <h2 class="section-title">Pending Registrations</h2>
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Photo</th>
-          <th>Name</th>
-          <th>Age</th>
-          <th>Jersey Size</th>
-          <th>Category</th>
-          <th>Phone</th>
-          <th>Address</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="pendingBody">
-        <tr>
-          <td colspan="9" class="no-data">Loading pending registrations...</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <!-- Players Table -->
+  <table id="playersTable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Photo</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Category</th>
+        <th>Phone</th>
+        <th>Aadhaar</th>
+        <th>Voter</th>
+        <th>Payment</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="playersBody"></tbody>
+  </table>
 
-  <!-- Approved Players -->
-  <h2 class="section-title">Approved Players</h2>
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Photo</th>
-          <th>Name</th>
-          <th>Age</th>
-          <th>Jersey Size</th>
-          <th>Category</th>
-          <th>Phone</th>
-          <th>Address</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="approvedBody">
-        <tr>
-          <td colspan="9" class="no-data">Loading approved players...</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<script>
+let allPlayers = [];
 
-  <footer>© MPL 2026 Tournament | Admin Portal</footer>
+// Load players
+async function loadPlayers() {
+  const res = await fetch("/api/admin/get-all");
+  const data = await res.json();
+  allPlayers = data.players;
+  renderTable(allPlayers);
+}
 
-  <script>
-    const pendingBody = document.getElementById("pendingBody");
-    const approvedBody = document.getElementById("approvedBody");
+function renderTable(players) {
+  const tbody = document.getElementById("playersBody");
+  tbody.innerHTML = "";
 
-    // 🔹 Helper: normalize phone to WhatsApp format and open wa.me
-    function normalizePhone(phone) {
-      if (!phone) return null;
-      let digits = phone.toString().replace(/\D/g, "");
-      if (digits.startsWith("0")) {
-        digits = digits.slice(1);
-      }
-      if (digits.length === 10) {
-        digits = "91" + digits;
-      } else if (digits.length === 13 && digits.startsWith("+91")) {
-        digits = digits.slice(1);
-      }
-      // if already 12 digits starting with 91, keep as is
-      if (!digits.startsWith("91")) {
-        // fallback: still allow, but may fail for non-Indian numbers
-        console.warn("Phone does not look like Indian number:", digits);
-      }
-      return digits;
-    }
+  players.forEach((p, i) => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${i + 1}</td>
+        <td><img src="/uploads/${p.photo}" class="player-img"></td>
+        <td>${p.name}</td>
+        <td>${p.age}</td>
+        <td>${p.category}</td>
+        <td>${p.phone}</td>
+        <td><a href="/uploads/${p.aadhaar_image}" target="_blank">View</a></td>
+        <td><a href="/uploads/${p.voterid_image}" target="_blank">View</a></td>
+        <td><a href="/uploads/${p.payment_ss}" target="_blank">View</a></td>
+        <td>
+          <button class="approve-btn" onclick="approvePlayer(${p.id})">Approve</button>
+          <button class="reject-btn" onclick="rejectPlayer(${p.id})">Reject</button>
+        </td>
+      </tr>
+    `;
+  });
+}
 
-    function sendWhatsApp(phoneRaw, message) {
-      const phone = normalizePhone(phoneRaw);
-      if (!phone) {
-        alert("Cannot open WhatsApp: invalid phone number for this player.");
-        return;
-      }
-      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-      window.open(url, "_blank");
-    }
+function applyFilters() {
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const cat = document.getElementById("categoryFilter").value;
 
-    async function loadPending() {
-      pendingBody.innerHTML =
-        '<tr><td colspan="9" class="no-data">Loading pending registrations...</td></tr>';
+  const filtered = allPlayers.filter(p => {
+    const matchesText =
+      p.name.toLowerCase().includes(search) ||
+      p.phone.toLowerCase().includes(search) ||
+      p.address.toLowerCase().includes(search);
 
-      try {
-        const res = await fetch("/api/admin/pending-registrations");
-        const data = await res.json();
-        console.log("Pending registrations:", data);
+    const matchesCategory =
+      cat === "" || p.category === cat;
 
-        pendingBody.innerHTML = "";
+    return matchesText && matchesCategory;
+  });
 
-        if (!data || data.length === 0) {
-          pendingBody.innerHTML =
-            '<tr><td colspan="9" class="no-data">No pending registrations.</td></tr>';
-          return;
-        }
+  renderTable(filtered);
+}
 
-        data.forEach((p, idx) => {
-          const tr = document.createElement("tr");
+// APPROVE PLAYER + WhatsApp message
+async function approvePlayer(id) {
+  if (!confirm("Approve this player?")) return;
 
-          // 🔹 store name & phone on the row so we can use for WhatsApp later
-          tr.dataset.playerId = p.id;
-          tr.dataset.playerPhone = p.phone || "";
-          tr.dataset.playerName = p.name || "Player";
+  const res = await fetch(`/api/admin/approve/${id}`, { method: "POST" });
+  const data = await res.json();
 
-          tr.innerHTML = `
-            <td>${idx + 1}</td>
-            <td>
-              ${p.photo
-              ? `<img src="/uploads/photos/${p.photo}" class="photo-thumb" />`
-              : "-"
-            }
-            </td>
-            <td>${p.name}</td>
-            <td>${p.age}</td>
-            <td>${p.jersey_size}</td>
-            <td>${p.category}</td>
-            <td>${p.phone}</td>
-            <td>${p.address}</td>
-            <td>
-              <button class="btn btn-approve" onclick="approvePlayer(${p.id})">Approve</button>
-              <button class="btn btn-reject" onclick="rejectPlayer(${p.id})">Reject</button>
-            </td>
-          `;
-          pendingBody.appendChild(tr);
-        });
-      } catch (err) {
-        console.error("Error loading pending registrations:", err);
-        pendingBody.innerHTML =
-          '<tr><td colspan="9" class="no-data">Failed to load pending registrations.</td></tr>';
-      }
-    }
+  if (data.success) {
+    alert("Player approved.");
 
-    async function loadApproved() {
-      approvedBody.innerHTML =
-        '<tr><td colspan="9" class="no-data">Loading approved players...</td></tr>';
+    const waMsg = 
+`📢 *MPL SEASON-3 – Registration Approved*
 
-      try {
-        const res = await fetch("/api/approved-players");
-        const data = await res.json();
-        console.log("Approved players:", data);
+ನಮಸ್ಕಾರ,
+ನಿಮ್ಮ MPL SEASON-3 ನೋಂದಣಿ *Approved* ಆಗಿದೆ ✅
 
-        approvedBody.innerHTML = "";
+ಧನ್ಯವಾದಗಳು,
+*MPL Organizing Team*`;
 
-        if (!data || data.length === 0) {
-          approvedBody.innerHTML =
-            '<tr><td colspan="9" class="no-data">No approved players yet.</td></tr>';
-          return;
-        }
+    alert("Copy this WhatsApp message:\n\n" + waMsg);
 
-        data.forEach((p, idx) => {
-          const tr = document.createElement("tr");
-          tr.dataset.playerId = p.id;
-          tr.dataset.playerPhone = p.phone || "";
-          tr.dataset.playerName = p.name || "Player";
+    loadPlayers();
+  }
+}
 
-          tr.innerHTML = `
-            <td>${idx + 1}</td>
-            <td>
-              ${p.photo
-              ? `<img src="/uploads/photos/${p.photo}" class="photo-thumb" />`
-              : "-"
-            }
-            </td>
-            <td>${p.name}</td>
-            <td>${p.age}</td>
-            <td>${p.jersey_size}</td>
-            <td>${p.category}</td>
-            <td>${p.phone}</td>
-            <td>${p.address}</td>
-            <td>
-              <button class="btn btn-delete" onclick="deleteApprovedPlayer(${p.id})">
-                Delete
-              </button>
-            </td>
-          `;
-          approvedBody.appendChild(tr);
-        });
-      } catch (err) {
-        console.error("Error loading approved players (admin view):", err);
-        approvedBody.innerHTML =
-          '<tr><td colspan="9" class="no-data">Failed to load approved players.</td></tr>';
-      }
-    }
+// REJECT PLAYER + WhatsApp message with reason
+async function rejectPlayer(id) {
+  const r = prompt("Enter rejection reason:");
 
-    async function approvePlayer(id) {
-      if (!confirm("Approve this player?")) return;
+  if (r === null) return;
+  if (!r.trim()) return alert("Reason required.");
 
-      try {
-        const res = await fetch(`/api/admin/approve/${id}`, {
-          method: "POST",
-        });
-        const data = await res.json();
-        console.log("Approve response:", data);
+  if (!confirm("Reject player?")) return;
 
-        if (data && data.success) {
-          alert("Player approved.");
+  const res = await fetch(`/api/admin/reject/${id}`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ reason: r.trim() }),
+  });
 
-          // 🔹 find row for this player to get name & phone
-          const row = document.querySelector(`tr[data-player-id="${id}"]`);
-          const name = row?.dataset.playerName || "Player";
-          const phone = row?.dataset.playerPhone || "";
+  const data = await res.json();
 
-          if (phone && confirm("WhatsApp ಮೂಲಕ ಅನುಮೋದನಾ ಸಂದೇಶ ಕಳುಹಿಸಬೇಕೇ?")) {
-            const msg =
-              `ಪ್ರಿಯ ${name},\n\n` +
-              `🎉 ಅಭಿನಂದನೆಗಳು!\n` +
-              `ನಿಮ್ಮ MPL 2026 ನೋಂದಣಿಯನ್ನು ನಾವು ಅನುಮೋದಿಸಿದ್ದೇವೆ.\n\n` +
-              `ತಂಡ ಆಯ್ಕೆ ಮತ್ತು ಪಂದ್ಯ ವೇಳಾಪಟ್ಟಿ ಕುರಿತು ವಿವರಗಳನ್ನು ಶೀಘ್ರದಲ್ಲೇ MPL ಆಯೋಜಕರು ತಿಳಿಸುತ್ತಾರೆ.\n\n` +
-              `– MPL 2026 ಆಯೋಜನಾ ಸಮಿತಿ`;
-            sendWhatsApp(phone, msg);
-          }
+  if (data.success) {
+    alert("Player rejected.");
 
-          refreshAll();
-        } else {
-          alert("Failed to approve player.");
-        }
-      } catch (err) {
-        console.error("Error approving player:", err);
-        alert("Error approving player.");
-      }
-    }
+    const waMsg = 
+`📢 *MPL SEASON-3 – Registration Status*
 
+ನಿಮ್ಮ ನೋಂದಣಿ *Rejected* ❌
 
-    async function rejectPlayer(id) {
-      if (!confirm("Reject this player?")) return;
+📝 ಕಾರಣ: ${r.trim()}
 
-      try {
-        const res = await fetch(`/api/admin/reject/${id}`, {
-          method: "POST",
-        });
-        const data = await res.json();
-        console.log("Reject response:", data);
+ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.
+– MPL Team`;
 
-        if (data && data.success) {
-          alert("Player rejected.");
+    alert("Copy this WhatsApp message:\n\n" + waMsg);
 
-          const row = document.querySelector(`tr[data-player-id="${id}"]`);
-          const name = row?.dataset.playerName || "Player";
-          const phone = row?.dataset.playerPhone || "";
+    loadPlayers();
+  }
+}
 
-          let reason = prompt("ನಿರಾಕರಣೆಗೆ ಕಾರಣ (ಇಚ್ಛೆಯಂತೆ ಬರೆಯಿರಿ):");
-          if (reason === null) {
-            reason = "";
-          }
-          reason = reason.trim();
+loadPlayers();
+</script>
 
-          if (phone && confirm("WhatsApp ಮೂಲಕ ನಿರಾಕರಣಾ ಸಂದೇಶ ಕಳುಹಿಸಬೇಕೇ?")) {
-            let msg =
-              `ಪ್ರಿಯ ${name},\n\n` +
-              `ಕ್ಷಮಿಸಿ, ನಿಮ್ಮ MPL 2026 ನೋಂದಣಿಯನ್ನು ಈ ಬಾರಿ ಅನುಮೋದಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.\n`;
-            if (reason) {
-              msg += `\nಕಾರಣ: ${reason}\n`;
-            }
-            msg +=
-              `\nಯಾವುದೇ ಸ್ಪಷ್ಟೀಕರಣಕ್ಕಾಗಿ MPL ಆಯೋಜಕರನ್ನು ಸಂಪರ್ಕಿಸಬಹುದು.\n\n` +
-              `– MPL 2026 ಆಯೋಜನಾ ಸಮಿತಿ`;
-            sendWhatsApp(phone, msg);
-          }
-
-          refreshAll();
-        } else {
-          alert("Failed to reject player.");
-        }
-      } catch (err) {
-        console.error("Error rejecting player:", err);
-        alert("Error rejecting player.");
-      }
-    }
-
-    // delete approved player
-    async function deleteApprovedPlayer(id) {
-      if (!confirm("Delete this approved player? This cannot be undone.")) return;
-
-      try {
-        const res = await fetch(`/api/admin/approved-players/${id}`, {
-          method: "DELETE",
-        });
-        const data = await res.json();
-        console.log("Delete approved player response:", data);
-
-        if (data && data.success) {
-          alert("Approved player deleted.");
-          refreshAll();
-        } else {
-          alert(data.error || "Failed to delete approved player.");
-        }
-      } catch (err) {
-        console.error("Error deleting approved player:", err);
-        alert("Error deleting approved player.");
-      }
-    }
-
-    function refreshAll() {
-      loadPending();
-      loadApproved();
-    }
-
-    // Load data on page open
-    refreshAll();
-  </script>
 </body>
-
 </html>

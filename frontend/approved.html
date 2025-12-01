@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <title>MPL 2026 - Approved Players</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #001f3f, #003366, #00509e);
+      font-family: "Poppins", Arial, sans-serif;
+      background: radial-gradient(circle at center, #004e92 0%, #000428 60%, #000000 100%);
       color: white;
       min-height: 100vh;
       display: flex;
@@ -17,95 +20,158 @@
       align-items: center;
     }
 
+    /* NAVBAR */
     nav {
       width: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      background: #000000;
+      border-bottom: 2px solid #fdd835;
+    }
+
+    .nav-inner {
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 8px 16px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      padding: 10px 30px;
-      box-sizing: border-box;
+      gap: 16px;
     }
 
-    .header {
+    .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      text-align: left;
     }
 
-    .logo {
+    .brand-logo {
       height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      border: 2px solid #fdd835;
+      object-fit: cover;
     }
 
-    .site-title {
-      font-size: 1.5em;
-      margin: 0;
+    .brand-lines {
+      line-height: 1.2;
+    }
+
+    .brand-line-1 {
+      font-size: 11px;
+      font-weight: 700;
+      color: #6fffe9;
+      letter-spacing: 1px;
+    }
+
+    .brand-line-2 {
+      font-size: 18px;
+      font-weight: 900;
       color: #ffd700;
+    }
+
+    .brand-line-3 {
+      font-size: 11px;
+      font-weight: 600;
+      color: #ff66cc;
+    }
+
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
     }
 
     .menu a {
-      color: white;
+      color: #ffd700;
       text-decoration: none;
-      margin-left: 15px;
       font-weight: 600;
+      font-size: 14px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      transition: 0.2s;
     }
 
     .menu a:hover {
-      color: #ffd700;
+      color: #000;
+      background: #ffd700;
     }
 
+    .menu a.active {
+      background: #ffd700;
+      color: #000;
+    }
+
+    /* PAGE TITLE */
     h1 {
-      margin-top: 20px;
+      margin-top: 18px;
       text-align: center;
       text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+      font-size: 24px;
     }
 
-    .top-bar {
-      width: 95%;
-      max-width: 1100px;
-      margin-top: 10px;
+    /* CARD WRAPPER */
+    .card-wrapper {
+      width: 100%;
+      max-width: 1150px;
+      padding: 10px 16px 25px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .card {
+      width: 100%;
+      background: radial-gradient(circle at top, #063a75 0%, #021425 55%, #000814 100%);
+      border-radius: 24px;
+      box-shadow: 0 0 35px rgba(0, 0, 0, 0.7);
+      padding: 18px 16px 18px;
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      box-sizing: border-box;
+      margin-bottom: 12px;
     }
 
-    .filter-group {
+    .filter-left {
+      font-size: 13px;
+      color: #e0e0e0;
+    }
+
+    .filter-right {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
+      gap: 8px;
     }
 
-    .filter-group input,
-    .filter-group select {
+    .filter-right input,
+    .filter-right select {
       padding: 6px 10px;
-      border-radius: 6px;
+      border-radius: 999px;
       border: none;
-      font-size: 0.9em;
+      font-size: 13px;
+      outline: none;
     }
 
-    .filter-label {
-      font-size: 0.9em;
-      opacity: 0.9;
+    .filter-right input {
+      min-width: 190px;
     }
 
-    .count-label {
-      font-size: 0.9em;
-      opacity: 0.95;
-      font-weight: 600;
-      color: #ffd700;
+    .filter-right select {
+      min-width: 160px;
     }
 
+    /* TABLE */
     .table-container {
-      width: 95%;
-      max-width: 1100px;
-      margin-top: 10px;
+      width: 100%;
+      margin-top: 6px;
       background: rgba(0, 0, 0, 0.5);
-      padding: 15px;
-      border-radius: 12px;
+      padding: 10px;
+      border-radius: 16px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
       box-sizing: border-box;
       overflow-x: auto;
@@ -115,7 +181,7 @@
       width: 100%;
       border-collapse: collapse;
       color: white;
-      font-size: 0.95em;
+      font-size: 0.9em;
     }
 
     thead {
@@ -124,10 +190,11 @@
 
     th,
     td {
-      padding: 10px;
+      padding: 8px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
       text-align: left;
       white-space: nowrap;
+      vertical-align: middle;
     }
 
     th {
@@ -135,19 +202,19 @@
     }
 
     tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.03);
     }
 
     .no-data {
       text-align: center;
-      padding: 20px;
+      padding: 16px;
       font-style: italic;
       color: #ffd700;
     }
 
     .player-photo {
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       object-fit: cover;
       border-radius: 50%;
       border: 2px solid #ffd700;
@@ -155,106 +222,131 @@
 
     footer {
       margin-top: auto;
-      padding: 15px 0;
-      font-size: 0.9em;
+      padding: 10px 0 12px;
+      font-size: 11px;
       color: #ddd;
       opacity: 0.9;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .menu {
+        justify-content: flex-start;
+      }
+      h1 {
+        font-size: 20px;
+      }
+      .card {
+        padding: 14px 10px 16px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Navigation Bar -->
+  <!-- NAVBAR -->
   <nav>
-    <div class="header">
-      <img src="/images/logo.png" class="logo" />
-      <h1 class="site-title">MPL 2026</h1>
-    </div>
+    <div class="nav-inner">
+      <div class="brand">
+        <img src="/images/logo.png" class="brand-logo" alt="MPL Logo" />
+        <div class="brand-lines">
+          <div class="brand-line-1">MFIGHTERS PRESENTS</div>
+          <div class="brand-line-2">MPL SEASON – 3</div>
+          <div class="brand-line-3">CRICKET TOURNAMENT 2026</div>
+        </div>
+      </div>
 
-    <div class="menu">
-      <a href="/index.html">Home</a>
-      <a href="/register.html">Register</a>
-      <a href="/approved.html">Approved Players</a>
-      <a href="/news.html">News</a>
-      <a href="/schedule.html">Schedule</a>
-      <a href="/teams.html">Teams</a>
+      <div class="menu">
+        <a href="/index.html">Home</a>
+        <a href="/register.html">Register</a>
+        <a href="/approved.html" class="active">Approved Players</a>
+        <a href="/news.html">News</a>
+        <a href="/schedule.html">Schedule</a>
+        <a href="/teams.html">Teams</a>
+        <a href="/admin.html">Admin</a>
+      </div>
     </div>
   </nav>
 
   <h1>✅ Approved Players List</h1>
 
-  <!-- 🔍 Search & Filter Bar + Count -->
-  <div class="top-bar">
-    <div class="filter-group">
-      <span class="filter-label">Search:</span>
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="Name / Phone / Address / Jersey size / Category" />
-    </div>
+  <div class="card-wrapper">
+    <div class="card">
 
-    <div class="filter-group">
-      <span id="playerCount" class="count-label">Loading players...</span>
-    </div>
+      <!-- FILTER BAR -->
+      <div class="filter-bar">
+        <div class="filter-left">
+          🔍 Search by <b>Name / Phone / Address / Jersey Size / Category</b>
+        </div>
+        <div class="filter-right">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search players..."
+          />
+          <select id="categoryFilter">
+            <option value="">All Categories</option>
+            <option value="Batsman">Batsman</option>
+            <option value="Bowler">Bowler</option>
+            <option value="All Rounder">All Rounder</option>
+            <option value="Wicket Keeper Batsman">Wicket Keeper Batsman</option>
+          </select>
+        </div>
+      </div>
 
-    <div class="filter-group">
-      <span class="filter-label">Category:</span>
-      <select id="categoryFilter">
-        <option value="">All</option>
-        <option value="Batsman">Batsman</option>
-        <option value="Bowler">Bowler</option>
-        <option value="All Rounder">All Rounder</option>
-        <option value="Wicket Keeper Batsman">Wicket Keeper Batsman</option>
-      </select>
+      <!-- TABLE -->
+      <div class="table-container">
+        <table id="playersTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Photo</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Jersey Size</th>
+              <th>Category</th>
+              <th>Phone</th>
+              <th>Address</th>
+            </tr>
+          </thead>
+          <tbody id="playersBody">
+            <tr>
+              <td colspan="8" class="no-data">Loading approved players...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
   </div>
 
-  <div class="table-container">
-    <table id="playersTable">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Photo</th>
-          <th>Name</th>
-          <th>Age</th>
-          <th>Jersey Size</th>
-          <th>Category</th>
-          <th>Phone</th>
-          <th>Address</th>
-        </tr>
-      </thead>
-      <tbody id="playersBody">
-        <tr>
-          <td colspan="8" class="no-data">Loading approved players...</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <footer>© MPL 2026 Tournament | Powered by AWS</footer>
+  <footer>© MPL Season 3 – Cricket Tournament 2026 | SUPPORTED BY MANCHAKALKUPPE CRICKETERS</footer>
 
   <script>
     const tbody = document.getElementById("playersBody");
     const searchInput = document.getElementById("searchInput");
     const categoryFilter = document.getElementById("categoryFilter");
-    const playerCountLabel = document.getElementById("playerCount");
 
     let allPlayers = [];
 
-    function renderPlayers(list) {
+    function renderTable(players) {
       tbody.innerHTML = "";
 
-      if (!list || list.length === 0) {
+      if (!players || players.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="8" class="no-data">No players found.</td>
+            <td colspan="8" class="no-data">No players found for the selected filter.</td>
           </tr>
         `;
         return;
       }
 
-      list.forEach((p, index) => {
+      players.forEach((p, index) => {
         const tr = document.createElement("tr");
 
         const photoCellHtml = p.photo
@@ -276,49 +368,35 @@
       });
     }
 
-    function updateCount(filteredLength) {
-      const total = allPlayers.length;
-
-      if (!total) {
-        playerCountLabel.textContent = "No approved players.";
-        return;
-      }
-
-      if (filteredLength === total) {
-        playerCountLabel.textContent = `Total approved players: ${total}`;
-      } else {
-        playerCountLabel.textContent = `Showing ${filteredLength} of ${total} approved players`;
-      }
-    }
-
     function applyFilters() {
-      const term = (searchInput.value || "").toLowerCase().trim();
-      const selectedCategory = categoryFilter.value;
+      const search = searchInput.value.trim().toLowerCase();
+      const category = categoryFilter.value;
 
       let filtered = allPlayers.slice();
 
-      if (term) {
-        filtered = filtered.filter((p) => {
-          const combo =
-            (p.name || "") +
-            " " +
-            (p.phone || "") +
-            " " +
-            (p.address || "") +
-            " " +
-            (p.jersey_size || "") +
-            " " +
-            (p.category || "");
-          return combo.toLowerCase().includes(term);
+      if (category) {
+        filtered = filtered.filter(p => (p.category || "").toLowerCase() === category.toLowerCase());
+      }
+
+      if (search) {
+        filtered = filtered.filter(p => {
+          const name = (p.name || "").toLowerCase();
+          const phone = (p.phone || "").toLowerCase();
+          const address = (p.address || "").toLowerCase();
+          const jersey = (p.jersey_size || "").toLowerCase();
+          const cat = (p.category || "").toLowerCase();
+
+          return (
+            name.includes(search) ||
+            phone.includes(search) ||
+            address.includes(search) ||
+            jersey.includes(search) ||
+            cat.includes(search)
+          );
         });
       }
 
-      if (selectedCategory) {
-        filtered = filtered.filter((p) => p.category === selectedCategory);
-      }
-
-      updateCount(filtered.length);
-      renderPlayers(filtered);
+      renderTable(filtered);
     }
 
     async function loadApprovedPlayers() {
@@ -327,18 +405,14 @@
           <td colspan="8" class="no-data">Loading approved players...</td>
         </tr>
       `;
-      playerCountLabel.textContent = "Loading players...";
 
       try {
         const response = await fetch("/api/approved-players");
-
         if (!response.ok) {
           throw new Error("HTTP " + response.status);
         }
 
         const players = await response.json();
-        console.log("Approved players:", players);
-
         allPlayers = players || [];
         applyFilters();
       } catch (err) {
@@ -348,18 +422,14 @@
             <td colspan="8" class="no-data">Error loading players. Please try again later.</td>
           </tr>
         `;
-        playerCountLabel.textContent = "Error loading players.";
       }
     }
 
-    // Event listeners for live filtering
     searchInput.addEventListener("input", applyFilters);
     categoryFilter.addEventListener("change", applyFilters);
 
-    // Load on page open
     loadApprovedPlayers();
   </script>
 
 </body>
-
 </html>

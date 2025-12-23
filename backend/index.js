@@ -1,167 +1,311 @@
-import express from "express";
-import cors from "cors";
 import multer from "multer";
 import path from "path";
-import fs from "fs";
-import mysql from "mysql2/promise";
+import express from "express";
+import mysql from "mysql2";
+import cors from "cors";
+import helmet from "helmet";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-app.use("/uploads", express.static("uploads"));
+// ===================== MULTER (FILE UPLOADS) =====================
 
-/* ------------------------- MYSQL POOL ------------------------- */
+// Always use ONE folder: /var/www/mpl/uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "/var/www/mpl/uploads");
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    const base = path.basename(file.originalname, ext).replace(/\s+/g, "_");
+    const unique = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, `${base}-${unique}${ext}`);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype && file.mimetype.startsWith("image/")) {
+    cb(null, true);
+  } else {
+    cb(new Error("Only image files are allowed"), false);
+  }
+};
+
+const upload = multer({
+  storage,
+  fileFilter,
+});
+
+// ===================== EXPRESS APP & DB =====================
+
+const app = express();
+app.use(express.json());
+app.use(cors());
+app.use(helmet());
+// Serve uploaded images statically
+app.use("/uploads", express.static("/var/www/mpl/uploads"));
+
+// MySQL pool
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  host: "localhost",
+  user: "hemanth",
+  password: "Virat@1845",
+  database: "mpl_tournament",
   waitForConnections: true,
   connectionLimit: 10,
+  queueLimit: 0,
 });
 
-/* ------------------------- MULTER SETUP ------------------------- */
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "_" + file.originalname);
-  },
+// Log DB connectivity once
+pool.getConnection((err, connection) => {
+  if (err) {
+    console.error("❌ Database connection pool failed:", err);
+  } else {
+    console.log("✅ Connected to MySQL database (pool)");
+    connection.release();
+  }
 });
 
-const upload = multer({ storage });
+// ===================== BASIC ROUTES =====================
 
-/* ------------------------- ADMIN LOGIN ------------------------- */
+// Health check
+app.get("/health", (req, res) => {
+  res.json({ status: "Server running fine 💪" });
+});
+
+// ===================== PLAYER REGISTRATION =====================
+
+const registrationHandler = (req, res) => {
+  try {
+    const {
+      name,
+      age,
+      category,
+      phone,
+      address,
+      jersey_number,
+      jersey_size,
+      voterid,
+      aadhaar_number,
+      txn_id,
+    } = req.body;
+
+    const files = req.files || {};
+
+    const photo = files.photo?.[0]?.filename || null;
+    const voterid_image = files.voterid_image?.[0]?.filename || null;
+    const aadhaar_image = files.aadhaar_image?.[0]?.filename || null;
+    const payment_ss = files.payment_ss?.[0]?.filename || null;
+
+    const sql = `
+      INSERT INTO players
+      (name, age, category, phone, address,
+       jersey_number, jersey_size,
+       voterid, voterid_image,
+       aadhaar_number, aadhaar_image,
+       photo, payment_ss,
+       txn_id, status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'PENDING')
+    `;
+
+    pool.query(
+      sql,
+      [
+        name,
+        age,
+        category,
+        phone,
+        address,
+        jersey_number,
+        jersey_size,
+        voterid,
+        voterid_image,
+        aadhaar_number,
+        aadhaar_image,
+        photo,
+        payment_ss,
+        txn_id,
+      ],
+      (err, result) => {
+        if (err) {
+          console.error("❌ DB Insert Error:", err);
+
+          if (err.code === "ER_DUP_ENTRY") {
+            let msg = "Duplicate entry – already registered.";
+
+            if (err.message.includes("aadhaar_number")) {
+              msg = "This Aadhaar number is already registered.";
+            } else if (err.message.includes("voterid")) {
+              msg = "This Voter ID is already registered.";
+            } else if (err.message.includes("txn_id")) {
+              msg = "This Transaction ID is already used.";
+            }
+
+            return res.status(400).json({ error: msg });
+          }
+
+          return res.status(500).json({ error: "Database error" });
+        }
+
+        res.json({ message: "Registration submitted successfully!" });
+      }
+    );
+  } catch (error) {
+    console.error("❌ Upload Error:", error);
+    res.status(500).json({ error: "Upload failed" });
+  }
+};
+
+const uploadFields = upload.fields([
+  { name: "photo", maxCount: 1 },
+  { name: "voterid_image", maxCount: 1 },
+  { name: "aadhaar_image", maxCount: 1 },
+  { name: "payment_ss", maxCount: 1 },
+]);
+
+app.post("/register", uploadFields, registrationHandler);
+app.post("/api/register", uploadFields, registrationHandler);
+
+// ===================== PUBLIC: APPROVED PLAYERS =====================
+
+app.get("/api/approved-players", (req, res) => {
+  const sql = `
+    SELECT id, name, age, jersey_size, category, phone, address, photo
+    FROM players
+    WHERE status = 'Approved'
+    ORDER BY id  ASC
+  `;
+
+  pool.query(sql, (err, results) => {
+    if (err) {
+      console.error("❌ Error fetching approved players (API):", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    res.json(results);
+  });
+});
+
+// ===================== ADMIN LOGIN =====================
+
 app.post("/api/admin/login", (req, res) => {
   const { username, password } = req.body;
-  const allowedIp = (req.ip || req.connection.remoteAddress || "").replace(
-    "::ffff:",
-    ""
-  );
 
-  if (allowedIp !== process.env.ADMIN_ALLOWED_IPS) {
-    return res.status(403).json({ error: "Access denied for this IP address" });
-  }
-
-  if (
-    username === process.env.ADMIN_USERNAME &&
-    password === process.env.ADMIN_PASSWORD
-  ) {
+  if (username === "admin" && password === "Virat@1845") {
     return res.json({ success: true });
   }
 
-  return res.status(401).json({ error: "Invalid credentials" });
+  return res.status(401).json({ error: "Invalid username or password" });
 });
 
-/* ------------------------- REGISTER API ------------------------- */
-app.post(
-  "/api/register",
-  upload.fields([
-    { name: "voterid_image", maxCount: 1 },
-    { name: "aadhaar_image", maxCount: 1 },
-    { name: "photo", maxCount: 1 },
-    { name: "payment_ss", maxCount: 1 },
-  ]),
-  async (req, res) => {
-    try {
-      const {
-        name,
-        age,
-        voterid,
-        aadhaar_number,
-        jersey_number,
-        jersey_size,
-        category,
-        address,
-        phone,
-        txn_id,
-      } = req.body;
+// ===================== ADMIN: PENDING REGISTRATIONS =====================
 
-      const voterImage = req.files["voterid_image"]?.[0]?.filename || "";
-      const aadhaarImage = req.files["aadhaar_image"]?.[0]?.filename || "";
-      const photo = req.files["photo"]?.[0]?.filename || "";
-      const payment = req.files["payment_ss"]?.[0]?.filename || "";
+app.get("/api/admin/pending-registrations", (req, res) => {
+  const sql = `
+    SELECT
+      id,
+      name,
+      age,
+      jersey_size,
+      category,
+      phone,
+      address,
+      photo,
+      voterid_image,
+      aadhaar_image,
+      payment_ss,
+ txn_id
+    FROM players
+    WHERE status = 'PENDING'
+    ORDER BY id DESC
+  `;
 
-      await pool.query(
-        `INSERT INTO players 
-        (name, age, voterid, voterid_image, aadhaar_number, aadhaar_image, photo,
-         jersey_number, jersey_size, category, address, phone, payment_screenshot, txn_id, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')`,
-        [
-          name,
-          age,
-          voterid,
-          voterImage,
-          aadhaarImage,
-          photo,
-          jersey_number,
-          jersey_size,
-          category,
-          address,
-          phone,
-          payment,
-          txn_id,
-        ]
-      );
-
-      return res.json({ message: "Registration submitted successfully" });
-    } catch (err) {
-      console.error("DB Insert Error:", err);
-      return res.status(500).json({ error: "Failed to register player" });
+  pool.query(sql, (err, rows) => {
+    if (err) {
+      console.error("Error fetching pending registrations:", err);
+      return res.status(500).json({ error: "Database error" });
     }
-  }
-);
-
-/* ------------------------- APPROVED PLAYERS ------------------------- */
-app.get("/api/approved-players", async (req, res) => {
-  try {
-    const [rows] = await pool.query(
-      `SELECT id, name, age, category, jersey_size, phone, address, photo 
-       FROM players WHERE status='Approved' ORDER BY id DESC`
-    );
-    return res.json(rows);
-  } catch (err) {
-    console.error("Error fetching approved players:", err);
-    return res.status(500).json({ error: "Failed to load approved players" });
-  }
+    res.json(rows);
+  });
 });
 
-/* ------------------------- REJECTED PLAYERS (NEW) ------------------------- */
-app.get("/api/rejected-players", async (req, res) => {
-  try {
-    const [rows] = await pool.query(
-      `SELECT id, name, category, rejection_reason 
-       FROM players WHERE status='Rejected'
-       ORDER BY id DESC`
-    );
-    return res.json(rows);
-  } catch (err) {
-    console.error("Error fetching rejected players:", err);
-    return res.status(500).json({ error: "Failed to load rejected players" });
-  }
+app.post("/api/admin/approve/:id", (req, res) => {
+  const id = req.params.id;
+
+  const sql = `UPDATE players SET status = 'Approved' WHERE id = ?`;
+
+  pool.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error("Error approving player:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Player not found" });
+    }
+
+    res.json({ success: true });
+  });
 });
 
-/* ------------------------- APPROVE / REJECT ------------------------- */
-app.post("/api/admin/approve", async (req, res) => {
-  const { id } = req.body;
-  await pool.query(`UPDATE players SET status='Approved' WHERE id=?`, [id]);
-  return res.json({ success: true });
+app.post("/api/admin/reject/:id", (req, res) => {
+  const id = req.params.id;
+
+  const sql = `DELETE FROM players WHERE id = ? AND status = 'PENDING'`;
+
+  pool.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error("Error rejecting player:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Pending player not found" });
+    }
+
+    res.json({ success: true });
+  });
 });
 
-app.post("/api/admin/reject", async (req, res) => {
-  const { id, reason } = req.body;
-  await pool.query(
-    `UPDATE players SET status='Rejected', rejection_reason=? WHERE id=?`,
-    [reason, id]
-  );
-  return res.json({ success: true });
+// ===================== ADMIN: APPROVED PLAYERS (VIEW + DELETE) =====================
+
+app.get("/api/admin/approved-players", (req, res) => {
+  const sql = `
+    SELECT id, name, age, jersey_size, category, phone, address, photo
+    FROM players
+    WHERE status = 'Approved'
+    ORDER BY id  asc
+  `;
+
+  pool.query(sql, (err, results) => {
+    if (err) {
+      console.error("❌ Error fetching admin approved players:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    res.json(results);
+  });
 });
 
-/* ------------------------- START SERVER ------------------------- */
+app.delete("/api/admin/approved-players/:id", (req, res) => {
+  const id = req.params.id;
+
+  const sql = `DELETE FROM players WHERE id = ? AND status = 'Approved'`;
+
+  pool.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error("❌ Error deleting approved player:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Approved player not found" });
+    }
+
+    res.json({ success: true });
+  });
+});
+
+// ===================== START SERVER =====================
+
 app.listen(3001, () => {
   console.log("🚀 MPL Backend running on port 3001");
 });

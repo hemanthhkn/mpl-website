@@ -1,274 +1,387 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
+  <title>MPL 2026 – Admin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard – MPL 2026</title>
-
   <style>
     body {
       margin: 0;
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #002244, #0057b7, #00bfff);
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #001f3f 0%, #003366 40%, #002244 100%);
       color: white;
       min-height: 100vh;
-      padding-top: 140px;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     nav {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 14px 0;
-      backdrop-filter: blur(6px);
-      border-bottom: 2px solid rgba(255, 215, 0, 0.4);
+      background: #05060a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 30px;
+      border-bottom: 2px solid #ffd700;
     }
 
     .header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .logo {
-      width: 55px;
+      height: 50px;
     }
 
     .site-title {
-      font-size: 1.9em;
-      font-weight: 700;
+      font-size: 1.7em;
+      margin: 0;
       color: #ffd700;
+    }
+
+    .menu a {
+      color: #ffd700;
+      text-decoration: none;
+      margin-left: 15px;
+      font-weight: 600;
+    }
+
+    .menu a:hover {
+      color: #ffffff;
     }
 
     h1 {
-      margin-top: 30px;
-      font-size: 2.4em;
-      font-weight: 700;
-      color: #ffd700;
-      text-shadow: 0 0 10px black;
+      margin-top: 20px;
+    }
+
+    .tabs {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .tab-btn {
+      padding: 8px 15px;
+      border-radius: 20px;
+      background: #1f3b69;
+      color: white;
+      cursor: pointer;
+      border: none;
+    }
+
+    .tab-btn.active {
+      background: #ffd700;
+      color: #002244;
+    }
+
+    .card {
+      width: 95%;
+      max-width: 1200px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 15px;
     }
 
     table {
-      width: 95%;
-      margin: auto;
-      margin-top: 20px;
+      width: 100%;
       border-collapse: collapse;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(6px);
-      border-radius: 10px;
-      overflow: hidden;
+      color: white;
     }
 
     th, td {
-      padding: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      white-space: nowrap;
     }
 
     th {
       color: #ffd700;
-      font-size: 1.1em;
     }
 
-    img.player-img {
+    .photo-thumb {
       width: 60px;
       height: 60px;
-      border-radius: 8px;
-      border: 2px solid #ffd700;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #ffd700;
     }
 
-    button {
-      padding: 6px 10px;
-      margin: 4px;
-      border: none;
-      border-radius: 6px;
+    .btn {
+      padding: 5px 10px;
+      border-radius: 5px;
       cursor: pointer;
-      font-weight: 600;
-    }
-
-    .approve-btn {
-      background: #00ff88;
-    }
-
-    .reject-btn {
-      background: #ff4d4d;
-      color: black;
-    }
-
-    .filter-box {
-      margin-top: 20px;
-    }
-
-    input, select {
-      padding: 8px;
-      border-radius: 6px;
       border: none;
     }
+
+    .btn-approve { background: #4CAF50; color: white; }
+    .btn-reject { background: #e53935; color: white; }
+    .btn-delete { background: #b71c1c; color: white; }
+    .btn-whatsapp { background: #25D366; color: #000; }
+
+    a.img-link { color: #4fc3f7; }
   </style>
 </head>
+
 <body>
 
   <nav>
     <div class="header">
-      <img src="/images/logo.png" class="logo">
-      <span class="site-title">MPL 2026 – Admin Dashboard</span>
+      <img src="/images/logo.png" class="logo" />
+      <h1 class="site-title">MPL 2026 – Admin</h1>
+    </div>
+    <div class="menu">
+      <a href="/index.html">Home</a>
+      <a href="/register.html">Register</a>
+      <a href="/approved.html">Approved Players</a>
+      <a href="/news.html">News</a>
+      <a href="/schedule.html">Schedule</a>
+      <a href="/teams.html">Teams</a>
+      <a href="/admin.html">Admin</a>
     </div>
   </nav>
 
-  <h1>Approved / Pending Players</h1>
+  <h1>Admin Dashboard</h1>
 
-  <!-- Search & Filter -->
-  <div class="filter-box">
-    <input id="searchInput" type="text" placeholder="Search name / phone / address" onkeyup="applyFilters()">
-    <select id="categoryFilter" onchange="applyFilters()">
-      <option value="">All Categories</option>
-      <option>Batsman</option>
-      <option>Bowler</option>
-      <option>All Rounder</option>
-      <option>Wicket Keeper Batsman</option>
-    </select>
+  <div class="tabs">
+    <button class="tab-btn active" id="tabPendingBtn">Pending</button>
+    <button class="tab-btn" id="tabApprovedBtn">Approved</button>
   </div>
 
-  <!-- Players Table -->
-  <table id="playersTable">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Photo</th>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Category</th>
-        <th>Phone</th>
-        <th>Aadhaar</th>
-        <th>Voter</th>
-        <th>Payment</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody id="playersBody"></tbody>
-  </table>
+  <!-- PENDING CARD -->
+  <div class="card" id="pendingCard">
+    <h2>🕒 Pending Registrations</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Jersey Size</th>
+          <th>Category</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Voter</th>
+          <th>Aadhaar</th>
+          <th>Payment</th>
+<th>Txn ID</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="pendingBody">
+        <tr><td colspan="12">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
 
-<script>
-let allPlayers = [];
+  <!-- APPROVED CARD -->
+  <div class="card" id="approvedCard" style="display:none;">
+    <h2>✅ Approved Players</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Jersey Size</th>
+          <th>Category</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="adminApprovedBody">
+        <tr><td colspan="9">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
 
-// Load players
-async function loadPlayers() {
-  const res = await fetch("/api/admin/get-all");
-  const data = await res.json();
-  allPlayers = data.players;
-  renderTable(allPlayers);
-}
+  <script>
 
-function renderTable(players) {
-  const tbody = document.getElementById("playersBody");
-  tbody.innerHTML = "";
+    function normalizePhone(phone) {
+      if (!phone) return null;
+      let d = phone.toString().replace(/\D/g, "");
+      if (d.startsWith("0")) d = d.slice(1);
+      if (d.length === 10) d = "91" + d;
+      return d;
+    }
 
-  players.forEach((p, i) => {
-    tbody.innerHTML += `
-      <tr>
-        <td>${i + 1}</td>
-        <td><img src="/uploads/${p.photo}" class="player-img"></td>
-        <td>${p.name}</td>
-        <td>${p.age}</td>
-        <td>${p.category}</td>
-        <td>${p.phone}</td>
-        <td><a href="/uploads/${p.aadhaar_image}" target="_blank">View</a></td>
-        <td><a href="/uploads/${p.voterid_image}" target="_blank">View</a></td>
-        <td><a href="/uploads/${p.payment_ss}" target="_blank">View</a></td>
-        <td>
-          <button class="approve-btn" onclick="approvePlayer(${p.id})">Approve</button>
-          <button class="reject-btn" onclick="rejectPlayer(${p.id})">Reject</button>
-        </td>
-      </tr>
-    `;
-  });
-}
+    function sendWhatsApp(phone, message) {
+      const number = normalizePhone(phone);
+      const url = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank");
+    }
 
-function applyFilters() {
-  const search = document.getElementById("searchInput").value.toLowerCase();
-  const cat = document.getElementById("categoryFilter").value;
+    function imgOrDash(file) {
+      if (!file) return "-";
+      const safe = encodeURIComponent(file);
+      return `<a class="img-link" href="/uploads/${safe}" target="_blank">View</a>`;
+    }
 
-  const filtered = allPlayers.filter(p => {
-    const matchesText =
-      p.name.toLowerCase().includes(search) ||
-      p.phone.toLowerCase().includes(search) ||
-      p.address.toLowerCase().includes(search);
+    // LOAD PENDING
+    async function loadPending() {
+      const res = await fetch("/api/admin/pending-registrations");
+      const data = await res.json();
+      const body = document.getElementById("pendingBody");
+      body.innerHTML = "";
 
-    const matchesCategory =
-      cat === "" || p.category === cat;
+      if (!data.length) {
+        body.innerHTML = `<tr><td colspan="12">No pending registrations.</td></tr>`;
+        return;
+      }
 
-    return matchesText && matchesCategory;
-  });
+      data.forEach((p, i) => {
+        const photoHtml = p.photo
+          ? `<img src="/uploads/${encodeURIComponent(p.photo)}" class="photo-thumb" />`
+          : "-";
 
-  renderTable(filtered);
-}
+        body.innerHTML += `
+          <tr data-player-id="${p.id}" data-player-name="${p.name}" data-player-phone="${p.phone}">
+            <td>${i + 1}</td>
+            <td>${photoHtml}</td>
+            <td>${p.name}</td>
+            <td>${p.age}</td>
+            <td>${p.jersey_size}</td>
+            <td>${p.category}</td>
+            <td>${p.phone}</td>
+            <td>${p.address}</td>
+            <td>${imgOrDash(p.voterid_image)}</td>
+            <td>${imgOrDash(p.aadhaar_image)}</td>
+<td>${imgOrDash(p.payment_ss)}</td>
+<td><b>${p.txn_id || "-"}</b></td>
+<td class="actions">
+            <td>
+              <button class="btn btn-approve" onclick="approvePlayer(${p.id})">Approve</button>
+              <button class="btn btn-reject" onclick="rejectPlayer(${p.id})">Reject</button>
+              <button class="btn btn-whatsapp" onclick="notifyPlayer('${p.phone}','${p.name.replace(/'/g, "\\'")}')">WhatsApp</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
 
-// APPROVE PLAYER + WhatsApp message
-async function approvePlayer(id) {
-  if (!confirm("Approve this player?")) return;
+    // LOAD APPROVED
+    async function loadApprovedAdmin() {
+      const res = await fetch("/api/admin/approved-players");
+      const data = await res.json();
+      const body = document.getElementById("adminApprovedBody");
+      body.innerHTML = "";
 
-  const res = await fetch(`/api/admin/approve/${id}`, { method: "POST" });
-  const data = await res.json();
+      if (!data.length) {
+        body.innerHTML = `<tr><td colspan="9">No approved players yet.</td></tr>`;
+        return;
+      }
 
-  if (data.success) {
-    alert("Player approved.");
+      data.forEach((p, i) => {
+        const photoHtml = p.photo
+          ? `<img src="/uploads/${encodeURIComponent(p.photo)}" class="photo-thumb" />`
+          : "-";
 
-    const waMsg = 
-`📢 *MPL SEASON-3 – Registration Approved*
+        body.innerHTML += `
+          <tr data-player-id="${p.id}">
+            <td>${i + 1}</td>
+            <td>${photoHtml}</td>
+            <td>${p.name}</td>
+            <td>${p.age}</td>
+            <td>${p.jersey_size}</td>
+            <td>${p.category}</td>
+            <td>${p.phone}</td>
+            <td>${p.address}</td>
+            <td><button class="btn btn-delete" onclick="deleteApprovedPlayer(${p.id})">Delete</button></td>
+          </tr>
+        `;
+      });
+    }
 
-ನಮಸ್ಕಾರ,
-ನಿಮ್ಮ MPL SEASON-3 ನೋಂದಣಿ *Approved* ಆಗಿದೆ ✅
+    // WHATSAPP MESSAGE
+    function notifyPlayer(phone, name) {
+      const msg =
+        `ಪ್ರಿಯ ${name},\n\n` +
+        `ನಿಮ್ಮ MPL 2026 ನೋಂದಣಿ ಸ್ಥಿತಿಯನ್ನು ನಾವು ನವೀಕರಿಸಿದ್ದೇವೆ.\n` +
+        `ದಯವಿಟ್ಟು ವಿವರಗಳಿಗೆ ಆಯೋಜಕರನ್ನು ಸಂಪರ್ಕಿಸಬಹುದು.\n\n` +
+        `– MPL 2026 ಆಯೋಜನಾ ಸಮಿತಿ`;
+      sendWhatsApp(phone, msg);
+    }
 
-ಧನ್ಯವಾದಗಳು,
-*MPL Organizing Team*`;
+    // APPROVE
+    async function approvePlayer(id) {
+      if (!confirm("Approve this player?")) return;
 
-    alert("Copy this WhatsApp message:\n\n" + waMsg);
+      const res = await fetch(`/api/admin/approve/${id}`, { method: "POST" });
+      const row = document.querySelector(`tr[data-player-id="${id}"]`);
+      const name = row.dataset.playerName;
+      const phone = row.dataset.playerPhone;
 
-    loadPlayers();
-  }
-}
+      alert("Player approved.");
 
-// REJECT PLAYER + WhatsApp message with reason
-async function rejectPlayer(id) {
-  const r = prompt("Enter rejection reason:");
+      if (phone && confirm("Send WhatsApp approval message?")) {
+        const msg =
+          `ಪ್ರಿಯ ${name},\n\n` +
+          `🎉 ಅಭಿನಂದನೆಗಳು!\nನಿಮ್ಮ MPL 2026 ನೋಂದಣಿಯನ್ನು ಅನುಮೋದಿಸಲಾಗಿದೆ.\n\n` +
+          `– MPL 2026 ಆಯೋಜನಾ ಸಮಿತಿ`;
+        sendWhatsApp(phone, msg);
+      }
 
-  if (r === null) return;
-  if (!r.trim()) return alert("Reason required.");
+      loadPending();
+      loadApprovedAdmin();
+    }
 
-  if (!confirm("Reject player?")) return;
+    // REJECT
+    async function rejectPlayer(id) {
+      if (!confirm("Reject this player?")) return;
 
-  const res = await fetch(`/api/admin/reject/${id}`, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ reason: r.trim() }),
-  });
+      const row = document.querySelector(`tr[data-player-id="${id}"]`);
+      const name = row.dataset.playerName;
+      const phone = row.dataset.playerPhone;
 
-  const data = await res.json();
+      const res = await fetch(`/api/admin/reject/${id}`, { method: "POST" });
 
-  if (data.success) {
-    alert("Player rejected.");
+      alert("Player rejected.");
 
-    const waMsg = 
-`📢 *MPL SEASON-3 – Registration Status*
+      if (phone && confirm("Send WhatsApp rejection message?")) {
+        const msg =
+          `ಪ್ರಿಯ ${name},\n\n` +
+          `ಕ್ಷಮಿಸಿ, ನಿಮ್ಮ MPL 2026 ನೋಂದಣಿಯನ್ನು ಅನುಮೋದಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.\n\n` +
+          `– MPL 2026 ಆಯೋಜನಾ ಸಮಿತಿ`;
+        sendWhatsApp(phone, msg);
+      }
 
-ನಿಮ್ಮ ನೋಂದಣಿ *Rejected* ❌
+      loadPending();
+      loadApprovedAdmin();
+    }
 
-📝 ಕಾರಣ: ${r.trim()}
+    // DELETE
+    async function deleteApprovedPlayer(id) {
+      if (!confirm("Delete permanently?")) return;
+      await fetch(`/api/admin/approved-players/${id}`, { method: "DELETE" });
+      loadApprovedAdmin();
+    }
 
-ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.
-– MPL Team`;
+    // Tabs
+    document.getElementById("tabPendingBtn").onclick = () => {
+      pendingCard.style.display = "block";
+      approvedCard.style.display = "none";
+      tabPendingBtn.classList.add("active");
+      tabApprovedBtn.classList.remove("active");
+      loadPending();
+    };
 
-    alert("Copy this WhatsApp message:\n\n" + waMsg);
+    document.getElementById("tabApprovedBtn").onclick = () => {
+      pendingCard.style.display = "none";
+      approvedCard.style.display = "block";
+      tabApprovedBtn.classList.add("active");
+      tabPendingBtn.classList.remove("active");
+      loadApprovedAdmin();
+    };
 
-    loadPlayers();
-  }
-}
+    loadPending();
 
-loadPlayers();
-</script>
-
+  </script>
 </body>
 </html>

@@ -2,233 +2,188 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>MPL 2026 – Match Schedule</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MPL Season 3 – Match Schedule</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
 
+  <style>
     body {
       margin: 0;
-      font-family: "Poppins", sans-serif;
-      background: radial-gradient(circle at center, #004e92 0%, #000428 60%, #000000 100%);
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #001f3f, #003366, #00509e);
       color: white;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      align-items: center;
     }
 
-    /* NAVBAR */
     nav {
       width: 100%;
-      background: #000000;
-      border-bottom: 2px solid #fdd835;
-    }
-
-    .nav-inner {
-      max-width: 1150px;
-      margin: 0 auto;
-      padding: 8px 16px;
+      background: rgba(0, 0, 0, 0.85);
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      align-items: center;
+      padding: 10px 30px;
+      box-sizing: border-box;
     }
 
-    .brand {
+    .header {
       display: flex;
       align-items: center;
-      gap: 12px;
-      text-align: left;
-    }
-
-    .brand-logo {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      border: 2px solid #fdd835;
-      object-fit: cover;
-    }
-
-    .brand-lines {
-      line-height: 1.2;
-    }
-
-    .brand-line-1 {
-      font-size: 11px;
-      font-weight: 700;
-      color: #6fffe9;
-      letter-spacing: 1px;
-    }
-
-    .brand-line-2 {
-      font-size: 20px;
-      font-weight: 900;
-      color: #ffd700;
-    }
-
-    .brand-line-3 {
-      font-size: 11px;
-      font-weight: 600;
-      color: #ff66cc;
-    }
-
-    .menu {
-      display: flex;
-      flex-wrap: wrap;
       gap: 10px;
-      justify-content: flex-end;
+    }
+
+    .logo {
+      height: 50px;
+    }
+
+    .site-title {
+      font-size: 1.6em;
+      margin: 0;
+      color: #ffd700;
     }
 
     .menu a {
-      color: #ffd700;
+      color: white;
       text-decoration: none;
+      margin-left: 15px;
       font-weight: 600;
-      font-size: 14px;
-      padding: 6px 14px;
-      border-radius: 999px;
-      transition: 0.2s;
     }
 
     .menu a:hover {
-      color: #000;
-      background: #ffd700;
-    }
-
-    .menu a.active {
-      background: #ffd700;
-      color: #000;
-    }
-
-    /* HERO CARD */
-    .hero-wrapper {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 30px 16px 30px;
-    }
-
-    .hero-card {
-      width: 100%;
-      max-width: 950px;
-      background: radial-gradient(circle at top, #063a75 0%, #021425 55%, #000814 100%);
-      border-radius: 32px;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
-      padding: 24px 20px 26px;
-    }
-
-    .hero-title {
-      text-align: center;
-      font-size: 24px;
-      font-weight: 700;
-      margin: 4px 0 6px;
-    }
-
-    .hero-title span {
       color: #ffd700;
     }
 
-    .hero-subtitle {
-      text-align: center;
-      font-size: 13px;
-      color: #e0e0e0;
-      max-width: 650px;
-      margin: 0 auto 18px;
+    h1 {
+      margin: 25px 0 10px;
+      text-shadow: 0 0 10px rgba(0,0,0,0.8);
     }
 
-    .info-box {
+    .table-container {
+      width: 95%;
+      max-width: 1100px;
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+      margin-bottom: 30px;
+    }
+
+    h2, h3 {
+      color: #ffd700;
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
       margin-top: 10px;
-      border-radius: 16px;
-      background: rgba(0, 0, 0, 0.45);
-      padding: 16px 16px 14px;
-      font-size: 13px;
-      line-height: 1.6;
+      font-size: 0.95em;
     }
 
-    .info-box ul {
-      margin: 8px 0 0;
-      padding-left: 18px;
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      text-align: left;
     }
 
-    .info-box li {
-      margin-bottom: 4px;
+    th {
+      background: rgba(0,0,0,0.8);
+      color: #ffd700;
+    }
+
+    tr:nth-child(even) {
+      background: rgba(255,255,255,0.05);
     }
 
     footer {
-      text-align: center;
-      font-size: 11px;
-      color: #cfd8dc;
-      padding: 8px 0 12px;
-    }
-
-    @media (max-width: 680px) {
-      .nav-inner {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .menu {
-        justify-content: flex-start;
-      }
-      .hero-card {
-        padding: 20px 14px 22px;
-      }
-      .hero-title {
-        font-size: 21px;
-      }
+      margin-top: auto;
+      padding: 15px 0;
+      font-size: 0.9em;
+      color: #ddd;
+      opacity: 0.9;
     }
   </style>
 </head>
+
 <body>
 
   <!-- NAVBAR -->
   <nav>
-    <div class="nav-inner">
-      <div class="brand">
-        <img src="/images/logo.png" class="brand-logo" alt="MPL Logo" />
-        <div class="brand-lines">
-          <div class="brand-line-1">MFIGHTERS PRESENTS</div>
-          <div class="brand-line-2">MPL SEASON – 3</div>
-          <div class="brand-line-3">CRICKET TOURNAMENT 2026</div>
-        </div>
-      </div>
+    <div class="header">
+      <img src="/images/logo.png" class="logo" />
+      <h1 class="site-title">MPL 2026</h1>
+    </div>
 
-      <div class="menu">
-        <a href="/index.html">Home</a>
-        <a href="/register.html">Register</a>
-        <a href="/approved.html">Approved</a>
-        <a href="/news.html">News</a>
-        <a href="/schedule.html" class="active">Schedule</a>
-        <a href="/teams.html">Teams</a>
-        <a href="/admin.html">Admin</a>
-      </div>
+    <div class="menu">
+      <a href="/index.html">Home</a>
+      <a href="/register.html">Register</a>
+      <a href="/approved.html">Approved Players</a>
+      <a href="/news.html">News</a>
+      <a href="/schedule.html">Schedule</a>
+      <a href="/teams.html">Teams</a>
+      <a href="/admin.html">Admin</a>
     </div>
   </nav>
 
-  <!-- HERO CARD -->
-  <div class="hero-wrapper">
-    <div class="hero-card">
-      <div class="hero-title">📅 <span>MPL 2026 – Match Schedule</span></div>
-      <p class="hero-subtitle">
-        Full fixtures will be published here once all grounds and teams are confirmed.
-        Please keep checking this page for official updates.
-      </p>
+  <h1>🏏 MPL 2026 – Match Schedule</h1>
 
-      <div class="info-box">
-        <strong>📢 Schedule Status (Coming Soon)</strong>
-        <ul>
-          <li>League matches, semi-finals and final dates will be announced after player auction / team finalization.</li>
-          <li>Once ready, each match card will show: date, time, venue and teams.</li>
-          <li>Any change due to weather or ground issues will be updated first on this page and in the News section.</li>
-        </ul>
-        <p style="margin-top:10px;">
-          ⏳ <b>Current status:</b> Schedule is under preparation. Follow the <a href="/news.html" style="color:#ffd700; text-decoration:underline;">News</a> page for latest announcements.
-        </p>
-      </div>
-    </div>
+  <div class="table-container">
+
+  <h3 style="color:#ffd700;margin-top:25px;">Day 1 – Saturday (24/01/2026)</h3>
+  <table border="1" width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse;color:white;">
+    <tr><th>Time</th><th>Match</th></tr>
+    <tr><td>7:30 AM – 8:20 AM</td><td>GARUDA CRICKETERS vs KESARI ELEVEN</td></tr>
+    <tr><td>8:20 AM – 9:10 AM</td><td>SWASTIK CRICKETERS vs VAYUPUTRA CRICKETERS</td></tr>
+    <tr><td>9:10 AM – 10:00 AM</td><td>KSHATRIYA CRICKETERS vs JAYANTH XI</td></tr>
+    <tr><td>10:00 AM – 10:50 AM</td><td>FRIENDS XI vs RAASHTRAKUTA</td></tr>
+    <tr><td>10:50 AM – 11:40 AM</td><td>GARUDA CRICKETERS vs VAYUPUTRA CRICKETERS</td></tr>
+    <tr><td>11:40 AM – 12:30 PM</td><td>KESARI ELEVEN vs JAYANTH XI</td></tr>
+    <tr><td>12:30 PM – 1:20 PM</td><td>SWASTIK CRICKETERS vs RAASHTRAKUTA</td></tr>
+    <tr><td>1:20 PM – 2:10 PM</td><td>KSHATRIYA CRICKETERS vs FRIENDS XI</td></tr>
+    <tr><td>2:10 PM – 3:00 PM</td><td>GARUDA CRICKETERS vs JAYANTH XI</td></tr>
+    <tr><td>3:00 PM – 3:50 PM</td><td>VAYUPUTRA CRICKETERS vs RAASHTRAKUTA</td></tr>
+    <tr><td>3:50 PM – 4:40 PM</td><td>KESARI ELEVEN vs FRIENDS XI</td></tr>
+    <tr><td>4:40 PM – 5:30 PM</td><td>SWASTIK CRICKETERS vs KSHATRIYA CRICKETERS</td></tr>
+  </table>
+
+  <h3 style="color:#ffd700;margin-top:25px;">Day 2 – Sunday (25/01/2026)</h3>
+  <table border="1" width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse;color:white;">
+    <tr><th>Time</th><th>Match</th></tr>
+    <tr><td>7:30 AM – 8:20 AM</td><td>JAYANTH XI vs FRIENDS XI</td></tr>
+    <tr><td>8:20 AM – 9:10 AM</td><td>GARUDA CRICKETERS vs RAASHTRAKUTA</td></tr>
+    <tr><td>9:10 AM – 10:00 AM</td><td>VAYUPUTRA CRICKETERS vs KSHATRIYA CRICKETERS</td></tr>
+    <tr><td>10:00 AM – 10:50 AM</td><td>KESARI ELEVEN vs SWASTIK CRICKETERS</td></tr>
+    <tr><td>10:50 AM – 11:40 AM</td><td>GARUDA CRICKETERS vs FRIENDS XI</td></tr>
+    <tr><td>11:40 AM – 12:30 PM</td><td>RAASHTRAKUTA vs KSHATRIYA CRICKETERS</td></tr>
+    <tr><td>12:30 PM – 1:20 PM</td><td>JAYANTH XI vs SWASTIK CRICKETERS</td></tr>
+    <tr><td>1:20 PM – 2:10 PM</td><td>VAYUPUTRA CRICKETERS vs KESARI ELEVEN</td></tr>
+    <tr><td>2:10 PM – 3:00 PM</td><td>GARUDA CRICKETERS vs KSHATRIYA CRICKETERS</td></tr>
+    <tr><td>3:00 PM – 3:50 PM</td><td>FRIENDS XI vs SWASTIK CRICKETERS</td></tr>
+    <tr><td>3:50 PM – 4:40 PM</td><td>RAASHTRAKUTA vs KESARI ELEVEN</td></tr>
+    <tr><td>4:40 PM – 5:30 PM</td><td>JAYANTH XI vs VAYUPUTRA CRICKETERS</td></tr>
+  </table>
+
+  <h3 style="color:#ffd700;margin-top:25px;">Day 3 – Monday (26/01/2026)</h3>
+  <table border="1" width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse;color:white;">
+    <tr><th>Time</th><th>Match</th></tr>
+    <tr><td>7:30 AM – 8:20 AM</td><td>GARUDA CRICKETERS vs SWASTIK CRICKETERS</td></tr>
+    <tr><td>8:20 AM – 9:10 AM</td><td>KSHATRIYA CRICKETERS vs KESARI ELEVEN</td></tr>
+    <tr><td>9:10 AM – 10:00 AM</td><td>FRIENDS XI vs VAYUPUTRA CRICKETERS</td></tr>
+    <tr><td>10:00 AM – 10:50 AM</td><td>RAASHTRAKUTA vs JAYANTH XI</td></tr>
+  </table>
+
+  <h3 style="color:#ffd700;margin-top:25px;">🏆 Playoffs</h3>
+  <table border="1" width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse;color:white;">
+    <tr><th>Time</th><th>Match</th></tr>
+    <tr><td>11:00 AM – 12:00 PM</td><td>Qualifier 1</td></tr>
+    <tr><td>12:00 PM – 1:00 PM</td><td>Eliminator</td></tr>
+    <tr><td>2:00 PM – 3:00 PM</td><td>Qualifier 2</td></tr>
+    <tr><td>3:00 PM – 4:00 PM</td><td><b>Grand Finale</b> 🏆</td></tr>    </table>
+
   </div>
 
-  <footer>© MPL Season 3 – Cricket Tournament 2026 | SUPPORTED BY MANCHAKALKUPPE CRICKETERS</footer>
+  <footer>© MPL 2026 Tournament</footer>
+
 </body>
 </html>

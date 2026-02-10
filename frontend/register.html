@@ -294,6 +294,63 @@
 
 <body>
 
+<script>
+  // Registration deadline (IST)
+  const registrationDeadline = new Date("2025-12-23T23:59:59+05:30");
+  const now = new Date();
+
+  if (now > registrationDeadline) {
+    document.addEventListener("DOMContentLoaded", () => {
+      document.body.innerHTML = `
+        <div style="
+          min-height:100vh;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          background:linear-gradient(135deg,#001f3f,#003366);
+          color:white;
+          font-family:Arial;
+          text-align:center;
+          padding:20px;
+        ">
+          <div style="
+            background:rgba(0,0,0,0.6);
+            padding:40px;
+            border-radius:15px;
+            max-width:500px;
+            box-shadow:0 0 20px rgba(0,0,0,0.7);
+          ">
+            <h1 style="color:#ffd700;">🚫 Registration Closed</h1>
+            <p style="font-size:16px; margin-top:15px;">
+              Player registration for <b>MPL 2026</b> is now closed.
+            </p>
+            <p style="margin-top:10px;">
+              🕛 Last date was <b>23rd December, 11:59 PM</b>.
+            </p>
+            <p style="margin-top:20px; font-size:14px; opacity:0.9;">
+              Please contact MPL organizers for any queries.
+            </p>
+            <a href="/index.html"
+               style="
+                 display:inline-block;
+                 margin-top:25px;
+                 padding:10px 20px;
+                 background:#ffd700;
+                 color:black;
+                 text-decoration:none;
+                 border-radius:25px;
+                 font-weight:bold;
+               ">
+              Go Back to Home
+            </a>
+          </div>
+        </div>
+      `;
+    });
+  }
+</script>
+
+
   <!-- NAVBAR -->
   <nav>
     <div class="nav-inner">

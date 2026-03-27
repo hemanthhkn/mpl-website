@@ -190,7 +190,7 @@ app.get("/api/approved-players", (req, res) => {
 app.post("/api/admin/login", (req, res) => {
   const { username, password } = req.body;
 
-  if (username === "admin" && password === "Virat@1845") {
+  if (username === "admin" && password === "Rohith@Mumbai") {
     return res.json({ success: true });
   }
 

@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>MPL 2026 – Admin</title>
+  <title>VPL 2026 – Admin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
@@ -132,15 +132,12 @@
   <nav>
     <div class="header">
       <img src="/images/logo.png" class="logo" />
-      <h1 class="site-title">MPL 2026 – Admin</h1>
+      <h1 class="site-title">VPL 2026 – Admin</h1>
     </div>
     <div class="menu">
       <a href="/index.html">Home</a>
       <a href="/register.html">Register</a>
       <a href="/approved.html">Approved Players</a>
-      <a href="/news.html">News</a>
-      <a href="/schedule.html">Schedule</a>
-      <a href="/teams.html">Teams</a>
       <a href="/admin.html">Admin</a>
     </div>
   </nav>
@@ -168,8 +165,6 @@
           <th>Address</th>
           <th>Voter</th>
           <th>Aadhaar</th>
-          <th>Payment</th>
-<th>Txn ID</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -303,9 +298,9 @@
     function notifyPlayer(phone, name) {
       const msg =
         `ಪ್ರಿಯ ${name},\n\n` +
-        `ನಿಮ್ಮ MPL 2026 ನೋಂದಣಿ ಸ್ಥಿತಿಯನ್ನು ನಾವು ನವೀಕರಿಸಿದ್ದೇವೆ.\n` +
+        `ನಿಮ್ಮ VPL 2026 ನೋಂದಣಿ ಸ್ಥಿತಿಯನ್ನು ನಾವು ನವೀಕರಿಸಿದ್ದೇವೆ.\n` +
         `ದಯವಿಟ್ಟು ವಿವರಗಳಿಗೆ ಆಯೋಜಕರನ್ನು ಸಂಪರ್ಕಿಸಬಹುದು.\n\n` +
-        `– MPL 2026 ಆಯೋಜನಾ ಸಮಿತಿ`;
+        `– VPL 2026 ಆಯೋಜನಾ ಸಮಿತಿ`;
       sendWhatsApp(phone, msg);
     }
 
@@ -324,7 +319,7 @@
         const msg =
           `ಪ್ರಿಯ ${name},\n\n` +
           `🎉 ಅಭಿನಂದನೆಗಳು!\nನಿಮ್ಮ MPL 2026 ನೋಂದಣಿಯನ್ನು ಅನುಮೋದಿಸಲಾಗಿದೆ.\n\n` +
-          `– MPL 2026 ಆಯೋಜನಾ ಸಮಿತಿ`;
+          `– VPL 2026 ಆಯೋಜನಾ ಸಮಿತಿ`;
         sendWhatsApp(phone, msg);
       }
 
@@ -348,7 +343,7 @@
         const msg =
           `ಪ್ರಿಯ ${name},\n\n` +
           `ಕ್ಷಮಿಸಿ, ನಿಮ್ಮ MPL 2026 ನೋಂದಣಿಯನ್ನು ಅನುಮೋದಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.\n\n` +
-          `– MPL 2026 ಆಯೋಜನಾ ಸಮಿತಿ`;
+          `– VPL 2026 ಆಯೋಜನಾ ಸಮಿತಿ`;
         sendWhatsApp(phone, msg);
       }
 
